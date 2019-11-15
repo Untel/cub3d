@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 12:05:36 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/15 19:32:42 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,16 @@ typedef enum	e_entity
 	WALL	= 1,
 	OBJECT	= 2
 }				t_entity;
+typedef enum	e_keybinds
+{
+	FORWARD = 13,
+	BACKWARD = 1,
+	STRAFE_LEFT = 0,
+	STRAFE_RIGHT = 2,
+	ROTATE_LEFT = 124,
+	ROTATE_RIGHT = 123,
+	ESCAPE = 53
+}				t_keybinds;
 typedef struct	map_s
 {
 	int	width;
