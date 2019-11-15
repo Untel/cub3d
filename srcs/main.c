@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 14:31:40 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/15 15:51:53 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 double dirX = -1, dirY = 0; //initial direction vector
 double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
-// double time = 0; //time of current frame
 
-int	game_loop()
+int	draw_frame()
 {
 	int x;
-
-	// draw_floor();
-	// draw_ceil();
 
 	x = -1;
 	while (++x < game.win.width)
@@ -121,23 +117,42 @@ int	game_loop()
 		unsigned int t = 0;
 		while (t++ <= drawStart)
 			mlx_pixel_put(game.mlx, game.win.ref, x, t++, game.env.CEIL);
+		int realStart = drawStart;
 		while (drawStart++ <= drawEnd)
-			mlx_pixel_put(game.mlx, game.win.ref, x, drawStart, (!(x % 50) ? 0xffff00 : color));
+		{
+			int val = color;
+			if (!(x % 50))
+				val = 0xff00ff;
+			if (drawStart == ((drawEnd + realStart) / 2))
+				val = 0xffffff;
+			mlx_pixel_put(game.mlx, game.win.ref, x, drawStart, val);
+		}
 		while (drawEnd++ <= game.win.height)
 			mlx_pixel_put(game.mlx, game.win.ref, x, drawEnd, game.env.FLOOR);
-    }
+	}
+
+
     //timing for input and FPS counter
     // oldTime = time;
     // time = getTicks();
-    // double frameTime = (time - oldTime) / 1000.0; //frameTime is the time this frame has taken, in seconds
     // print(1.0 / frameTime); //FPS counter
     // redraw();
     // cls();
 
     //speed modifiers
+	return (1);
+}
+
+int	game_loop()
+{
+	char txt[300];
+	*txt = 0;
+	draw_frame();
+	ft_sprintf(txt, "Fps: X:%d Y:%d -", (int)game.player.x, (int)game.player.y);
+    // double frameTime = (time - oldTime) / 1000.0; //frameTime is the time this frame has taken, in seconds
     // double moveSpeed = frameTime * 5.0; //the constant value is in squares/second
     // double rotSpeed = frameTime * 3.0; //the constant value is in radians/second
-	return (1);
+	mlx_string_put(game.mlx, game.win.ref, 50, 50, 0xffffff, txt);
 }
 
 int	main(int ac, char **av)
