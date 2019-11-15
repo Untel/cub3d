@@ -6,65 +6,33 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 12:42:46 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/15 14:31:40 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int worldMap[24][24] =
-{
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,2,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,3,0,0,0,3,0,0,0,1},
-  {1,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,2,2,0,2,2,0,0,0,0,3,0,3,0,3,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,5,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,4,4,4,4,4,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-  {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-};
-
-double posX = 14, posY = 10;  //x and y start position
 double dirX = -1, dirY = 0; //initial direction vector
 double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
 // double time = 0; //time of current frame
-double oldTime = 0; //time of previous frame
 
-w = 512;
-h = 384;
 int	game_loop()
 {
-	// long i;
-	// i = (random() % 10000);
-	// printf("looping\n");
-	// while (i-- >= 0)
-	// 	mlx_pixel_put(game.mlx, game.win.ref, (random() % 255), (random() % 255), (random()));
-	// return (1);
-    for(int x = 0; x < w; x++)
+	int x;
+
+	// draw_floor();
+	// draw_ceil();
+
+	x = -1;
+	while (++x < game.win.width)
     {
 		//calculate ray position and direction
-		double cameraX = 2 * x / (double)w - 1; //x-coordinate in camera space
+		double cameraX = 2 * x / (double)game.win.width - 1; //x-coordinate in camera space
 		double rayDirX = dirX + planeX * cameraX;
 		double rayDirY = dirY + planeY * cameraX;
 		//which box of the map we're in
-		int mapX = (int)posX;
-		int mapY = (int)posY;
+		int mapX = (int)game.player.x;
+		int mapY = (int)game.player.y;
 
 		//length of ray from current position to next x or y-side
 		double sideDistX;
@@ -85,22 +53,22 @@ int	game_loop()
 		if (rayDirX < 0)
 		{
 			stepX = -1;
-			sideDistX = (posX - mapX) * deltaDistX;
+			sideDistX = (game.player.x - mapX) * deltaDistX;
 		}
 		else
 		{
 			stepX = 1;
-			sideDistX = (mapX + 1.0 - posX) * deltaDistX;
+			sideDistX = (mapX + 1.0 - game.player.x) * deltaDistX;
 		}
 		if (rayDirY < 0)
 		{
 			stepY = -1;
-			sideDistY = (posY - mapY) * deltaDistY;
+			sideDistY = (game.player.y - mapY) * deltaDistY;
 		}
 		else
 		{
 			stepY = 1;
-			sideDistY = (mapY + 1.0 - posY) * deltaDistY;
+			sideDistY = (mapY + 1.0 - game.player.y) * deltaDistY;
 		}
 		//perform DDA
 		while (hit == 0)
@@ -119,39 +87,44 @@ int	game_loop()
 				side = 1;
 			}
 			//Check if ray has hit a wall
-			if (worldMap[mapX][mapY] > 0) hit = 1;
+			if (game.map.grid[mapX][mapY] == WALL) hit = 1;
 		}
 		//Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
-		if (side == 0) perpWallDist = (mapX - posX + (1 - stepX) / 2) / rayDirX;
-		else           perpWallDist = (mapY - posY + (1 - stepY) / 2) / rayDirY;
+		if (side == 0) perpWallDist = (mapX - game.player.x + (1 - stepX) / 2) / rayDirX;
+		else           perpWallDist = (mapY - game.player.y + (1 - stepY) / 2) / rayDirY;
 
 		//Calculate height of line to draw on screen
-		int lineHeight = (int)(h / perpWallDist);
+		int lineHeight = (int)(game.win.height / perpWallDist);
 
 		//calculate lowest and highest pixel to fill in current stripe
-		int drawStart = -lineHeight / 2 + h / 2;
+		int drawStart = -lineHeight / 2 + game.win.height / 2;
 		if (drawStart < 0) drawStart = 0;
-		int drawEnd = lineHeight / 2 + h / 2;
-		if (drawEnd >= h) drawEnd = h - 1;
+		int drawEnd = lineHeight / 2 + game.win.height / 2;
+		if (drawEnd >= game.win.height) drawEnd = game.win.height - 1;
 
 		//choose wall color
 		long color;
-		switch(worldMap[mapX][mapY])
+		switch(game.map.grid[mapX][mapY])
 		{
 			case 1:  color = 0xff0000;  break; //red
 			case 2:  color = 0x00ff00;  break; //green
 			case 3:  color = 0x0000ff;   break; //blue
-			case 4:  color = 0xffffff;  break; //white
-			default: color = 0x000000; break; //yellow
+			case 4:  color = 0x00ffff;  break; //white
+			default: color = 0xff00ff; break; //yellow
 		}
 
 		//give x and y sides different brightness
-		if (side == 1) {color = color / 2;}
+		if (side == 1) {color = color * .8;}
 
 		//draw the pixels of the stripe as a vertical line
 		// verLine(x, drawStart, drawEnd, color);
+		unsigned int t = 0;
+		while (t++ <= drawStart)
+			mlx_pixel_put(game.mlx, game.win.ref, x, t++, game.env.CEIL);
 		while (drawStart++ <= drawEnd)
-			mlx_pixel_put(game.mlx, game.win.ref, x, drawStart, color);
+			mlx_pixel_put(game.mlx, game.win.ref, x, drawStart, (!(x % 50) ? 0xffff00 : color));
+		while (drawEnd++ <= game.win.height)
+			mlx_pixel_put(game.mlx, game.win.ref, x, drawEnd, game.env.FLOOR);
     }
     //timing for input and FPS counter
     // oldTime = time;
@@ -172,14 +145,15 @@ int	main(int ac, char **av)
 	(void)ac;
 	(void)av;
 
-	ft_args(ac, av);
+	if (ft_args(ac, av) == ERROR)
+		return (EXIT_FAILURE);
 	system("leaks a.out");
 	// return (0);
 	if (!(game.mlx = mlx_init()))
 		return (EXIT_FAILURE);
 	if (!(game.win.ref = mlx_new_window(game.mlx, game.win.width, game.win.height, *av)))
 		return (EXIT_FAILURE);
-	printf("Starting\n");
+	SUC("RUNNING GAME\n");
 	mlx_loop_hook(game.mlx, game_loop, NULL);
     mlx_loop(game.mlx);
 	return (EXIT_SUCCESS);

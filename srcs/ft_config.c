@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 12:35:45 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/15 14:30:11 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ int	ft_fill_map(char *str)
 		else
 		{
 			x = (*str - '0');
-			if (x < 0 || x > 2)
+			if (x < 0 || x > 4)
 				return (ERR("filling map %d,%d (%d)", line, i, x));
 			game.map.grid[line][++i] = x;
 			str++;
