@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_map.c                                     :+:      :+:    :+:   */
+/*   ft_utils.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 05:50:42 by adda-sil         ###   ########.fr       */
+/*   Created: 2019/11/15 08:55:41 by adda-sil          #+#    #+#             */
+/*   Updated: 2019/11/15 08:56:40 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_parse_map(game_t g, int ac, char **argv)
+void
+	*ft_f(void *ptr, void *res)
 {
-	
+	ft_memdel(&ptr);
+	return (res);
 }

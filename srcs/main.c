@@ -6,21 +6,13 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 06:08:49 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/15 08:13:03 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <mlx.h>
-#include <math.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include "libft.h"
 #include "cub3d.h"
-game_t game;
-int worldMap[24][24]=
+
+int worldMap[24][24] =
 {
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
   {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
@@ -48,7 +40,6 @@ int worldMap[24][24]=
   {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 };
 
-int				logfd;
 double posX = 14, posY = 10;  //x and y start position
 double dirX = -1, dirY = 0; //initial direction vector
 double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
@@ -159,7 +150,7 @@ int	game_loop()
 		//draw the pixels of the stripe as a vertical line
 		// verLine(x, drawStart, drawEnd, color);
 		while (drawStart++ <= drawEnd)
-			mlx_pixel_put(game.mlx_ptr, game.mlx_win, x, drawStart, color);
+			mlx_pixel_put(game.mlx, game.win.ref, x, drawStart, color);
     }
     //timing for input and FPS counter
     // oldTime = time;
@@ -180,15 +171,15 @@ int	main(int ac, char **av)
 	(void)ac;
 	(void)av;
 
-	if (!(game.mlx_ptr = mlx_init()))
+	ft_args(ac, av);
+	system("leaks a.out");
+	return (0);
+	if (!(game.mlx = mlx_init()))
 		return (EXIT_FAILURE);
-	ft_parse_map(&game, ac, av);
-	if (!(game.mlx_win = mlx_new_window(game.mlx_ptr, w, h, "Cub3d")))
+	if (!(game.win.ref = mlx_new_window(game.mlx, game.win.width, game.win.height, *av)))
 		return (EXIT_FAILURE);
 	printf("Starting\n");
-
-	mlx_loop_hook(game.mlx_ptr, game_loop, NULL);
-    mlx_loop(game.mlx_ptr);
-	close(logfd);
+	mlx_loop_hook(game.mlx, game_loop, NULL);
+    mlx_loop(game.mlx);
 	return (EXIT_SUCCESS);
 }
