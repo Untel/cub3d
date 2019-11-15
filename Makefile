@@ -1,27 +1,35 @@
-PRINTF_PATH			= libs/ft_printf
-LIBFTPRINTF_MAKE	= $(MAKE) -C $(PRINTF_PATH)
-MINILIBX_PATH		= libs/minilibx_mms
-MINILIBX_MAKE		= $(MAKE) -C $(PRINTF_PATH)
+LIBS_DIR			= ./libs
+LIBFTPRINTF_PATH	= $(LIBS_DIR)/ft_printf
+LIBFTPRINTF_MAKE	= $(MAKE) -C $(LIBFTPRINTF_PATH)
+LIBFTPRINTF			= -L$(PRINTF_PATH) -lftprintf
+MINILIBX_PATH		= $(LIBS_DIR)/minilibx_mms
+MINILIBX_MAKE		= $(MAKE) -C $(MINILIBX_MAKE)
+MINILIBX			= -L$(MINILIBX_PATH) -lmlx
+GNL_PATH			= $(LIBS_DIR)/get_next_line
+GNL_MAKE			= $(MAKE) -C $(GNL_MAKE)
+GNL					= -L$(GNL_PATH) -lgnl
+LIBS				= $(LIBFTPRINTF) $(GNL) $(MINILIBX) -lmlx -framework OpenGL -framework AppKit -lm
 
 SRCS_DIR			= srcs
 SRCS_FILES			= main.c ft_parse_map.c
 SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
-INCLUDES			= -I . -I $(PRINTF_PATH) -I $(PRINTF_PATH)/srcs -I $(PRINTF_PATH)/libft -I./headers
+INCLUDES			= -I . -I $(LIBFTPRINTF_PATH) -I $(LIBFTPRINTF_PATH)/srcs -I $(LIBFTPRINTF_PATH)/libft -I./headers
 
 CFLAGS				= -w -g $(INCLUDES)
 OBJS				= $(SRCS:.c=.o)
 CC					= clang
 NAME				= a.out
 
-LIBFTPRINTF			= -L$(PRINTF_PATH) -lftprintf
-
 ARGS				= 
 
-all:				$(OBJS) cub3d.h
+all:				$(OBJS) cub3d.h libs
+					$(CC) $(OBJS) $(LIBS) -o $(NAME)
+
+libs:				
 					$(LIBFTPRINTF_MAKE)
 					$(MINILIBX_MAKE)
-					$(CC) $(OBJS) $(LIBFTPRINTF) -lmlx -framework OpenGL -framework AppKit -lm -o $(NAME)
+					$(GNL_MAKE)
 
 run:				all
 					./$(NAME) $(ARGS)
@@ -36,4 +44,4 @@ fclean:
 
 re:					fclean all
 
-.PHONY:				all clean fclean re libft retest run
+.PHONY:				all clean fclean re run
