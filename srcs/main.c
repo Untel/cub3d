@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 08:13:03 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/15 12:42:46 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ int	game_loop()
 	// i = (random() % 10000);
 	// printf("looping\n");
 	// while (i-- >= 0)
-	// 	mlx_pixel_put(game.mlx_ptr, game.mlx_win, (random() % 255), (random() % 255), (random()));
+	// 	mlx_pixel_put(game.mlx, game.win.ref, (random() % 255), (random() % 255), (random()));
+	// return (1);
     for(int x = 0; x < w; x++)
     {
 		//calculate ray position and direction
@@ -173,7 +174,7 @@ int	main(int ac, char **av)
 
 	ft_args(ac, av);
 	system("leaks a.out");
-	return (0);
+	// return (0);
 	if (!(game.mlx = mlx_init()))
 		return (EXIT_FAILURE);
 	if (!(game.win.ref = mlx_new_window(game.mlx, game.win.width, game.win.height, *av)))
