@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 04:14:08 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/15 05:50:48 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,9 @@ int	main(int ac, char **av)
 {
 	(void)ac;
 	(void)av;
+	game_t g;
+
+	ft_parse_map(&g, ac, av);
 
 	if (!(game.mlx_ptr = mlx_init()))
 		return (EXIT_FAILURE);

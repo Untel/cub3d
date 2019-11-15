@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 04:22:45 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/15 05:49:51 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,5 @@ typedef struct	game_s
 	map_t		map;
 	player_t	player;
 }				game_t;
-game_t			game;
 
 #endif

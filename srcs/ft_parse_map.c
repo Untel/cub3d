@@ -6,13 +6,13 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 04:25:34 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/15 05:50:42 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_parse_map(int ac, char **argv)
+int	ft_parse_map(game_t g, int ac, char **argv)
 {
 	
 }
