@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 19:32:42 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/17 19:42:29 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,14 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <string.h>
+# include <unistd.h>
 # include <mlx.h>
 # include <math.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <time.h>
+# define FRAMERATE 30
+# define TICK_DELAY (1000 / FRAMERATE)
 # define MAX_WIDTH		1920
 # define MAX_HEIGHT		1080
 # define PATH_URL_SIZE	1024
@@ -33,38 +37,45 @@
 # define HAS_ERR(x) (x == ERROR)
 typedef enum	e_dir
 {
-	N = 'N',
-	S = 'S',
-	W = 'W',
-	E = 'E'
+	N 			= 'N',
+	S 			= 'S',
+	W 			= 'W',
+	E 			= 'E'
 }				t_dir;
 typedef enum	e_entity
 {
-	EMPTY	= 0,
-	WALL	= 1,
-	OBJECT	= 2
+	EMPTY		= 0,
+	WALL		= 1,
+	OBJECT		= 2
 }				t_entity;
 typedef enum	e_keybinds
 {
-	FORWARD = 13,
-	BACKWARD = 1,
+	FORWARD 	= 13,
+	BACKWARD 	= 1,
 	STRAFE_LEFT = 0,
-	STRAFE_RIGHT = 2,
-	ROTATE_LEFT = 124,
-	ROTATE_RIGHT = 123,
-	ESCAPE = 53
+	STRAFE_RIGHT= 2,
+	ROTATE_LEFT = 12,
+	ROTATE_RIGHT= 14,
+	ESCAPE		= 53
 }				t_keybinds;
 typedef struct	map_s
 {
-	int	width;
-	int	height;
-	int	grid[MAX_WIDTH][MAX_HEIGHT];
+	int			width;
+	int			height;
+	int			grid[MAX_WIDTH][MAX_HEIGHT];
 }				map_t;
+typedef struct	position_s
+{
+	double		x;
+	double		y;
+}				position_t;
 typedef struct	player_s
 {
-	double	x;
-	double	y;
-	t_dir	dir;		
+	position_t	pos;
+	position_t	dir;
+	position_t	plane;
+	double 		ms;
+	double		rs;
 }				player_t;
 typedef struct	window_s
 {
@@ -92,7 +103,14 @@ typedef struct	game_s
 	map_t		map;
 	player_t	player;
 	env_t		env;
+	double		time;
 }				game_t;
+
+int				move_forward(void);
+int				move_backward(void);
+int 			rotate(int deg);
+int				strafe_left(void);
+int				strafe_right(void);
+int				ft_args(int ac, char **argv);
 game_t			game;
-int	ft_args(int ac, char **argv);
 #endif

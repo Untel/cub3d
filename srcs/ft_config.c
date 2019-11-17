@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 15:52:08 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/17 19:50:46 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,12 @@ int	ft_set_color(char *key, int *color, char *str)
 	r = ft_get_next_number(&str);
 	g = ft_get_next_number(&str);
 	b = ft_get_next_number(&str);
-	if (!(0 <= r <= 255 && 0 <= g <= 255 && 0 <= b <= 255))
+	if (!(r >= 0 && r <= 255
+		&& g >= 0 && g <= 255
+		&& b >= 0 && b <= 255))
 		return (ERR("setting RGB color for %s", key));
 	*color = (b << 16) + (g << 8) + r;
-	return (SUC("%s set to %d %d %d (%d)", key, r, g, b, *color));
+	return (SUC("%s set to %d %d %d (%#X)", key, r, g, b, *color));
 }
 
 int	ft_set_path(char *key, char *buffer, char *str)
@@ -60,8 +62,8 @@ int	ft_set_window_size(char *str)
 
 int	ft_set_player_position(char dir, int x, int y)
 {
-	game.player.x = (double)x;
-	game.player.y = (double)y;
+	game.player.pos.x = (double)x + .5;
+	game.player.pos.y = (double)y + .5;
 	game.map.grid[x][y] = 0;
 	return (SUC("Player start at x%d, y%d", x, y));
 }
@@ -165,5 +167,12 @@ int	ft_args(int ac, char **argv)
 
 	if (ac > 1)
 		ret = ft_configure(*++argv);
+	game.player.ms = 1;
+	game.player.rs = 1;
+	game.player.dir.x = -1;
+	game.player.dir.y = 0;
+	game.player.plane.x = 0;
+	game.player.plane.y = 0.66;
+	game.time = 0;
 	return (ret);
 }

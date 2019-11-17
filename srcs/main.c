@@ -6,14 +6,12 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/15 19:34:26 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/17 19:49:16 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-double dirX = -1, dirY = 0; //initial direction vector
-double planeX = 0, planeY = 0.66; //the 2d raycaster version of camera plane
 int	draw_frame()
 {
 	int x;
@@ -22,74 +20,74 @@ int	draw_frame()
 	while (++x < game.win.width)
     {
 		//calculate ray position and direction
-		double cameraX = 2 * x / (double)game.win.width - 1; //x-coordinate in camera space
-		double rayDirX = dirX + planeX * cameraX;
-		double rayDirY = dirY + planeY * cameraX;
+		double camera_x = 2 * x / (double)game.win.width - 1; //x-coordinate in camera space
+		double ray_x = game.player.dir.x + game.player.plane.x * camera_x;
+		double ray_y = game.player.dir.y + game.player.plane.y * camera_x;
 		//which box of the map we're in
-		int mapX = (int)game.player.x;
-		int mapY = (int)game.player.y;
+		int map_x = (int)game.player.pos.x;
+		int map_y = (int)game.player.pos.y;
 
 		//length of ray from current position to next x or y-side
-		double sideDistX;
-		double sideDistY;
+		double side_dist_x;
+		double side_dist_y;
 
 		//length of ray from one x or y-side to next x or y-side
-		double deltaDistX = abs(1 / rayDirX);
-		double deltaDistY = abs(1 / rayDirY);
-		double perpWallDist;
+		double delta_dist_x = abs(1 / ray_x);
+		double delta_dist_y = abs(1 / ray_y);
+		double perp_wall_dist;
 
 		//what direction to step in x or y-direction (either +1 or -1)
-		int stepX;
-		int stepY;
+		int step_x;
+		int step_y;
 
 		int hit = 0; //was there a wall hit?
 		int side; //was a NS or a EW wall hit?
 		//calculate step and initial sideDist
-		if (rayDirX < 0)
+		if (ray_x < 0)
 		{
-			stepX = -1;
-			sideDistX = (game.player.x - mapX) * deltaDistX;
+			step_x = -1;
+			side_dist_x = (game.player.pos.x - map_x) * delta_dist_x;
 		}
 		else
 		{
-			stepX = 1;
-			sideDistX = (mapX + 1.0 - game.player.x) * deltaDistX;
+			step_x = 1;
+			side_dist_x = (map_x + 1.0 - game.player.pos.x) * delta_dist_x;
 		}
-		if (rayDirY < 0)
+		if (ray_y < 0)
 		{
-			stepY = -1;
-			sideDistY = (game.player.y - mapY) * deltaDistY;
+			step_y = -1;
+			side_dist_y = (game.player.pos.y - map_y) * delta_dist_y;
 		}
 		else
 		{
-			stepY = 1;
-			sideDistY = (mapY + 1.0 - game.player.y) * deltaDistY;
+			step_y = 1;
+			side_dist_y = (map_y + 1.0 - game.player.pos.y) * delta_dist_y;
 		}
 		//perform DDA
 		while (hit == 0)
 		{
 			//jump to next map square, OR in x-direction, OR in y-direction
-			if (sideDistX < sideDistY)
+			if (side_dist_x < side_dist_y)
 			{
-				sideDistX += deltaDistX;
-				mapX += stepX;
+				side_dist_x += delta_dist_x;
+				map_x += step_x;
 				side = 0;
 			}
 			else
 			{
-				sideDistY += deltaDistY;
-				mapY += stepY;
+				side_dist_y += delta_dist_y;
+				map_y += step_y;
 				side = 1;
 			}
 			//Check if ray has hit a wall
-			if (game.map.grid[mapX][mapY] == WALL) hit = 1;
+			if (game.map.grid[map_x][map_y] != EMPTY) hit = 1;
 		}
 		//Calculate distance projected on camera direction (Euclidean distance will give fisheye effect!)
-		if (side == 0) perpWallDist = (mapX - game.player.x + (1 - stepX) / 2) / rayDirX;
-		else           perpWallDist = (mapY - game.player.y + (1 - stepY) / 2) / rayDirY;
+		if (side == 0) perp_wall_dist = (map_x - game.player.pos.x + (1 - step_x) / 2) / ray_x;
+		else           perp_wall_dist = (map_y - game.player.pos.y + (1 - step_y) / 2) / ray_y;
 
 		//Calculate height of line to draw on screen
-		int lineHeight = (int)(game.win.height / perpWallDist);
+		int lineHeight = (int)(game.win.height / perp_wall_dist);
 
 		//calculate lowest and highest pixel to fill in current stripe
 		int drawStart = -lineHeight / 2 + game.win.height / 2;
@@ -99,13 +97,20 @@ int	draw_frame()
 
 		//choose wall color
 		long color;
-		switch(game.map.grid[mapX][mapY])
+		switch(game.map.grid[map_x][map_y])
 		{
 			case 1:  color = 0xff0000; break; //red
-			case 2:  color = 0x00ff00; break; //green
+			case 2:  color = (0x0000ff); break; //green
 			case 3:  color = 0x0000ff; break; //blue
 			case 4:  color = 0x00ffff; break; //white
 			default: color = 0xff00ff; break; //yellow
+		}
+
+		if (game.map.grid[map_x][map_y] == 2)
+		{
+			color = ((x * 255) + 0x000000);
+			while (color > 0xffffff)
+				color -= color % 0xffffff;
 		}
 
 		//give x and y sides different brightness
@@ -142,45 +147,17 @@ int	draw_frame()
 
 int	game_loop()
 {
-	char txt[300];
+	char	txt[300];
+	int		fps;
+
 	*txt = 0;
-	// draw_frame();
-	ft_sprintf(txt, "Fps: X:%d Y:%d -", (int)game.player.x, (int)game.player.y);
-    // double frameTime = (time - oldTime) / 1000.0; //frameTime is the time this frame has taken, in seconds
-    // double moveSpeed = frameTime * 5.0; //the constant value is in squares/second
-    // double rotSpeed = frameTime * 3.0; //the constant value is in radians/second
-	mlx_string_put(game.mlx, game.win.ref, 50, 50, 0xffffff, txt);
+	fps = 0;
 	draw_frame();
-}
-int moveSpeed = 1.3;
-int rotSpeed = 1;
-
-int	move_forward()
-{
-	if(game.map.grid[(int)(game.player.x + dirX * moveSpeed)][(int)game.player.y] == EMPTY)
-		game.player.x += (dirX * moveSpeed);
-	if(game.map.grid[(int)game.player.x][(int)(game.player.y + dirY * moveSpeed)] == EMPTY)
-		game.player.y += (dirY * moveSpeed);
+	printf("%d, %");
+	ft_sprintf(txt, "Fps:%d X:%d Y:%d -", fps, (int)game.player.pos.x, (int)game.player.pos.y);
+	mlx_string_put(game.mlx, game.win.ref, 50, 50, 0xffffff, txt);
 }
 
-int	move_backward()
-{
-	if(game.map.grid[(int)(game.player.x - dirX * moveSpeed)][(int)game.player.y] == EMPTY)
-		game.player.x -= (dirX * moveSpeed);
-	if(game.map.grid[(int)game.player.x][(int)(game.player.y - dirY * moveSpeed)] == EMPTY)
-		game.player.y -= (dirY * moveSpeed);
-}
-
-
-int rotate(int deg)
-{
-	double oldDirX = dirX;
-	dirX = dirX * cos(deg) - dirY * sin(deg);
-	dirY = oldDirX * sin(deg) + dirY * cos(deg);
-	double oldPlaneX = planeX;
-	planeX = planeX * cos(deg) - planeY * sin(deg);
-	planeY = oldPlaneX * sin(deg) + planeY * cos(deg);
-}
 int	key_hook(int keycode, void *param)
 {
 	if (keycode == FORWARD)
@@ -188,29 +165,28 @@ int	key_hook(int keycode, void *param)
 	else if (keycode == BACKWARD)
 		move_backward();
 	else if (keycode == STRAFE_LEFT)
-		if(game.map.grid[(int)(game.player.x)][(int)(game.player.y + dirY * moveSpeed)] == EMPTY) game.player.y += (dirY * moveSpeed);
-      	// if(game.map.grid[(int)game.player.x][(int)(game.player.y - dirY * moveSpeed)] == EMPTY) game.player.y += dirY * moveSpeed;
+		strafe_left();
 	else if (keycode == STRAFE_RIGHT)
-		if(game.map.grid[(int)(game.player.x - dirX * moveSpeed)][(int)game.player.y] == EMPTY) game.player.x -= (dirX * moveSpeed);
-      	// if(game.map.grid[(int)game.player.x][(int)(game.player.y - dirY * moveSpeed)] == EMPTY) game.player.y -= dirY * moveSpeed;
+		strafe_right();
 	else if (keycode == ROTATE_LEFT)
-		rotate(-rotSpeed);
+		rotate((game.player.rs));
 	else if (keycode == ROTATE_RIGHT)
-		rotate(rotSpeed);
+		rotate(-(game.player.rs));
 	if (keycode == ESCAPE)
 	{
 		printf("destroying\n");
 		mlx_clear_window(game.mlx, game.win.ref);
 		mlx_destroy_window(game.mlx, game.win.ref);
+		exit(0);
 	}
 	// SUC("Press %d\n", keycode);
-	printf("Key %d, POS(%.2f, %.2f)\n", keycode, game.player.x, game.player.y);
+	printf("Key %d, POS(%.2f, %.2f)\n", keycode, game.player.pos.x, game.player.pos.y);
 	return (1);
 }
 
-int	mouse_hook(int button, int x, int y, void *param)
+int	keypress_hook()
 {
-	// SUC("Press b%d x%d y%d\n", button, x, y);
+	SUC("PRESS");
 	return (1);
 }
 
@@ -228,12 +204,14 @@ int	main(int ac, char **av)
 	if (!(game.win.ref = mlx_new_window(game.mlx, game.win.width, game.win.height, "Cub3d")))
 		return (EXIT_FAILURE);
 	SUC("RUNNING GAME\n");
-	draw_frame();
-	mlx_do_key_autorepeaton(game.mlx);
+	// mlx_do_key_autorepeatoff(game.mlx);
+	
+	mlx_hook(game.win.ref, 1, 4, keypress_hook, NULL);
 	mlx_key_hook(game.win.ref, key_hook, NULL);
-	mlx_mouse_hook(game.win.ref, mouse_hook, NULL);
+	// mlx_mouse_hook(game.win.ref, mouse_hook, NULL);
 	// mlx_expose_hook(game.mlx, game, NULL);
 	// mlx_mouse_get_pos(game.mlx);
+	// draw_frame();
 	mlx_loop_hook(game.mlx, game_loop, NULL);
     mlx_loop(game.mlx);
 	return (EXIT_SUCCESS);

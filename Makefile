@@ -13,7 +13,7 @@ GNl_INCL			= -I $(GNL_PATH)
 LIBS				= $(LIBFTPRINTF) $(GNL) $(MINILIBX) -lmlx -framework OpenGL -framework AppKit -lm
 
 SRCS_DIR			= srcs
-SRCS_FILES			= main.c ft_config.c
+SRCS_FILES			= main.c ft_config.c ft_move.c
 SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 INCLUDES			= -I . -I./headers $(GNl_INCL) $(LIBFTPRINTF_INCL)
