@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/19 15:27:36 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/19 17:37:47 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@
 # define TEX_HEIGHT		64
 # define TEX_WIDTH		64
 # define PATH_URL_SIZE	1024
+# define KEYCODE_MAX	256
 # define ERR(...) 		(((printf("[\e[0;31mERROR\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1) * -1)
 # define SUC(...) 		(((printf("[\e[0;32mSUCCESS\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1))
 # define ERROR 			-1
@@ -58,7 +59,8 @@ typedef enum	e_keybinds
 	ROTATE_LEFT = 12,
 	ROTATE_RIGHT= 14,
 	ESCAPE		= 53,
-	CTRL		= 256
+	CTRL		= 256,
+	TAB			= 48,
 }				t_keybinds;
 typedef struct	map_s
 {
@@ -117,15 +119,15 @@ typedef struct	game_s
 	int			collision;
 	texture_t	texture[8];
 	image_t		image[4];
+	char		event[KEYCODE_MAX];
 }				game_t;
 
-int				move_forward(void);
-int				generate_texture(void);
-int				move_backward(void);
-int 			rotate(int deg);
-int				strafe_left(void);
-int				strafe_right(void);
-int				ft_args(int ac, char **argv);
-int				draw_frame(void);
-game_t			game;
+int				move_forward(game_t *game);
+int				generate_texture(game_t *game);
+int				move_backward(game_t *game);
+int 			rotate(game_t *game, double deg);
+int				strafe_left(game_t *game);
+int				strafe_right(game_t *game);
+int				ft_args(game_t *game, int ac, char **argv);
+int				draw_frame(game_t *game);
 #endif

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/19 15:37:10 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/19 17:59:38 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,24 +51,24 @@ int	ft_set_path(char *key, char *buffer, char *str)
 	return (SUC("%s path: \"%s\"", key, buffer));
 }
 
-int	ft_set_window_size(char *str)
+int	ft_set_window_size(game_t *game, char *str)
 {
-	game.win.width = ft_get_next_number(&str);
-	game.win.height = ft_get_next_number(&str);
-	if (game.win.width == -1 || game.win.height == -1)
+	game->win.width = ft_get_next_number(&str);
+	game->win.height = ft_get_next_number(&str);
+	if (game->win.width == -1 || game->win.height == -1)
 		return (ERR("Error setting Win Size\n"));
-	return (SUC("Win Size %d/%d", game.win.width, game.win.height));
+	return (SUC("Win Size %d/%d", game->win.width, game->win.height));
 }
 
-int	ft_set_player_position(char dir, int x, int y)
+int	ft_set_player_position(game_t *game, char dir, int x, int y)
 {
-	game.player.pos.x = (double)x + .5;
-	game.player.pos.y = (double)y + .5;
-	game.map.grid[x][y] = 0;
+	game->player.pos.x = (double)x + .5;
+	game->player.pos.y = (double)y + .5;
+	game->map.grid[x][y] = 0;
 	return (SUC("Player start at x%d, y%d", x, y));
 }
 
-int	ft_fill_map(char *str)
+int	ft_fill_map(game_t *game, char *str)
 {
 	static int	line = 0;
 	char		*ptr;
@@ -80,68 +80,68 @@ int	ft_fill_map(char *str)
 		if (*str == ' ')
 			str++;
 		else if (ft_strchr("NSWE", *str))
-			ft_set_player_position(*str++, line, ++i);
+			ft_set_player_position(game, *str++, line, ++i);
 		else
 		{
 			x = (*str - '0');
 			if (x < 0 || x > 8)
 				return (ERR("filling map %d,%d (%d)", line, i, x));
-			game.map.grid[line][++i] = x;
+			game->map.grid[line][++i] = x;
 			str++;
 		}
 	if (line == 0)
-		game.map.width = i;
-	else if (game.map.width != i)
+		game->map.width = i;
+	else if (game->map.width != i)
 		return (ERR("filling map, not same width at line %d", line + 1));
 	line++;
 	return (SUCCESS);
 }
 
-int	ft_verify_map(void)
+int	ft_verify_map(game_t *game)
 {
 	int	i;
 
 	i = -1;
-	while (++i < game.map.width)
-		if (game.map.grid[0][i] != WALL
-			&& game.map.grid[game.map.height - 1][i] != WALL)
+	while (++i < game->map.width)
+		if (game->map.grid[0][i] != WALL
+			&& game->map.grid[game->map.height - 1][i] != WALL)
 			return (ERROR);
 	i = -1;
-	while (++i < game.map.height)
-		if (game.map.grid[i][0] != WALL
-			&& game.map.grid[i][game.map.width - 1] != WALL)
+	while (++i < game->map.height)
+		if (game->map.grid[i][0] != WALL
+			&& game->map.grid[i][game->map.width - 1] != WALL)
 			return (ERROR);
 	return (SUCCESS);
 }
 
-int	ft_readline(char *line)
+int	ft_readline(game_t *game, char *line)
 {
 	int ret;
 
 	if (!ft_strncmp("R ", line, 2))
-		ret = ft_set_window_size(&line[2]);
+		ret = ft_set_window_size(game, &line[2]);
 	else if (!ft_strncmp("NO ", line, 3))
-		ret = ft_set_path("North texture", game.env.NO, &line[3]);
+		ret = ft_set_path("North texture", game->env.NO, &line[3]);
 	else if (!ft_strncmp("SO ", line, 3))
-		ret = ft_set_path("South texture", game.env.SO, &line[3]);
+		ret = ft_set_path("South texture", game->env.SO, &line[3]);
 	else if (!ft_strncmp("WE ", line, 3))
-		ret = ft_set_path("West texture", game.env.WE, &line[3]);
+		ret = ft_set_path("West texture", game->env.WE, &line[3]);
 	else if (!ft_strncmp("EA ", line, 3))
-		ret = ft_set_path("East texture", game.env.EA, &line[3]);
+		ret = ft_set_path("East texture", game->env.EA, &line[3]);
 	else if (!ft_strncmp("S ", line, 2))
-		ret = ft_set_path("Sprite texture", game.env.SPRITE, &line[2]);
+		ret = ft_set_path("Sprite texture", game->env.SPRITE, &line[2]);
 	else if (!ft_strncmp("F ", line, 2))
-		ret = ft_set_color("Floor color", &game.env.FLOOR, &line[2]);
+		ret = ft_set_color("Floor color", &game->env.FLOOR, &line[2]);
 	else if (!ft_strncmp("C ", line, 2))
-		ret = ft_set_color("Ceil color", &game.env.CEIL, &line[2]);
+		ret = ft_set_color("Ceil color", &game->env.CEIL, &line[2]);
 	else if (*line == '1' || ft_isdigit(*line))
-		ret = ft_fill_map(line);
+		ret = ft_fill_map(game, line);
 	else
 		ret = !*line ? SUCCESS : ERROR;
 	return (ret);
 }
 
-int	ft_configure(char *filename)
+int	ft_configure(game_t *game, char *filename)
 {
 	int		fd;
 	int		ret;
@@ -154,9 +154,9 @@ int	ft_configure(char *filename)
 	ft_printf("Configuring from %s\n", filename);
 	ft_printf("===========================================\n");
 	while (ret == SUCCESS && (ret = get_next_line(fd, &line)) == SUCCESS)
-		ret = ft_f(line, ft_readline(line));
+		ret = ft_f(line, ft_readline(game, line));
 	if (ret == 0)
-		ret = ft_f(line, ft_readline(line));
+		ret = ft_f(line, ft_readline(game, line));
 	ft_printf("===========================================\n");
 	return (ret);
 }
@@ -164,22 +164,24 @@ int	ft_configure(char *filename)
 int	init_config(game_t *game)
 {
 	game->player.ms = 1;
+	// game->player.rs = 2.0f / 180.0f * M_PI;
 	game->player.rs = 1;
 	game->player.dir.x = -1;
 	game->player.dir.y = 0;
 	game->player.plane.x = 0;
 	game->player.plane.y = 0.66;
 	game->time = 0;
-	game->collision = 0;
+	game->collision = 1;
+	ft_memset(game->event, 0, KEYCODE_MAX);
 }
 
-int	ft_args(int ac, char **argv)
+int	ft_args(game_t *game, int ac, char **argv)
 {
 	int ret;
 
-	init_config(&game);
+	init_config(game);
 	if (ac > 1)
-		ret = ft_configure(*++argv);
-	generate_texture();
+		ret = ft_configure(game, *++argv);
+	generate_texture(game);
 	return (ret);
 }
