@@ -13,7 +13,7 @@ GNl_INCL			= -I $(GNL_PATH)
 LIBS				= $(LIBFTPRINTF) $(GNL) $(MINILIBX) -lmlx -framework OpenGL -framework AppKit -lm
 
 SRCS_DIR			= srcs
-SRCS_FILES			= main.c ft_config.c ft_move.c
+SRCS_FILES			= main.c ft_config.c ft_move.c ft_draw.c ft_texture.c
 SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 INCLUDES			= -I . -I./headers $(GNl_INCL) $(LIBFTPRINTF_INCL)
@@ -29,6 +29,7 @@ all:				$(OBJS) cub3d.h
 					$(LIBFTPRINTF_MAKE)
 					$(MINILIBX_MAKE)
 					$(GNL_MAKE)
+					export DYLD_LIBRARY_PATH=~/in/cub3d/libs/minilibx_mms
 					$(CC) $(OBJS) $(LIBS) -o $(NAME)
 
 # libs:				

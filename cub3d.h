@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/17 19:42:29 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/19 15:27:36 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,18 @@
 # include <math.h>
 # include <fcntl.h>
 # include <unistd.h>
-# include <time.h>
-# define FRAMERATE 30
-# define TICK_DELAY (1000 / FRAMERATE)
+# define FRAMERATE 		30
+# define TICK_DELAY 	(1000 / FRAMERATE)
 # define MAX_WIDTH		1920
 # define MAX_HEIGHT		1080
+# define TEX_HEIGHT		64
+# define TEX_WIDTH		64
 # define PATH_URL_SIZE	1024
-# define ERR(...) (((printf("[\e[0;31mERROR\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1) * -1)
-# define SUC(...) (((printf("[\e[0;32mSUCCESS\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1))
-# define ERROR -1
-# define SUCCESS 1
-# define HAS_ERR(x) (x == ERROR)
+# define ERR(...) 		(((printf("[\e[0;31mERROR\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1) * -1)
+# define SUC(...) 		(((printf("[\e[0;32mSUCCESS\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1))
+# define ERROR 			-1
+# define SUCCESS		1
+# define HAS_ERR(x)		(x == ERROR)
 typedef enum	e_dir
 {
 	N 			= 'N',
@@ -56,7 +57,8 @@ typedef enum	e_keybinds
 	STRAFE_RIGHT= 2,
 	ROTATE_LEFT = 12,
 	ROTATE_RIGHT= 14,
-	ESCAPE		= 53
+	ESCAPE		= 53,
+	CTRL		= 256
 }				t_keybinds;
 typedef struct	map_s
 {
@@ -96,6 +98,14 @@ typedef struct	env_s
 typedef struct	sprite_s
 {
 }				sprite_t;
+typedef int 	texture_t[TEX_HEIGHT * TEX_WIDTH];
+
+typedef struct	image_s
+{
+	void		*ref;
+	int			height;
+	int			width;
+}				image_t;
 typedef struct	game_s
 {
     void		*mlx;
@@ -104,13 +114,18 @@ typedef struct	game_s
 	player_t	player;
 	env_t		env;
 	double		time;
+	int			collision;
+	texture_t	texture[8];
+	image_t		image[4];
 }				game_t;
 
 int				move_forward(void);
+int				generate_texture(void);
 int				move_backward(void);
 int 			rotate(int deg);
 int				strafe_left(void);
 int				strafe_right(void);
 int				ft_args(int ac, char **argv);
+int				draw_frame(void);
 game_t			game;
 #endif

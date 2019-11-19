@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/17 19:50:46 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/19 15:37:10 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	ft_set_color(char *key, int *color, char *str)
 int	ft_set_path(char *key, char *buffer, char *str)
 {
 	if (ft_strlen(str) >= PATH_URL_SIZE)
-		return (0);
+		return (ERROR);
 	ft_strcpy(buffer, str);
 	return (SUC("%s path: \"%s\"", key, buffer));
 }
@@ -84,7 +84,7 @@ int	ft_fill_map(char *str)
 		else
 		{
 			x = (*str - '0');
-			if (x < 0 || x > 4)
+			if (x < 0 || x > 8)
 				return (ERR("filling map %d,%d (%d)", line, i, x));
 			game.map.grid[line][++i] = x;
 			str++;
@@ -134,7 +134,7 @@ int	ft_readline(char *line)
 		ret = ft_set_color("Floor color", &game.env.FLOOR, &line[2]);
 	else if (!ft_strncmp("C ", line, 2))
 		ret = ft_set_color("Ceil color", &game.env.CEIL, &line[2]);
-	else if (*line == '1')
+	else if (*line == '1' || ft_isdigit(*line))
 		ret = ft_fill_map(line);
 	else
 		ret = !*line ? SUCCESS : ERROR;
@@ -161,18 +161,25 @@ int	ft_configure(char *filename)
 	return (ret);
 }
 
+int	init_config(game_t *game)
+{
+	game->player.ms = 1;
+	game->player.rs = 1;
+	game->player.dir.x = -1;
+	game->player.dir.y = 0;
+	game->player.plane.x = 0;
+	game->player.plane.y = 0.66;
+	game->time = 0;
+	game->collision = 0;
+}
+
 int	ft_args(int ac, char **argv)
 {
 	int ret;
 
+	init_config(&game);
 	if (ac > 1)
 		ret = ft_configure(*++argv);
-	game.player.ms = 1;
-	game.player.rs = 1;
-	game.player.dir.x = -1;
-	game.player.dir.y = 0;
-	game.player.plane.x = 0;
-	game.player.plane.y = 0.66;
-	game.time = 0;
+	generate_texture();
 	return (ret);
 }
