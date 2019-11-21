@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/19 17:37:47 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/20 18:47:43 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # define TICK_DELAY 	(1000 / FRAMERATE)
 # define MAX_WIDTH		1920
 # define MAX_HEIGHT		1080
+# define GAME_WIDTH		800
+# define GAME_HEIGHT	600
 # define TEX_HEIGHT		64
 # define TEX_WIDTH		64
 # define PATH_URL_SIZE	1024
@@ -108,7 +110,7 @@ typedef struct	image_s
 	int			height;
 	int			width;
 }				image_t;
-typedef struct	game_s
+typedef struct	s_game
 {
     void		*mlx;
 	window_t	win;
@@ -120,14 +122,15 @@ typedef struct	game_s
 	texture_t	texture[8];
 	image_t		image[4];
 	char		event[KEYCODE_MAX];
-}				game_t;
+	int			renderer[MAX_WIDTH * MAX_HEIGHT];
+}				t_game;
 
-int				move_forward(game_t *game);
-int				generate_texture(game_t *game);
-int				move_backward(game_t *game);
-int 			rotate(game_t *game, double deg);
-int				strafe_left(game_t *game);
-int				strafe_right(game_t *game);
-int				ft_args(game_t *game, int ac, char **argv);
-int				draw_frame(game_t *game);
+int				move_forward(t_game *game);
+int				generate_texture(t_game *game);
+int				move_backward(t_game *game);
+int 			rotate(t_game *game, double deg);
+int				strafe_left(t_game *game);
+int				strafe_right(t_game *game);
+int				ft_args(t_game *game, int ac, char **argv);
+int				draw_frame(t_game *game);
 #endif
