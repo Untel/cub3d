@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/21 15:28:30 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/21 22:14:50 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,5 +163,6 @@ int				ft_generate_renderer(t_game *game);
 int				ft_generate_minimap(t_game *game);
 int				ft_generate_image(t_game *game, t_image *ptr, int w, int h);
 int				ft_set_pixel(t_image *ptr, int x, int y, int color);
-
+int				ft_render(t_game *game);
+int				ft_draw_minimap(t_game *game);
 #endif

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 19:16:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/21 15:32:55 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/21 21:38:19 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,22 @@ int	ft_generate_renderer(t_game *game)
 	if (ft_generate_image(game, &(game->renderer), game->win.width, game->win.height) == ERROR)
 		return (ERROR);
 	x = -1;
-	y = -1;
-	while (++x < game->win.width)
+	while (++x < game->win.width && (y = -1))
 		while (++y < game->win.height)
-			ft_set_pixel(&(game->renderer), x, y, 0xFF0000);
+			ft_set_pixel(&(game->renderer), x, y, 0xff0000);
 	mlx_put_image_to_window(game->mlx, game->win.ref, game->renderer.ref, 0, 0);
 	return (SUCCESS);
+}
+
+int	ft_render(t_game *game)
+{
+	int x;
+	int y;
+
+	x = -1;
+	int color = random() % 0xffffff;
+	while (++x < game->win.width && (y = -1))
+		while (++y < game->win.height)
+			ft_set_pixel(&(game->renderer), x, y, color);
+	mlx_put_image_to_window(game->mlx, game->win.ref, game->renderer.ref, 0, 0);
 }

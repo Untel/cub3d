@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/21 14:44:15 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/21 21:44:53 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,7 @@ int	ft_fill_map(t_game *game, char *str)
 		game->map.width = i;
 	else if (game->map.width != i)
 		return (ERR("filling map, not same width at line %d", line + 1));
+	game->map.height = line;
 	line++;
 	return (SUCCESS);
 }

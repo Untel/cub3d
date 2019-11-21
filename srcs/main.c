@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/21 15:21:43 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/21 22:15:21 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ int	ft_game_loop(t_game *game)
 	fps = 0;
 	// SUC("LOOP GAME\n");
 	ft_read_events(game);
-
+	ft_draw_minimap(game);
+	// ft_render(game);
 	// draw_frame(game);
 	// sprintf(txt, "Fps:%d X:%.2f Y:%.2f -", fps, game->player.pos.x, game->player.pos.y);
 	// mlx_string_put(game->mlx, game->win.ref, 50, 50, 0xffffff, txt);
@@ -77,10 +78,10 @@ int	ft_keyrelease_hook(int keycode, t_game *game)
 int	ft_init_hook(t_game *game)
 {
 	mlx_do_key_autorepeatoff(game->mlx);
-    mlx_hook(game->win.ref, 2, 1L << 0, ft_keypress_hook, &game);
-    mlx_hook(game->win.ref, 3, 1L << 1, ft_keyrelease_hook, &game);
-    mlx_hook(game->win.ref, 17, 0, ft_leave_program, &game);
-	mlx_loop_hook(game->mlx, ft_game_loop, &game);
+    mlx_hook(game->win.ref, 2, 1L << 0, ft_keypress_hook, game);
+    mlx_hook(game->win.ref, 3, 1L << 1, ft_keyrelease_hook, game);
+    mlx_hook(game->win.ref, 17, 0, ft_leave_program, game);
+	mlx_loop_hook(game->mlx, ft_game_loop, game);
 }
 
 int	main(int ac, char **av)
@@ -92,6 +93,7 @@ int	main(int ac, char **av)
 		|| !(game.win.ref = mlx_new_window(game.mlx, game.win.width, game.win.height, "Cub3d")))
 		return (EXIT_FAILURE);
 	ft_generate_renderer(&game);
+	ft_generate_minimap(&game);
 	ft_init_hook(&game);
 	SUC("RUNNING GAME\n");
     mlx_loop(game.mlx);
