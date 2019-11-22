@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/20 16:54:52 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/22 16:29:00 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,7 @@ int	ft_configure(t_game *game, char *filename)
 
 int	init_config(t_game *game)
 {
-	game->player.ms = 1;
+	game->player.ms = 0.1;
 	// game->player.rs = 2.0f / 180.0f * M_PI;
 	game->player.rs = 1;
 	game->player.dir.x = -1;

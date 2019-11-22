@@ -6,11 +6,16 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:33:46 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/20 18:46:09 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/22 20:43:54 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	ft_init_ray(t_game *game, t_ray *ray)
+{
+	
+}
 
 int	draw_frame(t_game *game)
 {

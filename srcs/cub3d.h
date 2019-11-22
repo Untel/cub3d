@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/21 22:14:50 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/22 22:04:47 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@
 # include <unistd.h>
 # define FRAMERATE 		30
 # define TICK_DELAY 	(1000 / FRAMERATE)
-# define MAX_WIDTH		1920
-# define MAX_HEIGHT		1080
+# define MAX_WIDTH		500
+# define MAX_HEIGHT		500
 # define GAME_WIDTH		800
 # define GAME_HEIGHT	600
 # define TEX_HEIGHT		64
@@ -72,6 +72,8 @@ typedef struct	s_map
 	int			width;
 	int			height;
 	int			grid[MAX_WIDTH][MAX_HEIGHT];
+	double		table_cos[810];
+	double		table_sin[810];
 	t_image		mini;
 }				t_map;
 typedef struct	position_s
@@ -82,6 +84,8 @@ typedef struct	position_s
 typedef struct	s_player
 {
 	position_t	pos;
+	position_t	dir;
+	position_t	plane;
 	double		angle;
 	double 		ms;
 	double		rs;
@@ -105,9 +109,7 @@ typedef struct	env_s
 typedef struct	sprite_s
 {
 }				sprite_t;
-typedef struct	s_texture
-{
-}				t_texture;
+typedef int 	t_texture[TEX_HEIGHT * TEX_WIDTH];
 typedef struct	s_settings
 {
 	int			collision;
@@ -145,7 +147,7 @@ typedef struct	s_game
 	env_t		env;
 	t_texture	tex[256];
 	t_image		image;
-	t_settings	s;
+	// t_settings	s;
 	char		collision;
 	char		event[KEYCODE_MAX];
 }				t_game;
@@ -165,4 +167,5 @@ int				ft_generate_image(t_game *game, t_image *ptr, int w, int h);
 int				ft_set_pixel(t_image *ptr, int x, int y, int color);
 int				ft_render(t_game *game);
 int				ft_draw_minimap(t_game *game);
+int				ft_draw_renderer(t_game *game, int x, int y, int color);
 #endif

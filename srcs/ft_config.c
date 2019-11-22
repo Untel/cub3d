@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/21 21:44:53 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/22 22:05:37 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,15 +164,32 @@ int	ft_configure(t_game *game, char *filename)
 
 int	init_config(t_game *game)
 {
-	game->player.ms = 1;
+	game->player.ms = 0.07;
 	// game->player.rs = 2.0f / 180.0f * M_PI;
-	game->player.rs = 1;
-	// game->player.dir.x = -1;
-	// game->player.dir.y = 0;
-	// game->player.plane.x = 0;
-	// game->player.plane.y = 0.66;
+	game->player.rs = 0.04;
+	game->player.dir.x = -1;
+	game->player.dir.y = 0;
+	game->player.plane.x = 0;
+	game->player.plane.y = 0.66;
 	game->collision = 1;
 	ft_memset(game->event, 0, KEYCODE_MAX);
+}
+
+int	ft_generate_cos_sin_table(t_game *game)
+{
+	int i;
+	double dtheta;
+	double theta0;
+
+	i = -1;
+    dtheta = -M_PI / 3 / (game->win.width - 1);
+    theta0 = M_PI / 6;
+    while (++i < game->win.width)
+    {
+        game->map.table_sin[i] = sin(theta0);
+        game->map.table_cos[i] = cos(theta0);
+        theta0 += dtheta;
+    }
 }
 
 int	ft_args(t_game *game, int ac, char **argv)
@@ -182,6 +199,7 @@ int	ft_args(t_game *game, int ac, char **argv)
 	init_config(game);
 	if (ac > 1)
 		ret = ft_configure(game, *++argv);
-	// generate_texture(game);
+	generate_texture(game);
+	ft_generate_cos_sin_table(game);
 	return (ret);
 }

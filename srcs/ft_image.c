@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/21 21:49:51 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/22 16:44:40 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ int	ft_set_pixel(t_image *ptr, int x, int y, int color)
 {
 	int	index;
 
-
 	index = (ptr->s_line * y) + ((ptr->bits / 8) * x);
 	ptr->data[index++] = (char)((color) & 0xFF);
 	ptr->data[index++] = (char)((color >> 8) & 0xFF);
 	ptr->data[index++] = (char)((color >> 16) & 0xFF);
+	// ptr->data[index++] = (char)(0xc2);
 }
 
 int	ft_generate_image(t_game *game, t_image *ptr, int w, int h)
