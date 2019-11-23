@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:45:11 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/22 21:59:59 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/23 16:42:10 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_draw_minimap(t_game *game)
 				ft_draw_minimap_square(game, x, y, 0x00ffff);
 			else
 				ft_draw_minimap_square(game, x, y, 0x000000);
-	ft_printf("Player pos is %.2f/%.2f\n", game->player.pos.x, game->player.pos.y);
+	// ft_printf("Player pos is %.2f/%.2f\n", game->player.pos.x, game->player.pos.y);
 	ft_draw_minimap_square(game, (int)game->player.pos.y, (int)game->player.pos.x, 0xff00ff);
 	mlx_put_image_to_window(game->mlx, game->win.ref, game->map.mini.ref, 0, 0);
 }

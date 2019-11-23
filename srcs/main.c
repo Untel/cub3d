@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/22 22:07:20 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/23 16:47:23 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,29 +28,9 @@ int	ft_read_events(t_game *game)
 		rotate(game, -(game->player.rs));
 }
 
-int	ft_game_loop(t_game *game)
-{
-	char	txt[300];
-	int		fps;
-
-	*txt = 0;
-	fps = 0;
-	// SUC("LOOP GAME\n");
-	ft_read_events(game);
-	draw_frame(game);
-	ft_render(game);
-	ft_draw_minimap(game);
-	ft_sprintf(txt, "Pos: x%.2f/y%.2f | Dir x%.2f/y%.2f | Plane x%.2f/y%.2f",
-		game->player.pos.x, game->player.pos.y,
-		game->player.dir.x, game->player.dir.y,
-		game->player.plane.x, game->player.plane.y);
-	mlx_string_put(game->mlx, game->win.ref, 10, game->win.height - 20, 0xffffff, txt);
-}
-
 int	ft_destroy_window(t_game *game)
 {
 	SUC("Destroying\n");
-	mlx_clear_window(game->mlx, game->win.ref);
 	mlx_destroy_window(game->mlx, game->win.ref);
 	ft_leave_program(game);
 }
@@ -102,8 +82,8 @@ int	main(int ac, char **av)
 		|| !(game.mlx = mlx_init())
 		|| !(game.win.ref = mlx_new_window(game.mlx, game.win.width, game.win.height, "Cub3d")))
 		return (EXIT_FAILURE);
-	ft_generate_renderer(&game);
 	ft_generate_minimap(&game);
+	ft_generate_renderer(&game);
 	// if (ac == 3 && 0)
 	// 	return (ft_snapshot(&game));
 	ft_init_hook(&game);

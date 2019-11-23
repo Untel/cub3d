@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/22 22:04:47 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/23 19:00:32 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,16 +76,16 @@ typedef struct	s_map
 	double		table_sin[810];
 	t_image		mini;
 }				t_map;
-typedef struct	position_s
+typedef struct	s_position
 {
 	double		x;
 	double		y;
-}				position_t;
+}				t_position;
 typedef struct	s_player
 {
-	position_t	pos;
-	position_t	dir;
-	position_t	plane;
+	t_position	pos;
+	t_position	dir;
+	t_position	plane;
 	double		angle;
 	double 		ms;
 	double		rs;
@@ -134,7 +134,8 @@ typedef struct	s_ray
     double		step_disty;
     int			vert;
     double		dist;
-    double		pos;
+    double		po;
+	t_position	pos;
     // t_list		*lst_objects;
 }               t_ray;
 typedef struct	s_game
@@ -159,7 +160,8 @@ int 			rotate(t_game *game, double deg);
 int				strafe_left(t_game *game);
 int				strafe_right(t_game *game);
 int				draw_frame(t_game *game);
-
+int				ft_game_loop(t_game *game);
+int				ft_read_events(t_game *game);
 int				ft_args(t_game *game, int ac, char **argv);
 int				ft_generate_renderer(t_game *game);
 int				ft_generate_minimap(t_game *game);
@@ -168,4 +170,5 @@ int				ft_set_pixel(t_image *ptr, int x, int y, int color);
 int				ft_render(t_game *game);
 int				ft_draw_minimap(t_game *game);
 int				ft_draw_renderer(t_game *game, int x, int y, int color);
+int				ft_draw_minimap_square(t_game *game, int x, int y, int color);
 #endif

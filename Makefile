@@ -20,7 +20,7 @@ SRCSv1_FILES		= main.c ft_config.c ft_move.c ft_draw.c ft_texture.c
 SRCSv1				= $(addprefix $(SRCSv1_DIR)/, $(SRCSv1_FILES))
 
 SRCS_DIR			= srcs
-SRCS_FILES			= main.c ft_config.c ft_move.c ft_draw.c ft_texture.c ft_minimap.c ft_engine.c ft_image.c
+SRCS_FILES			= main.c ft_config.c ft_move.c ft_draw.c ft_texture.c ft_minimap.c ft_engine.c ft_image.c ft_gameloop.c
 SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 INCLUDES			= -I . -I./headers -I./srcs $(GNL_INCL) $(LIBFTPRINTF_INCL)
