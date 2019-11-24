@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/24 21:16:02 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/24 21:52:05 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,16 +169,24 @@ int				ft_game_loop(t_game *game);
 int				ft_read_events(t_game *game);
 int				ft_args(t_game *game, int ac, char **argv);
 int				ft_generate_renderer(t_game *game);
-int				ft_generate_minimap(t_game *game);
 int				ft_generate_image(t_game *game, t_image *ptr, int w, int h);
-int				ft_set_pixel(t_image *ptr, t_ipos pos, int color);
 int				ft_render(t_game *game);
-int				ft_draw_minimap(t_game *game);
 int				ft_draw_renderer(t_game *game, t_ipos pos, int color);
+
+// Image
+int				ft_set_pixel(t_image *ptr, t_ipos pos, int color);
+int				ft_get_pixel(t_image *ptr, t_ipos pos);
+
+// Minimap
+int				ft_generate_minimap(t_game *game);
+int				ft_draw_minimap(t_game *game);
 int				ft_draw_minimap_square(t_game *game, t_ipos pos, int color);
 int				ft_draw_minimap_pix(t_game *game, double x, double y, int color);
 void			to_intpos(t_ipos *ret, t_dpos pos);
+
+// Megamap
 int				ft_generate_megamap(t_game *game);
 int				ft_draw_megamap(t_game *game);
-int				ft_get_pixel(t_image *ptr, t_ipos pos);
+int				ft_render_megamap(t_game *game);
+int				ft_update_megamap(t_game *game, t_ray *ray);
 #endif

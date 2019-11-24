@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:45:11 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/24 21:16:02 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/24 21:37:08 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int	ft_update_minimap(t_game *game, t_ray *ray)
 {
-	int 		color;
+	int 	color;
 	t_ipos	pos;
 
 	if (ray->vert)

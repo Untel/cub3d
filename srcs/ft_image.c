@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/24 21:16:02 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/24 21:34:24 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int	ft_get_pixel(t_image *ptr, t_ipos pos)
 	color = 0;
 	index = (ptr->s_line * pos.y) + ((ptr->bits / 8) * pos.x);
 	color += ptr->data[index++];
-	color += ptr->data[index++] * 0xFF;
-	color += ptr->data[index++] * 0xFF * 0xFF;
+	color += ptr->data[index++] << 8;
+	color += ptr->data[index++] << 16;
 	return (color);
 }
 

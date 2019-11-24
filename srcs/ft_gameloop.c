@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/23 16:47:25 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/24 20:37:43 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/24 21:51:00 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ int	ft_game_loop(t_game *game)
     column = -1;
 	ft_read_events(game);
 	ft_draw_minimap(game);
+	if (game->map.show_mega)
+		ft_draw_megamap(game);
     while (++column < game->win.width)
     {
 		game->player.plane.x = game->player.dir.x * game->map.table_cos[column] - game->player.dir.y * game->map.table_sin[column];
@@ -79,14 +81,16 @@ int	ft_game_loop(t_game *game)
         compute_ray(game, &ray);
         dist = (ray.vert ? ray.dist.y : ray.dist.x);
         ray.po = decimal_part((ray.vert ? game->player.pos.x + dist * game->player.dir.x :
-                                game->player.pos.y + dist * game->player.dir.y));
+            game->player.pos.y + dist * game->player.dir.y));
 		ft_update_minimap(game, &ray);
+		if (game->map.show_mega)
+			ft_update_megamap(game, &ray);
     }
-	if (game->map.show_mega)
-		ft_draw_megamap(game);
 	// draw_frame(game);
 	ft_render(game);
 	mlx_put_image_to_window(game->mlx, game->win.ref, game->map.mini.ref, 0, 0);
+	if (game->map.show_mega)
+		ft_render_megamap(game);
 	ft_sprintf(txt, "Pos: x%.2f/y%.2f | Dir x%.2f/y%.2f | Plane x%.2f/y%.2f",
 		game->player.pos.x, game->player.pos.y,
 		game->player.dir.x, game->player.dir.y,
