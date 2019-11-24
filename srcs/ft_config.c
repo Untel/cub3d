@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/22 22:05:37 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/24 20:11:15 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,17 @@ int	ft_verify_map(t_game *game)
 	return (SUCCESS);
 }
 
+int	ft_set_image(t_game *game, t_image *img, char *path)
+{
+	printf("TRY CREATE '%s' pr %p\n\n\n", path, game->mlx);
+	if (!(img->ref = mlx_xpm_file_to_image(game->mlx, path, &(img->width), &(img->height))))
+		return (ERR("Cannot open '%s'", path));
+	printf("IMAGE CREATED\n\n\n");
+	if (!(img->data = mlx_get_data_addr(img->ref, &(img->bits), &(img->s_line), &(img->endian))))
+		return (ERR("Cannot get data adr %s", path));
+	return (SUC("IMAGE %s SET", path));
+}
+
 int	ft_readline(t_game *game, char *line)
 {
 	int ret;
@@ -122,13 +133,17 @@ int	ft_readline(t_game *game, char *line)
 	if (!ft_strncmp("R ", line, 2))
 		ret = ft_set_window_size(game, &line[2]);
 	else if (!ft_strncmp("NO ", line, 3))
-		ret = ft_set_path("North texture", game->env.NO, &line[3]);
+		// ret = ft_set_path("Sprite texture", game->env.SPRITE, &line[2]);
+		ret = ft_set_image(game, &(game->env.NO), &line[3]);
 	else if (!ft_strncmp("SO ", line, 3))
-		ret = ft_set_path("South texture", game->env.SO, &line[3]);
+		// ret = ft_set_path("Sprite texture", game->env.SPRITE, &line[2]);
+		ret = ft_set_image(game, &(game->env.SO), &line[3]);
 	else if (!ft_strncmp("WE ", line, 3))
-		ret = ft_set_path("West texture", game->env.WE, &line[3]);
+		// ret = ft_set_path("Sprite texture", game->env.SPRITE, &line[2]);
+		ret = ft_set_image(game, &(game->env.WE), &line[3]);
 	else if (!ft_strncmp("EA ", line, 3))
-		ret = ft_set_path("East texture", game->env.EA, &line[3]);
+		// ret = ft_set_path("Sprite texture", game->env.SPRITE, &line[2]);
+		ret = ft_set_image(game, &(game->env.EA), &line[3]);
 	else if (!ft_strncmp("S ", line, 2))
 		ret = ft_set_path("Sprite texture", game->env.SPRITE, &line[2]);
 	else if (!ft_strncmp("F ", line, 2))
@@ -155,9 +170,15 @@ int	ft_configure(t_game *game, char *filename)
 	ft_printf("Configuring from %s\n", filename);
 	ft_printf("===========================================\n");
 	while (ret == SUCCESS && (ret = get_next_line(fd, &line)) == SUCCESS)
-		ret = ft_f(line, ft_readline(game, line));
+	{
+		ret = ft_readline(game, line);
+		free(line);
+	}
 	if (ret == 0)
-		ret = ft_f(line, ft_readline(game, line));
+	{
+		ret = ft_readline(game, line);
+		free(line);
+	}
 	ft_printf("===========================================\n");
 	return (ret);
 }
@@ -171,6 +192,7 @@ int	init_config(t_game *game)
 	game->player.dir.y = 0;
 	game->player.plane.x = 0;
 	game->player.plane.y = 0.66;
+	game->player.angle = 0;
 	game->collision = 1;
 	ft_memset(game->event, 0, KEYCODE_MAX);
 }

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:21:30 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/23 19:29:44 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/24 17:56:09 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,14 @@ int
 int
 	move_forward(t_game *game)
 {
-	printf("Moving forward\n");
+	// printf("Moving forward\n");
 	return (move(game, 1));
 }
 
 int
 	move_backward(t_game *game)
 {
-	printf("Moving backward\n");
+	// printf("Moving backward\n");
 	return (move(game, -1));
 }
 
@@ -81,14 +81,35 @@ int
 
 	acc = 1;
 	// printf("Rotating %.2f %.2f\n", game->player.plane.x, game->player.plane.y);
-	// old_dir_x = game->player.dir.x;
-	// game->player.dir.x = ((game->player.dir.x * cos(deg)
-	// 	- game->player.dir.y * sin(deg)) * acc);
-	// game->player.dir.y = (
-	// 	(old_dir_x * sin(deg) + game->player.dir.y * cos(deg)) * acc);
+	old_dir_x = game->player.dir.x;
+	game->player.dir.x = ((game->player.dir.x * cos(deg)
+		- game->player.dir.y * sin(deg)) * acc);
+	game->player.dir.y = (
+		(old_dir_x * sin(deg) + game->player.dir.y * cos(deg)) * acc);
+
 	old_plane_x = game->player.plane.x;
 	game->player.plane.x = ((game->player.plane.x
 		* cos(deg) - game->player.plane.y * sin(deg)));
 	game->player.plane.y = (
 		(old_plane_x * sin(deg) + game->player.plane.y * cos(deg)));
+}
+
+void    update_orientation(t_game *game)
+{
+    game->player.plane.x = cos(game->player.angle);
+    game->player.plane.y = sin(game->player.angle);
+}
+
+void    rotate_right(t_game *game)
+{
+	rotate(game, -(game->player.rs));
+    // game->player.angle -= 2.0f / 180.0f * M_PI;
+    // update_orientation(game);
+}
+
+void    rotate_left(t_game *game)
+{
+	rotate(game, (game->player.rs));
+    // game->player.angle += 2.0f / 180.0f * M_PI;
+    // update_orientation(game);
 }

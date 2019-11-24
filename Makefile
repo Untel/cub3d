@@ -20,10 +20,10 @@ SRCSv1_FILES		= main.c ft_config.c ft_move.c ft_draw.c ft_texture.c
 SRCSv1				= $(addprefix $(SRCSv1_DIR)/, $(SRCSv1_FILES))
 
 SRCS_DIR			= srcs
-SRCS_FILES			= main.c ft_config.c ft_move.c ft_draw.c ft_texture.c ft_minimap.c ft_engine.c ft_image.c ft_gameloop.c
+SRCS_FILES			= main.c ft_config.c ft_move.c ft_utils.c ft_draw.c ft_texture.c ft_minimap.c ft_engine.c ft_image.c ft_gameloop.c ft_megamap.c
 SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
-INCLUDES			= -I . -I./headers -I./srcs $(GNL_INCL) $(LIBFTPRINTF_INCL)
+INCLUDES			= -I . -I./headers $(GNL_INCL) $(LIBFTPRINTF_INCL)
 
 CFLAGS				= -w -g $(INCLUDES)
 OBJS				= $(SRCS:.c=.o)
@@ -37,13 +37,13 @@ all:				$(OBJS) srcs/cub3d.h
 					$(LIBFTPRINTF_MAKE)
 					$(MINILIBX_MAKE)
 					$(GNL_MAKE)
-					$(CC) $(OBJS) $(LIBS) -o $(NAME)
+					$(CC) -I./srcs $(OBJS) $(LIBS) -o $(NAME)
 
 v1:					$(OBJSv1) srcsv1/cub3d.h
 					$(LIBFTPRINTF_MAKE)
 					$(MINILIBX_MAKE)
 					$(GNL_MAKE)
-					$(CC) $(OBJSv1) $(LIBS) -o $(NAME)
+					$(CC) -I./srcsv1 $(OBJSv1) $(LIBS) -o $(NAME)
 # libs:				
 # 					$(LIBFTPRINTF_MAKE)
 # 					$(MINILIBX_MAKE)

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/23 16:47:23 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/24 20:34:40 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ int	ft_read_events(t_game *game)
 	if (game->event[STRAFE_RIGHT] == 1)
 		strafe_right(game);
 	if (game->event[ROTATE_LEFT] == 1)
-		rotate(game, (game->player.rs));
+		rotate_left(game);
+		// rotate(game, (game->player.rs));
 	if (game->event[ROTATE_RIGHT] == 1)
-		rotate(game, -(game->player.rs));
+		rotate_right(game);
+	game->map.show_mega = game->event[TAB];
+		// rotate(game, -(game->player.rs));
 }
 
 int	ft_destroy_window(t_game *game)
@@ -49,9 +52,10 @@ int	ft_keypress_hook(int keycode, t_game *game)
 }
 int	ft_keyrelease_hook(int keycode, t_game *game)
 {
- 	if (keycode == TAB)
-		SUC("Collision set to %d", (game->collision = !game->collision));
-	else if (keycode == ESCAPE)
+	printf("Key %d release\n", keycode);
+ 	// if (keycode == TAB)
+	// 	SUC("Collision set to %d", (game->collision = !game->collision));
+	if (keycode == ESCAPE)
 		ft_destroy_window(game);
 	else
 		game->event[keycode] = 0;
@@ -60,7 +64,7 @@ int	ft_keyrelease_hook(int keycode, t_game *game)
 
 int	ft_init_hook(t_game *game)
 {
-	mlx_do_key_autorepeaton(game->mlx);
+	mlx_do_key_autorepeatoff(game->mlx);
     mlx_hook(game->win.ref, 2, 1L << 0, ft_keypress_hook, game);
     mlx_hook(game->win.ref, 3, 1L << 1, ft_keyrelease_hook, game);
     mlx_hook(game->win.ref, 17, 0, ft_leave_program, game);
@@ -78,11 +82,12 @@ int	main(int ac, char **av)
 {
 	t_game	game;
 
-	if (ft_args(&game, ac, av) == ERROR
-		|| !(game.mlx = mlx_init())
+	if (!(game.mlx = mlx_init())
+		|| ft_args(&game, ac, av) == ERROR
 		|| !(game.win.ref = mlx_new_window(game.mlx, game.win.width, game.win.height, "Cub3d")))
 		return (EXIT_FAILURE);
 	ft_generate_minimap(&game);
+	ft_generate_megamap(&game);
 	ft_generate_renderer(&game);
 	// if (ac == 3 && 0)
 	// 	return (ft_snapshot(&game));

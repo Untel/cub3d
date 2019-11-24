@@ -6,29 +6,28 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 19:16:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/23 17:40:37 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/24 21:16:02 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_draw_renderer(t_game *game, int x, int y, int color)
+int	ft_draw_renderer(t_game *game, t_ipos pos, int color)
 {
-	if (!(x < game->map.mini.width && y < game->map.mini.height))
-		ft_set_pixel(&(game->renderer), x, y, color);
+	if (!(pos.x < game->map.mini.width && pos.y < game->map.mini.height))
+		ft_set_pixel(&(game->renderer), pos, color);
 }
 
 int	ft_generate_renderer(t_game *game)
 {
-	int x;
-	int y;
+	t_ipos pos;
 
 	if (ft_generate_image(game, &(game->renderer), game->win.width, game->win.height) == ERROR)
 		return (ERROR);
-	x = -1;
-	while (++x < game->win.width && (y = -1))
-		while (++y < game->win.height)
-			ft_draw_renderer(game, x, y, 0xff0000);
+	pos.x = -1;
+	while (++pos.x < game->win.width && (pos.y = -1))
+		while (++pos.y < game->win.height)
+			ft_draw_renderer(game, pos, 0xff0000);
 	mlx_put_image_to_window(game->mlx, game->win.ref, game->renderer.ref, 0, 0);
 	return (SUCCESS);
 }

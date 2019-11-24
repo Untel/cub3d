@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:36:59 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/19 22:11:17 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/24 18:05:16 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,4 @@ int	generate_texture(t_game *game)
 			game->texture[6][TEX_WIDTH * y + x] = 65536 * ycolor; //red gradient
 			game->texture[7][TEX_WIDTH * y + x] = 128 + 256 * 128 + 65536 * 128; //flat grey game->texture
 		}
-}
-
-int	c3d_load_textures(t_game *game)
-{
-	game->image[0].ref = mlx_png_file_to_image(
-		game->mlx,
-		game->env.NO,
-		&(game->image[0].width),
-		&(game->image[0].height));
 }

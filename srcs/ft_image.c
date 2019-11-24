@@ -6,21 +6,34 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/23 19:12:39 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/24 21:16:02 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_set_pixel(t_image *ptr, int x, int y, int color)
+int	ft_set_pixel(t_image *ptr, t_ipos pos, int color)
 {
 	int	index;
 
-	index = (ptr->s_line * y) + ((ptr->bits / 8) * x);
+	index = (ptr->s_line * pos.y) + ((ptr->bits / 8) * pos.x);
 	ptr->data[index++] = (char)((color) & 0xFF);
 	ptr->data[index++] = (char)((color >>= 8) & 0xFF);
 	ptr->data[index++] = (char)((color >>= 8) & 0xFF);
 	// ptr->data[index++] = (char)(0x9f);
+}
+
+int	ft_get_pixel(t_image *ptr, t_ipos pos)
+{
+	int	index;
+	int color;
+
+	color = 0;
+	index = (ptr->s_line * pos.y) + ((ptr->bits / 8) * pos.x);
+	color += ptr->data[index++];
+	color += ptr->data[index++] * 0xFF;
+	color += ptr->data[index++] * 0xFF * 0xFF;
+	return (color);
 }
 
 int	ft_generate_image(t_game *game, t_image *ptr, int w, int h)
