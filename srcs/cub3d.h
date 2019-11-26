@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/24 21:52:05 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/26 17:47:23 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,11 +132,12 @@ typedef struct	s_settings
 }				t_settings;
 typedef struct	s_ray
 {
-    t_ipos	step;
-    t_dpos	dist;
-    t_dpos	step_dist;
-	t_dpos	pos;
-	t_dpos	dir;
+    t_ipos		step;
+    t_dpos		dist;
+    t_dpos		step_dist;
+	t_dpos		pos;
+	t_dpos		dir;
+	double		draw_dist;
     int			vert;
     double		po;
     // t_list		*lst_objects;
@@ -155,6 +156,14 @@ typedef struct	s_game
 	char		collision;
 	char		event[KEYCODE_MAX];
 }				t_game;
+
+typedef struct	s_drawer
+{
+    int			start;
+    int			end;
+	t_image		*texture;
+    double		step_posy;
+}				t_drawer;
 
 int				move_forward(t_game *game);
 int				generate_texture(t_game *game);

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 18:20:35 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/24 21:57:13 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/26 15:58:51 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,13 @@ int	ft_update_megamap(t_game *game, t_ray *ray)
 	else
 		color = ray->pos.x > game->player.pos.y ? 0xeba434 : 0x7d34eb;
 
-	if (ray->)
-	ft_set_pixel(&(game->map.mega), , color);
+	// pos.x = (ray->vert ? (int)ceil(ray->pos.x) : (int)floor(ray->pos.x));
+	// pos.y = (ray->vert ? (int)ceil(ray->pos.y) : (int)floor(ray->pos.y));
+	pos.x = (int)(ray->pos.x * MEGAMAP_SQUARE_SIZE);
+	pos.y = (int)(ray->pos.y * MEGAMAP_SQUARE_SIZE);
+	// pos.x += (int)((ray->pos.x - floor(ray->pos.x)) * MEGAMAP_SQUARE_SIZE);
+	// pos.y += (int)((ray->pos.y - floot(ray->pos.x)) * MEGAMAP_SQUARE_SIZE);
+	ft_set_pixel(&(game->map.mega), pos, color);
 	// ft_draw_megamap_pix(game, ray->pos, color);
 }
 
@@ -39,7 +44,7 @@ int	ft_draw_megamap_square(t_game *game, t_ipos pos, t_image tex)
 	while (++pix.x < MEGAMAP_SQUARE_SIZE && (pix.y = -1))
 		while (++pix.y < MEGAMAP_SQUARE_SIZE)
 		{
-			to_draw.x = pos.x * MEGAMAP_SQUARE_SIZE + pix.x;
+			to_draw.x = pos.x * MEGAMAP_SQUARE_SIZE + pix.x;										
 			to_draw.y = pos.y * MEGAMAP_SQUARE_SIZE + pix.y;
 			color = ft_get_pixel(&tex, pix);
 			// printf("drawing %d at %d %d", color, pix.x, pix.y);

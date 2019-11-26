@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 19:16:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/24 21:16:02 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/26 17:01:20 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 
 int	ft_draw_renderer(t_game *game, t_ipos pos, int color)
 {
-	if (!(pos.x < game->map.mini.width && pos.y < game->map.mini.height))
-		ft_set_pixel(&(game->renderer), pos, color);
+	if (pos.x < game->map.mini.width && pos.y < game->map.mini.height)
+		return (0);
+	if (game->map.show_mega && pos.x < game->map.mega.width && pos.y < game->map.mega.height)
+		return (0);
+	ft_set_pixel(&(game->renderer), pos, color);
 }
 
 int	ft_generate_renderer(t_game *game)

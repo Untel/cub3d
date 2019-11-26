@@ -6,17 +6,14 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:33:46 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/24 21:16:02 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/26 22:10:50 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-
-
 int	draw_frame(t_game *game)
 {
-
     // int			column;
     // t_ray		ray;
     // t_drawer	drawer;

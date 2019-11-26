@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:21:30 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/24 17:56:09 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/26 17:16:41 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ int
 		return (0);
 
 	if (!game->collision ||
-		game->map.grid[(int)(next_x)][(int)game->player.pos.y] != WALL)
-		game->player.pos.x = next_x;
-	if (!game->collision ||
-		game->map.grid[(int)game->player.pos.x][(int)(next_y)] != WALL)
+		game->map.grid[(int)(next_y)][(int)game->player.pos.x] != WALL)
 		game->player.pos.y = next_y;
+	if (!game->collision ||
+		game->map.grid[(int)game->player.pos.y][(int)(next_x)] != WALL)
+		game->player.pos.x = next_x;
 	return (1);
 
 }
@@ -96,8 +96,8 @@ int
 
 void    update_orientation(t_game *game)
 {
-    game->player.plane.x = cos(game->player.angle);
-    game->player.plane.y = sin(game->player.angle);
+    game->player.dir.x = cos(game->player.angle);
+    game->player.dir.y = sin(game->player.angle);
 }
 
 void    rotate_right(t_game *game)
