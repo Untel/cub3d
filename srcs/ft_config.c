@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/26 22:11:23 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 00:21:35 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ int	ft_set_window_size(t_game *game, char *str)
 
 int	ft_set_player_position(t_game *game, char dir, int x, int y)
 {
-	game->player.pos.x = (double)x + .5;
-	game->player.pos.y = (double)y + .5;
-	game->map.grid[x][y] = 0;
+	game->player.pos.y = (double)x + .5;
+	game->player.pos.x = (double)y + .5;
+	game->map.grid[y][x] = 0;
 	return (SUC("Player start at x%d, y%d", x, y));
 }
 
@@ -117,13 +117,11 @@ int	ft_verify_map(t_game *game)
 
 int	ft_set_image(t_game *game, t_image *img, char *path)
 {
-	printf("TRY CREATE '%s' pr %p\n\n\n", path, game->mlx);
 	if (!(img->ref = mlx_xpm_file_to_image(game->mlx, path, &(img->width), &(img->height))))
 		return (ERR("Cannot open '%s'", path));
-	printf("IMAGE CREATED\n\n\n");
 	if (!(img->data = mlx_get_data_addr(img->ref, &(img->bits), &(img->s_line), &(img->endian))))
 		return (ERR("Cannot get data adr %s", path));
-	return (SUC("IMAGE %s SET", path));
+	return (SUC("Image texture %s has been set", path));
 }
 
 int	ft_readline(t_game *game, char *line)

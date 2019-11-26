@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:21:30 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/26 17:16:41 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 00:19:10 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,14 +102,14 @@ void    update_orientation(t_game *game)
 
 void    rotate_right(t_game *game)
 {
-	rotate(game, -(game->player.rs));
-    // game->player.angle -= 2.0f / 180.0f * M_PI;
-    // update_orientation(game);
+	// rotate(game, -(game->player.rs));
+    game->player.angle -= 2.0f / 180.0f * M_PI;
+    update_orientation(game);
 }
 
 void    rotate_left(t_game *game)
 {
-	rotate(game, (game->player.rs));
-    // game->player.angle += 2.0f / 180.0f * M_PI;
-    // update_orientation(game);
+	// rotate(game, (game->player.rs));
+    game->player.angle += 2.0f / 180.0f * M_PI;
+    update_orientation(game);
 }

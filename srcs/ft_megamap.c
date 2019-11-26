@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 18:20:35 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/26 15:58:51 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 00:08:29 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,10 @@ int	ft_update_megamap(t_game *game, t_ray *ray)
 {
 	int 	color;
 	t_ipos	pos;
-
-	if (ray->vert)
-		color = ray->pos.y > game->player.pos.x ? 0x00ff00 : 0x0000ff;
-	else
-		color = ray->pos.x > game->player.pos.y ? 0xeba434 : 0x7d34eb;
-
-	// pos.x = (ray->vert ? (int)ceil(ray->pos.x) : (int)floor(ray->pos.x));
-	// pos.y = (ray->vert ? (int)ceil(ray->pos.y) : (int)floor(ray->pos.y));
+	color = 0xffffff;
 	pos.x = (int)(ray->pos.x * MEGAMAP_SQUARE_SIZE);
 	pos.y = (int)(ray->pos.y * MEGAMAP_SQUARE_SIZE);
-	// pos.x += (int)((ray->pos.x - floor(ray->pos.x)) * MEGAMAP_SQUARE_SIZE);
-	// pos.y += (int)((ray->pos.y - floot(ray->pos.x)) * MEGAMAP_SQUARE_SIZE);
 	ft_set_pixel(&(game->map.mega), pos, color);
-	// ft_draw_megamap_pix(game, ray->pos, color);
 }
 
 int	ft_draw_megamap_square(t_game *game, t_ipos pos, t_image tex)

@@ -14,8 +14,8 @@
 
 void    init_ray(t_game *game, t_ray *ray)
 {
-    ray->pos.x = game->player.pos.x;
-    ray->pos.y = game->player.pos.y;
+    ray->pos.x = (int)game->player.pos.x;
+    ray->pos.y = (int)game->player.pos.y;
     ray->step.x = (game->player.plane.x > 0 ? 1 : -1);
     ray->step.y = (game->player.plane.y > 0 ? 1 : -1);
     ray->step_dist.x = sqrt(1 + (game->player.plane.y * game->player.plane.y) / (game->player.plane.x * game->player.plane.x));
@@ -74,35 +74,31 @@ void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
     double		height;
 	t_ipos		draw;
 	t_ipos		draw_tex;
+	int			delta;
 
 	draw.x = column;
     height = game->win.height / ray->draw_dist / game->map.table_cos[column];
-    drawer->start = game->win.height / 2 - height / 2;
-    drawer->start = fmax(drawer->start, 0);
-    drawer->end = game->win.height / 2 + height / 2;
-    drawer->end = fmin(drawer->end, game->win.height - 1);
-    drawer->step_posy = 1 / ((double)(drawer->end - drawer->start));
+	delta =	height - game->win.height;
+    drawer->start = delta <= 0 ? (game->win.height / 2 - height / 2) : 0;
+    drawer->end = delta <= 0 ? (game->win.height / 2 + height / 2) : game->win.height;
+	drawer->step_posy = 1 / (delta <= 0 ?
+		((double)(drawer->end - drawer->start)) : height);
     draw.y = -1;
-	// printf("draw start %d\n", drawer->start);
-    while (++(draw.y) < drawer->start)
-	{
-		// printf("px start %d %d\n", draw.x, draw.y);
-		ft_set_pixel(&(game->renderer), draw, game->env.CEIL);
-	}
-    posy = 0;
-    while (++draw.y < drawer->end)
+	if (delta <= 0)
+		while (++(draw.y) < drawer->start)
+			ft_set_pixel(&(game->renderer), draw, game->env.CEIL);
+	posy = delta > 0 ? (drawer->step_posy * (delta / 2)) : 0;
+    while (++(draw.y) < drawer->end)
     {
-		draw_tex.x = ((int)ray->po % TEX_HEIGHT);
-		draw_tex.y = ((int)(posy * TEX_HEIGHT) % TEX_HEIGHT);
-		// pos.y = drawStart;
-		// int d = (pos.y << 8) - (game->win.height << 7) + (lineHeight << 7);
-		// int texY = ((d * TEX_HEIGHT) / lineHeight) >> 8;
+		draw_tex.x = (int)(ray->po * drawer->texture->height);
+		draw_tex.y = (int)(posy * drawer->texture->width);
 		ft_set_pixel(&(game->renderer), draw, 
 			ft_get_pixel(drawer->texture, draw_tex));
         posy += drawer->step_posy;
     }
-    while (++(draw.y) < game->win.height - 1)
-		ft_set_pixel(&(game->renderer), draw, game->env.FLOOR);
+	if (delta <= 0)
+    	while (++(draw.y) < game->win.height)
+			ft_set_pixel(&(game->renderer), draw, game->env.FLOOR);
 }
 
 int	ft_game_loop(t_game *game)
@@ -128,9 +124,9 @@ int	ft_game_loop(t_game *game)
         ray.po = decimal_part((ray.vert ? game->player.pos.x + ray.draw_dist * game->player.plane.x :
             game->player.pos.y + ray.draw_dist * game->player.plane.y));
    		if (ray.vert)
-            drawer.texture = (game->player.pos.y > ray.pos.y ? &(game->env.SO) : &(game->env.NO));
+            drawer.texture = (game->player.pos.y < ray.pos.y ? &(game->env.SO) : &(game->env.NO));
         else
-            drawer.texture = (game->player.dir.x > ray.pos.x ? &(game->env.WE) : &(game->env.EA));
+            drawer.texture = (game->player.pos.x < ray.pos.x ? &(game->env.EA) : &(game->env.WE));
 		ft_draw_column(game, column, &ray, &drawer);
 		ft_update_minimap(game, &ray);
 		if (game->map.show_mega)

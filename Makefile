@@ -15,10 +15,6 @@ GNL_INCL			= -I $(GNL_PATH)
 
 LIBS				= $(LIBFTPRINTF) $(GNL) -lmlx -framework OpenGL -framework AppKit -lm
 
-SRCSv1_DIR			= srcsv1
-SRCSv1_FILES		= main.c ft_config.c ft_move.c ft_draw.c ft_texture.c
-SRCSv1				= $(addprefix $(SRCSv1_DIR)/, $(SRCSv1_FILES))
-
 SRCS_DIR			= srcs
 SRCS_FILES			= main.c ft_config.c ft_move.c ft_utils.c ft_draw.c ft_texture.c ft_minimap.c ft_engine.c ft_image.c ft_gameloop.c ft_megamap.c
 SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
@@ -39,11 +35,6 @@ all:				$(OBJS) srcs/cub3d.h
 					$(GNL_MAKE)
 					$(CC) -I./srcs $(OBJS) $(LIBS) -o $(NAME)
 
-v1:					$(OBJSv1) srcsv1/cub3d.h
-					$(LIBFTPRINTF_MAKE)
-					$(MINILIBX_MAKE)
-					$(GNL_MAKE)
-					$(CC) -I./srcsv1 $(OBJSv1) $(LIBS) -o $(NAME)
 # libs:				
 # 					$(LIBFTPRINTF_MAKE)
 # 					$(MINILIBX_MAKE)

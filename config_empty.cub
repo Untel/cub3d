@@ -1,6 +1,6 @@
 R 1920 1080
 NO ./pics/brick.xpm
-SO ./pics/grass.xpm
+SO ./pics/metal.xpm
 WE ./pics/stone.xpm
 EA ./pics/wood.xpm
 S ./path_to_the_sprite_texture
