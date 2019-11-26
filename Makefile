@@ -23,7 +23,6 @@ INCLUDES			= -I . -I./headers $(GNL_INCL) $(LIBFTPRINTF_INCL)
 
 CFLAGS				= -w -g $(INCLUDES)
 OBJS				= $(SRCS:.c=.o)
-OBJSv1				= $(SRCSv1:.c=.o)
 CC					= clang
 NAME				= a.out
 

@@ -83,22 +83,23 @@ void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
     drawer->end = delta <= 0 ? (game->win.height / 2 + height / 2) : game->win.height;
 	drawer->step_posy = 1 / (delta <= 0 ?
 		((double)(drawer->end - drawer->start)) : height);
-    draw.y = -1;
+    draw.y = 0;
 	if (delta <= 0)
-		while (++(draw.y) < drawer->start)
-			ft_set_pixel(&(game->renderer), draw, game->env.CEIL);
+		while (draw.y < drawer->start)
+			ft_set_pixel(&(game->renderer), draw, game->env.CEIL) && draw.y++;
 	posy = delta > 0 ? (drawer->step_posy * (delta / 2)) : 0;
-    while (++(draw.y) < drawer->end)
+    while (draw.y < drawer->end)
     {
 		draw_tex.x = (int)(ray->po * drawer->texture->height);
 		draw_tex.y = (int)(posy * drawer->texture->width);
 		ft_set_pixel(&(game->renderer), draw, 
 			ft_get_pixel(drawer->texture, draw_tex));
         posy += drawer->step_posy;
+		draw.y++;
     }
 	if (delta <= 0)
-    	while (++(draw.y) < game->win.height)
-			ft_set_pixel(&(game->renderer), draw, game->env.FLOOR);
+    	while (draw.y < game->win.height)
+			ft_set_pixel(&(game->renderer), draw, game->env.FLOOR) && draw.y++;
 }
 
 int	ft_game_loop(t_game *game)
