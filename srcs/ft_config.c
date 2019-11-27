@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 00:58:37 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 16:37:46 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,15 @@ int	ft_set_image(t_game *game, t_image *img, char *path)
 	return (SUC("Image texture %s has been set", path));
 }
 
+int	ft_set_sprite(t_game *game, t_sprite *spr, char *path)
+{
+	if (ft_set_image(game, &(spr->img), path) == ERROR)
+		return (ERROR);
+	spr->index = 0;
+	spr->frame_size = 64;
+	return (SUC("Sprite texture %s has been set", path));
+}
+
 int	ft_readline(t_game *game, char *line)
 {
 	int ret;
@@ -140,19 +149,15 @@ int	ft_readline(t_game *game, char *line)
 	if (!ft_strncmp("R ", line, 2))
 		ret = ft_set_window_size(game, &line[2]);
 	else if (!ft_strncmp("NO ", line, 3))
-		// ret = ft_set_path("Sprite texture", game->env.SPRITE, &line[2]);
 		ret = ft_set_image(game, &(game->env.NO), &line[3]);
 	else if (!ft_strncmp("SO ", line, 3))
-		// ret = ft_set_path("Sprite texture", game->env.SPRITE, &line[2]);
 		ret = ft_set_image(game, &(game->env.SO), &line[3]);
 	else if (!ft_strncmp("WE ", line, 3))
-		// ret = ft_set_path("Sprite texture", game->env.SPRITE, &line[2]);
 		ret = ft_set_image(game, &(game->env.WE), &line[3]);
 	else if (!ft_strncmp("EA ", line, 3))
-		// ret = ft_set_path("Sprite texture", game->env.SPRITE, &line[2]);
 		ret = ft_set_image(game, &(game->env.EA), &line[3]);
 	else if (!ft_strncmp("S ", line, 2))
-		ret = ft_set_path("Sprite texture", game->env.SPRITE, &line[2]);
+		ret = ft_set_sprite("Sprite texture", &(game->env.S), &line[2]);
 	else if (!ft_strncmp("F ", line, 2))
 		ret = ft_set_color("Floor color", &game->env.FLOOR, &line[2]);
 	else if (!ft_strncmp("C ", line, 2))

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:21:30 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 01:15:23 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 16:30:07 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int
 
 	next_x = game->player.pos.x + (game->player.dir.x * game->player.ms * dir);
 	next_y = game->player.pos.y + (game->player.dir.y * game->player.ms * dir);
-	if (next_x < 1.0001 || next_x > ((double)(game->map.width) - 1.0001)
-		|| next_y < 1.0001 || next_y > ((double)(game->map.width) - 1.0001))
+	if (next_x < 1.0001 || next_x > ((double)(game->map.width))
+		|| next_y < 1.0001 || next_y > ((double)(game->map.width)))
 		return (0);
 
 	if (!game->collision ||

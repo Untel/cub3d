@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 01:12:30 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 16:26:44 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	ft_read_events(t_game *game)
 		strafe_right(game);
 	if (game->event[ROTATE_LEFT] == 1)
 		rotate_left(game);
-		// rotate(game, (game->player.rs));
 	if (game->event[ROTATE_RIGHT] == 1)
 		rotate_right(game);
 	game->map.show_mega = game->event[TAB];
@@ -67,8 +66,6 @@ int	ft_keypress_hook(int keycode, t_game *game)
 int	ft_keyrelease_hook(int keycode, t_game *game)
 {
 	printf("Key %d release\n", keycode);
- 	// if (keycode == TAB)
-	// 	SUC("Collision set to %d", (game->collision = !game->collision));
 	if (keycode == ESCAPE)
 		ft_destroy_window(game);
 	else

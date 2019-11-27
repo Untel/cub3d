@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/26 15:29:29 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 16:05:10 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_set_pixel(t_image *ptr, t_ipos pos, int color)
 {
 	int	index;
 
-	index = (ptr->s_line * pos.y) + ((ptr->bits / 8) * pos.x);
+	index = (ptr->s_line * pos.y) + ((ptr->bits >> 3) * pos.x);
 	ptr->data[index++] = (char)((color) & 0xFF);
 	ptr->data[index++] = (char)((color >>= 8) & 0xFF);
 	ptr->data[index++] = (char)((color >>= 8) & 0xFF);
@@ -29,7 +29,7 @@ int	ft_get_pixel(t_image *ptr, t_ipos pos)
 	int color;
 
 	color = 0;
-	index = (ptr->s_line * pos.y) + ((ptr->bits / 8) * pos.x);
+	index = (ptr->s_line * pos.y) + ((ptr->bits >> 3) * pos.x);
 	color += ptr->data[index++];
 	color += ptr->data[index++] << 8;
 	color += ptr->data[index++] << 16;

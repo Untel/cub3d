@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 01:07:56 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 16:32:24 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,13 @@ typedef struct	s_image
 	int			endian;
 	int			s_line;
 }				t_image;
+typedef struct	t_sprite
+{
+	t_image		img;
+	int			frame_size;
+	int			index;
+}				t_sprite;
+typedef int 	t_texture[TEX_HEIGHT * TEX_WIDTH];
 typedef struct	s_map
 {
 	int			width;
@@ -113,14 +120,11 @@ typedef struct	env_s
 	t_image		SO;
 	t_image		WE;
 	t_image		EA;
-	char		SPRITE[PATH_URL_SIZE];
+	t_sprite	S;
 	int			FLOOR;
 	int			CEIL;
 }				env_t;
-typedef struct	sprite_s
-{
-}				sprite_t;
-typedef int 	t_texture[TEX_HEIGHT * TEX_WIDTH];
+
 typedef struct	s_settings
 {
 	int			collision;

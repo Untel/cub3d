@@ -68,6 +68,34 @@ double	decimal_part(double val)
 	return (val - (int)val);
 }
 
+// void    draw_object(t_params *p, int column, char *content, t_drawer *pdrawer)
+// {
+//     t_object	*pobj;
+//     int            line;
+//     double        posy;
+//     double        height;
+//     int            pix;
+
+//     pobj = (t_object*)content;
+//     if (pobj->pos <= 0 || pobj->pos >= 1)
+//         return ;
+//     height = p->win_height / pobj->dist;
+//     pdrawer->start = p->win_height / 2 - height / 2;
+//     pdrawer->start = fmax(pdrawer->start, 0);
+//     pdrawer->end = p->win_height / 2 + height / 2;
+//     pdrawer->end = fmin(pdrawer->end, p->win_height - 1);
+//     pdrawer->step_posy = 1 / ((double)(pdrawer->end - pdrawer->start));
+//     line = pdrawer->start;
+//     posy = 0;
+//     while (++line < pdrawer->end)
+//     {
+//         pix = get_pixel(&p->textures[SPRITE], pobj->pos, posy);
+//         if (((pix >> 24) & 0xFF) < 128)
+//             p->mlx.img.data[p->win_width * line + column] = pix;
+//         posy += pdrawer->step_posy;
+//     }
+// }
+
 void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 {
     double		posy;
