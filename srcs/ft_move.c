@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:21:30 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 19:49:35 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 21:00:10 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,14 @@ int
 
 	next_x = game->player.pos.x + (dir.x * game->player.ms);
 	next_y = game->player.pos.y + (dir.y * game->player.ms);
-	if (next_x < 1.0001 || next_x > ((double)(game->map.width))
-		|| next_y < 1.0001 || next_y > ((double)(game->map.width)))
-		return (0);
+	if (next_x < 1.01)
+		next_x = 1.01;
+	else if (next_x > ((double)(game->map.width - .01)))
+		next_x = (double)game->map.width - .01;
+	if (next_y < 1.01)
+		next_y = 1.01;
+	else if (next_y > ((double)(game->map.height - .01)))
+		next_y = (double)game->map.height - .01;
 
 	if (!game->collision ||
 		game->map.grid[(int)(next_y)][(int)game->player.pos.x] != WALL)
@@ -38,25 +43,19 @@ int
 	strafe_left(t_game *game)
 {
 	t_dpos dir;
-	double angle;
 
-	angle = game->player.angle + M_PI_2;
-	update_orientation(angle, &dir);
+	update_orientation(game->player.angle + M_PI_2, &dir);
 	move(game, dir);
 	return (1);
 }
-// if(game->map.grid[(int)game->player.pos.x][(int)(game->player.pos.y - game->player.dir.y * game->player.ms)] == EMPTY) game->player.pos.y -= game->player.dir.y * game->player.ms;
-// if(game->map.grid[(int)game->player.pos.x][(int)(game->player.pos.y - game->player.dir.y * game->player.ms)] == EMPTY) game->player.pos.y += game->player.dir.y * game->player.ms;
+
 int
 	strafe_right(t_game *game)
 {
 	t_dpos dir;
-	double angle;
 
-	angle = game->player.angle - M_PI_2;
-	update_orientation(angle, &dir);
-	move(game, dir);
-	return (1);
+	update_orientation(game->player.angle - M_PI_2, &dir);
+	return (move(game, dir));
 }
 
 int
@@ -69,10 +68,8 @@ int
 	move_backward(t_game *game)
 {
 	t_dpos dir;
-	double angle;
 
-	angle = game->player.angle - M_PI;
-	update_orientation(angle, &dir);
+	update_orientation(game->player.angle - M_PI, &dir);
 	return (move(game, dir));
 }
 

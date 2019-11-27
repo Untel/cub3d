@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 16:05:10 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 21:20:54 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,30 @@
 int	ft_set_pixel(t_image *ptr, t_ipos pos, int color)
 {
 	int	index;
-
-	index = (ptr->s_line * pos.y) + ((ptr->bits >> 3) * pos.x);
-	ptr->data[index++] = (char)((color) & 0xFF);
-	ptr->data[index++] = (char)((color >>= 8) & 0xFF);
-	ptr->data[index++] = (char)((color >>= 8) & 0xFF);
-	// ptr->data[index++] = (char)(0x9f);
+	int octets;
+	
+	octets = ptr->bits >> 3;
+	index = (ptr->s_line * pos.y) + (octets * pos.x);
+	while (--octets)
+	{
+		ptr->data[index++] = (char)((color) & 0xFF);
+		color >>= 8;
+	}
 }
 
 int	ft_get_pixel(t_image *ptr, t_ipos pos)
 {
 	int	index;
 	int color;
+	int octets;
+	int	i;
 
 	color = 0;
-	index = (ptr->s_line * pos.y) + ((ptr->bits >> 3) * pos.x);
-	color += ptr->data[index++];
-	color += ptr->data[index++] << 8;
-	color += ptr->data[index++] << 16;
+	i = -1;
+	octets = ptr->bits >> 3;
+	index = (ptr->s_line * pos.y) + (octets * pos.x);
+	while (++i < octets)
+		color += ptr->data[index++] << (i << 3);
 	return (color);
 }
 

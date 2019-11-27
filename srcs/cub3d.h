@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 19:35:36 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 19:55:24 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,14 @@ typedef enum	e_entity
 
 typedef enum	e_keybinds
 {
-	FORWARD 	= 13,
-	BACKWARD 	= 1,
-	STRAFE_LEFT = 0,
-	STRAFE_RIGHT= 2,
-	ROTATE_LEFT = 12,
-	ROTATE_RIGHT= 14,
+	W		 	= 13,
+	S			= 1,
+	A			= 0,
+	D			= 2,
+	Q			= 12,
+	E			= 14,
+	ROW_RIGHT	= 124,
+	ROW_LEFT	= 123,
 	ESCAPE		= 53,
 	CTRL		= 256,
 	SHIFT		= 257,
