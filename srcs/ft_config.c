@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 16:49:06 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 19:37:38 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_set_player_position(t_game *game, char dir, int x, int y)
 		game->player.angle = M_PI;
 	else
 		game->player.angle = 0;
-	update_orientation(game);
+    update_orientation(game->player.angle, &(game->player.dir));
 	return (SUC("Player start at x%d, y%d", x, y));
 }
 
@@ -212,7 +212,6 @@ int	init_config(t_game *game)
 
 	game->collision = 1;
 	ft_memset(game->event, 0, KEYCODE_MAX);
-	update_orientation(game);
 }
 
 int	ft_generate_cos_sin_table(t_game *game)

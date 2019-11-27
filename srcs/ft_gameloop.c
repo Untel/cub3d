@@ -111,7 +111,7 @@ void    ft_draw_object(t_game *game, int column, t_object *obj, t_drawer *drawer
     posy = 0;
     while (++draw.y < drawer->end)
     {
-		draw_tex.x = (int)((0.5 + obj->dist * tan(obj->angle)) * drawer->texture->height);
+		draw_tex.x = (int)(obj->dist * drawer->texture->height);
 		draw_tex.y = (int)(posy * drawer->texture->width);
         color = ft_get_pixel(&(game->env.S.img), draw_tex);
         if (((color >> 24) & 0xFF) < 128)

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 18:19:22 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 19:35:36 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ int				move_backward(t_game *game);
 int 			rotate(t_game *game, double deg);
 void			rotate_left(t_game *game);
 void			rotate_right(t_game *game);
-void			update_orientation(t_game *game);
+void			update_orientation(double angle, t_dpos *dir);
 int				strafe_left(t_game *game);
 int				strafe_right(t_game *game);
 int				draw_frame(t_game *game);
