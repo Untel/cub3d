@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 16:59:39 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 18:19:22 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 # include <math.h>
 # include <fcntl.h>
 # include <unistd.h>
-# define FRAMERATE 		30
-# define TICK_DELAY 	(1000 / FRAMERATE)
 # define MAX_WIDTH		1920
 # define MAX_HEIGHT		1080
 # define GAME_WIDTH		800
@@ -61,6 +59,16 @@ typedef enum	e_keybinds
 	PLUS		= 69,
 	MINUS		= 78,
 }				t_keybinds;
+typedef struct	s_doublepos
+{
+	double		x;
+	double		y;
+}				t_dpos;
+typedef struct	s_intpos
+{
+	int			x;
+	int			y;
+}				t_ipos;
 typedef struct	s_image
 {
 	void		*ref;
@@ -76,9 +84,13 @@ typedef struct	t_sprite
 	t_image		img;
 	int			frame_size;
 	int			index;
-	int			dist;
-	double		pos;
 }				t_sprite;
+typedef struct	s_object
+{
+	int			dist;
+	double		angle;
+	t_dpos		pos;
+}				t_object;
 typedef int 	t_texture[TEX_HEIGHT * TEX_WIDTH];
 typedef struct	s_map
 {
@@ -91,16 +103,6 @@ typedef struct	s_map
 	t_image		mega;
 	int			show_mega;
 }				t_map;
-typedef struct	s_position
-{
-	double		x;
-	double		y;
-}				t_dpos;
-typedef struct	s_intpos
-{
-	int			x;
-	int			y;
-}				t_ipos;
 typedef struct	s_player
 {
 	t_dpos		pos;
@@ -127,18 +129,6 @@ typedef struct	env_s
 	int			CEIL;
 }				env_t;
 
-typedef struct	s_settings
-{
-	int			collision;
-	char		foreward;
-	char		backward;
-	char		rotate_r;
-	char		rotate_l;
-	char		strafe_r;
-	char		strafe_l;
-	char		jump;
-	char		crouch;
-}				t_settings;
 typedef struct	s_ray
 {
     t_ipos		step;
@@ -149,7 +139,7 @@ typedef struct	s_ray
 	double		draw_dist;
     int			vert;
     double		po;
-    // t_list		*lst_objects;
+	t_list		*objects;
 }               t_ray;
 typedef struct	s_game
 {
@@ -161,7 +151,7 @@ typedef struct	s_game
 	env_t		env;
 	t_texture	tex[256];
 	t_image		image;
-	// t_settings	s;
+	char		zbuffer[MAX_WIDTH];
 	char		collision;
 	char		event[KEYCODE_MAX];
 }				t_game;
