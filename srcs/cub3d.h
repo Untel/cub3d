@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 19:55:24 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 22:21:12 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ typedef struct	s_map
 	int			width;
 	int			height;
 	int			grid[MAX_WIDTH][MAX_HEIGHT];
-	double		table_cos[MAX_WIDTH];
-	double		table_sin[MAX_WIDTH];
 	t_image		mini;
 	t_image		mega;
 	int			show_mega;
@@ -111,7 +109,7 @@ typedef struct	s_player
 	t_dpos		dir;
 	t_dpos		plane;
 	double		angle;
-	double 		ms;
+	double		ms;
 	double		rs;
 }				t_player;
 typedef struct	s_window
@@ -119,6 +117,9 @@ typedef struct	s_window
 	int			height;
 	int			width;
     void		*ref;
+	t_image		renderer;
+	double		cos[MAX_WIDTH];
+	double		sin[MAX_WIDTH];
 }				t_window;
 typedef struct	env_s
 {
@@ -130,13 +131,12 @@ typedef struct	env_s
 	int			FLOOR;
 	int			CEIL;
 }				env_t;
-
 typedef struct	s_ray
 {
     t_ipos		step;
     t_dpos		dist;
     t_dpos		step_dist;
-	t_dpos		pos;
+	t_ipos		pos;
 	t_dpos		dir;
 	double		draw_dist;
     int			vert;
@@ -147,11 +147,9 @@ typedef struct	s_game
 {
     void		*mlx;
 	t_window	win;
-	t_image		renderer;
 	t_map		map;
 	t_player	player;
 	env_t		env;
-	t_texture	tex[256];
 	t_image		image;
 	char		zbuffer[MAX_WIDTH];
 	char		collision;

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 19:37:38 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 22:20:16 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,8 +225,8 @@ int	ft_generate_cos_sin_table(t_game *game)
     theta0 = M_PI / 6;
     while (++i < game->win.width)
     {
-        game->map.table_sin[i] = sin(theta0);
-        game->map.table_cos[i] = cos(theta0);
+        game->win.sin[i] = sin(theta0);
+        game->win.cos[i] = cos(theta0);
         theta0 += dtheta;
     }
 }
@@ -238,7 +238,6 @@ int	ft_args(t_game *game, int ac, char **argv)
 	init_config(game);
 	if (ac > 1)
 		ret = ft_configure(game, *++argv);
-	generate_texture(game);
 	ft_generate_cos_sin_table(game);
 	return (ret);
 }

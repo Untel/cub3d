@@ -115,7 +115,7 @@ void    ft_draw_object(t_game *game, int column, t_object *obj, t_drawer *drawer
 		draw_tex.y = (int)(posy * drawer->texture->width);
         color = ft_get_pixel(&(game->env.S.img), draw_tex);
         if (((color >> 24) & 0xFF) < 128)
-			ft_set_pixel(&(game->renderer), draw, color);
+			ft_set_pixel(&(game->win.renderer), draw, color);
         posy += drawer->step_posy;
     }
 }
@@ -145,7 +145,7 @@ void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 	int			delta;
 
 	draw.x = column;
-    height = game->win.height / ray->draw_dist / game->map.table_cos[column];
+    height = game->win.height / ray->draw_dist / game->win.cos[column];
 	delta =	height - game->win.height;
     drawer->start = delta <= 0 ? (game->win.height / 2 - height / 2) : 0;
     drawer->end = delta <= 0 ? (game->win.height / 2 + height / 2) : game->win.height;
@@ -154,20 +154,20 @@ void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
     draw.y = 0;
 	if (delta <= 0)
 		while (draw.y < drawer->start)
-			ft_set_pixel(&(game->renderer), draw, game->env.CEIL) && draw.y++;
+			ft_set_pixel(&(game->win.renderer), draw, game->env.CEIL) && draw.y++;
 	posy = delta > 0 ? (drawer->step_posy * (delta / 2)) : 0;
     while (draw.y < drawer->end)
     {
 		draw_tex.x = (int)(ray->po * drawer->texture->height);
 		draw_tex.y = (int)(posy * drawer->texture->width);
-		ft_set_pixel(&(game->renderer), draw, 
+		ft_set_pixel(&(game->win.renderer), draw, 
 			ft_get_pixel(drawer->texture, draw_tex));
         posy += drawer->step_posy;
 		draw.y++;
     }
 	if (delta <= 0)
     	while (draw.y < game->win.height)
-			ft_set_pixel(&(game->renderer), draw, game->env.FLOOR) && draw.y++;
+			ft_set_pixel(&(game->win.renderer), draw, game->env.FLOOR) && draw.y++;
 }
 
 int	ft_game_loop(t_game *game)
@@ -185,8 +185,8 @@ int	ft_game_loop(t_game *game)
 		ft_draw_megamap(game);
     while (++column < game->win.width)
     {
-		game->player.plane.x = game->player.dir.x * game->map.table_cos[column] - game->player.dir.y * game->map.table_sin[column];
-		game->player.plane.y = game->player.dir.y * game->map.table_cos[column] + game->player.dir.x * game->map.table_sin[column];
+		game->player.plane.x = game->player.dir.x * game->win.cos[column] - game->player.dir.y * game->win.sin[column];
+		game->player.plane.y = game->player.dir.y * game->win.cos[column] + game->player.dir.x * game->win.sin[column];
         init_ray(game, &ray);
         compute_ray(game, &ray);
         ray.draw_dist = (ray.vert ? ray.dist.y : ray.dist.x);
