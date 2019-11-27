@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/26 22:57:18 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 01:07:56 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 # define TEX_HEIGHT		64
 # define TEX_WIDTH		64
 # define PATH_URL_SIZE	1024
-# define KEYCODE_MAX	256
+# define KEYCODE_MAX	300
 # define ERR(...) 		(((printf("[\e[0;31mERROR\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1) * -1)
 # define SUC(...) 		(((printf("[\e[0;32mSUCCESS\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1))
 # define ERROR 			-1
@@ -56,7 +56,10 @@ typedef enum	e_keybinds
 	ROTATE_RIGHT= 14,
 	ESCAPE		= 53,
 	CTRL		= 256,
+	SHIFT		= 257,
 	TAB			= 48,
+	PLUS		= 69,
+	MINUS		= 78,
 }				t_keybinds;
 typedef struct	s_image
 {
@@ -91,9 +94,9 @@ typedef struct	s_intpos
 }				t_ipos;
 typedef struct	s_player
 {
-	t_dpos	pos;
-	t_dpos	dir;
-	t_dpos	plane;
+	t_dpos		pos;
+	t_dpos		dir;
+	t_dpos		plane;
 	double		angle;
 	double 		ms;
 	double		rs;
@@ -165,12 +168,13 @@ typedef struct	s_drawer
     double		step_posy;
 }				t_drawer;
 
+// Movements
 int				move_forward(t_game *game);
-int				generate_texture(t_game *game);
 int				move_backward(t_game *game);
 int 			rotate(t_game *game, double deg);
 void			rotate_left(t_game *game);
 void			rotate_right(t_game *game);
+void			update_orientation(t_game *game);
 int				strafe_left(t_game *game);
 int				strafe_right(t_game *game);
 int				draw_frame(t_game *game);

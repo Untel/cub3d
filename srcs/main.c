@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/24 20:34:40 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 01:12:30 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,21 @@ int	ft_read_events(t_game *game)
 	if (game->event[ROTATE_RIGHT] == 1)
 		rotate_right(game);
 	game->map.show_mega = game->event[TAB];
-		// rotate(game, -(game->player.rs));
+	game->collision = !game->event[SHIFT];
+	if (game->event[PLUS] == 1)
+		ft_inc_speed(game, 0.01);
+	if (game->event[MINUS] == 1)
+		ft_inc_speed(game, -0.01);
+}
+
+int ft_inc_speed(t_game *game, double speed)
+{
+	game->player.ms += speed;
+	game->player.rs += (speed / 3);
+	if (game->player.ms < 0)
+		game->player.ms = 0;
+	if (game->player.rs < 0)
+		game->player.rs = 0;
 }
 
 int	ft_destroy_window(t_game *game)

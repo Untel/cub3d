@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 00:21:35 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 00:58:37 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,15 @@ int	ft_set_player_position(t_game *game, char dir, int x, int y)
 	game->player.pos.y = (double)x + .5;
 	game->player.pos.x = (double)y + .5;
 	game->map.grid[y][x] = 0;
+	if (dir == 'S')
+		game->player.angle = M_PI_2;
+	else if (dir == 'N')
+		game->player.angle = M_PI + M_PI_2;
+	else if (dir == 'W')
+		game->player.angle = M_PI;
+	else
+		game->player.angle = 0;
+	update_orientation(game);
 	return (SUC("Player start at x%d, y%d", x, y));
 }
 
@@ -186,13 +195,14 @@ int	init_config(t_game *game)
 	game->player.ms = 0.07;
 	// game->player.rs = 2.0f / 180.0f * M_PI;
 	game->player.rs = 0.04;
-	game->player.dir.x = -1;
-	game->player.dir.y = 0;
-	game->player.plane.x = 0;
-	game->player.plane.y = 0.66;
-	game->player.angle = 0;
+	// game->player.dir.x = -1;
+	// game->player.dir.y = 0;
+	// game->player.plane.x = 0;
+	// game->player.plane.y = 0.66;
+
 	game->collision = 1;
 	ft_memset(game->event, 0, KEYCODE_MAX);
+	update_orientation(game);
 }
 
 int	ft_generate_cos_sin_table(t_game *game)
