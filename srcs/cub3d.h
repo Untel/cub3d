@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 16:32:24 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 16:59:39 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ typedef struct	t_sprite
 	t_image		img;
 	int			frame_size;
 	int			index;
+	int			dist;
+	double		pos;
 }				t_sprite;
 typedef int 	t_texture[TEX_HEIGHT * TEX_WIDTH];
 typedef struct	s_map

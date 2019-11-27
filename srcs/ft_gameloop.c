@@ -68,33 +68,33 @@ double	decimal_part(double val)
 	return (val - (int)val);
 }
 
-// void    draw_object(t_params *p, int column, char *content, t_drawer *pdrawer)
-// {
-//     t_object	*pobj;
-//     int            line;
-//     double        posy;
-//     double        height;
-//     int            pix;
+void    draw_object(t_game *game, int column, t_sprite *obj, t_drawer *drawer)
+{
+    double	posy;
+    double	height;
+	int		color;
+	t_ipos	draw;
+	t_ipos	draw_tex;
 
-//     pobj = (t_object*)content;
-//     if (pobj->pos <= 0 || pobj->pos >= 1)
-//         return ;
-//     height = p->win_height / pobj->dist;
-//     pdrawer->start = p->win_height / 2 - height / 2;
-//     pdrawer->start = fmax(pdrawer->start, 0);
-//     pdrawer->end = p->win_height / 2 + height / 2;
-//     pdrawer->end = fmin(pdrawer->end, p->win_height - 1);
-//     pdrawer->step_posy = 1 / ((double)(pdrawer->end - pdrawer->start));
-//     line = pdrawer->start;
-//     posy = 0;
-//     while (++line < pdrawer->end)
-//     {
-//         pix = get_pixel(&p->textures[SPRITE], pobj->pos, posy);
-//         if (((pix >> 24) & 0xFF) < 128)
-//             p->mlx.img.data[p->win_width * line + column] = pix;
-//         posy += pdrawer->step_posy;
-//     }
-// }
+    height = game->win.height / obj->dist;
+    drawer->start = game->win.height / 2 - height / 2;
+    drawer->start = fmax(drawer->start, 0);
+    drawer->end = game->win.height / 2 + height / 2;
+    drawer->end = fmin(drawer->end, game->win.height - 1);
+    drawer->step_posy = 1 / ((double)(drawer->end - drawer->start));
+    draw.y = drawer->start;
+	draw.x = column;
+    posy = 0;
+    while (++draw.y < drawer->end)
+    {
+		draw_tex.x = (int)(obj->pos * drawer->texture->height);
+		draw_tex.y = (int)(posy * drawer->texture->width);
+        color = ft_get_pixel(&(obj->img), draw_tex);
+        if (((color >> 24) & 0xFF) < 128)
+			ft_set_pixel(&(game->renderer), draw, color);
+        posy += drawer->step_posy;
+    }
+}
 
 void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 {
