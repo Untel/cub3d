@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 16:37:46 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/27 16:45:17 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,11 @@ int	ft_verify_map(t_game *game)
 
 int	ft_set_image(t_game *game, t_image *img, char *path)
 {
+	printf("Will i set a :IMG?\n\n");
 	if (!(img->ref = mlx_xpm_file_to_image(game->mlx, path, &(img->width), &(img->height))))
 		return (ERR("Cannot open '%s'", path));
+	printf("Will i set a :YOO?\n\n");
+	
 	if (!(img->data = mlx_get_data_addr(img->ref, &(img->bits), &(img->s_line), &(img->endian))))
 		return (ERR("Cannot get data adr %s", path));
 	return (SUC("Image texture %s has been set", path));
@@ -135,8 +138,10 @@ int	ft_set_image(t_game *game, t_image *img, char *path)
 
 int	ft_set_sprite(t_game *game, t_sprite *spr, char *path)
 {
+	printf("Will i set a sprite?\n\n");
 	if (ft_set_image(game, &(spr->img), path) == ERROR)
 		return (ERROR);
+
 	spr->index = 0;
 	spr->frame_size = 64;
 	return (SUC("Sprite texture %s has been set", path));
@@ -157,7 +162,7 @@ int	ft_readline(t_game *game, char *line)
 	else if (!ft_strncmp("EA ", line, 3))
 		ret = ft_set_image(game, &(game->env.EA), &line[3]);
 	else if (!ft_strncmp("S ", line, 2))
-		ret = ft_set_sprite("Sprite texture", &(game->env.S), &line[2]);
+		ret = ft_set_sprite(game, &(game->env.S), &line[2]);
 	else if (!ft_strncmp("F ", line, 2))
 		ret = ft_set_color("Floor color", &game->env.FLOOR, &line[2]);
 	else if (!ft_strncmp("C ", line, 2))

@@ -3,7 +3,7 @@ NO ./pics/brick.xpm
 SO ./pics/metal.xpm
 WE ./pics/stone.xpm
 EA ./pics/wood.xpm
-S ./pics/fire_64.xpm
+S ./pics/barrel.xpm
 F 200,200,50
 C 225,30,0
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
