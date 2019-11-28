@@ -1,10 +1,13 @@
-UNAME_S := $(shell uname -s)
+UNAME_S				:= $(shell uname -s)
+OS					= 0
 
 ifeq ($(UNAME_S), Linux)
+	OS = 1
 	LGL := -lGL -lm
 	LGL_INC := /usr/include/GL
 	MLXFLAG := -lm -lpthread -lXext -lX11
 else ifeq ($(UNAME_S), Darwin)
+	OS = 2
 	LGL := -framework OpenGL -framework AppKit
 	# LGL_INC := /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers
 	LGL_INC := ~/.brew/include
@@ -47,7 +50,7 @@ all:				$(OBJS) srcs/cub3d.h
 					$(LIBFTPRINTF_MAKE)
 					$(MINILIBX_MAKE)
 					$(GNL_MAKE)
-					$(CC) -I./srcs $(OBJS) $(LIBS) -o $(NAME)
+					$(CC) -I./srcs -D OS=$(OS) $(OBJS) $(LIBS) -o $(NAME)
 
 # libs:				
 # 					$(LIBFTPRINTF_MAKE)

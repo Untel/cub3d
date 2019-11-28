@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 22:21:12 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/28 22:07:36 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,55 +31,38 @@
 # define TEX_HEIGHT		64
 # define TEX_WIDTH		64
 # define PATH_URL_SIZE	1024
-# define KEYCODE_MAX	300
 # define ERR(...) 		(((printf("[\e[0;31mERROR\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1) * -1)
 # define SUC(...) 		(((printf("[\e[0;32mSUCCESS\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1))
 # define ERROR 			-1
 # define SUCCESS		1
 # define HAS_ERR(x)		(x == ERROR)
+# define LINUX_OS 1
+# if OS == LINUX_OS
+#  include "keys_linux.h"
+# else
+#  include "keys_darwin.h"
+# endif
+
 typedef enum	e_entity
 {
 	EMPTY		= 0,
 	WALL		= 1,
 	OBJECT		= 2
 }				t_entity;
-
-// typedef enum	e_keybinds
-// {
-// 	W		 	= 13,
-// 	S			= 1,
-// 	A			= 0,
-// 	D			= 2,
-// 	Q			= 12,
-// 	E			= 14,
-// 	ROW_RIGHT	= 124,
-// 	ROW_LEFT	= 123,
-// 	ESCAPE		= 53,
-// 	CTRL		= 256,
-// 	SHIFT		= 257,
-// 	TAB			= 48,
-// 	PLUS		= 69,
-// 	MINUS		= 78,
-// }				t_keybinds;
-
 typedef enum	e_keybinds
 {
-	W		 	= 122,
-	S			= 115,
-	A			= 113,
-	D			= 100,
-	Q			= 97,
-	E			= 101,
-	ROW_RIGHT	= 0,
-	ROW_LEFT	= 0,
-	ESCAPE		= 0,
-	CTRL		= 0,
-	SHIFT		= 0,
-	TAB			= 0,
-	PLUS		= 0,
-	MINUS		= 0,
-}				t_keybinds;
-
+	FORWARD,
+	BACKWARD,
+	STR_LEFT,
+	STR_RIGHT,
+	ROT_LEFT,
+	ROT_RIGHT,
+	TOGGLE_MAP,
+	TOGGLE_COLLISION,
+	INC_SPEED,
+	DEC_SPEED,
+	EXIT,
+}				t_keybings;
 typedef struct	s_doublepos
 {
 	double		x;
@@ -172,7 +155,7 @@ typedef struct	s_game
 	t_image		image;
 	char		zbuffer[MAX_WIDTH];
 	char		collision;
-	char		event[KEYCODE_MAX];
+	char		event[EXIT + 1];
 }				t_game;
 
 typedef struct	s_drawer

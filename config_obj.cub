@@ -1,5 +1,5 @@
 R 800 600
-NO ./pics/brick.xpm
+NO ./pics/maia.xpm
 SO ./pics/metal.xpm
 WE ./pics/stone.xpm
 EA ./pics/wood.xpm

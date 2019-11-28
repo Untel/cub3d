@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 22:20:16 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/28 22:10:58 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,16 +202,10 @@ int	ft_configure(t_game *game, char *filename)
 
 int	init_config(t_game *game)
 {
-	game->player.ms = 0.07;
-	// game->player.rs = 2.0f / 180.0f * M_PI;
+	game->player.ms = 0.12;
 	game->player.rs = 0.04;
-	// game->player.dir.x = -1;
-	// game->player.dir.y = 0;
-	// game->player.plane.x = 0;
-	// game->player.plane.y = 0.66;
-
 	game->collision = 1;
-	ft_memset(game->event, 0, KEYCODE_MAX);
+	ft_memset(game->event, 0, EXIT + 1);
 }
 
 int	ft_generate_cos_sin_table(t_game *game)

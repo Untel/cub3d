@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 19:56:38 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/28 22:09:31 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,24 @@
 
 int	ft_read_events(t_game *game)
 {
-	if (game->event[W] == 1)
+	if (game->event[FORWARD] == 1)
 		move_forward(game);
-	if (game->event[S] == 1)
+	if (game->event[BACKWARD] == 1)
 		move_backward(game);
-	if (game->event[A] == 1)
+	if (game->event[STR_LEFT] == 1)
 		strafe_left(game);
-	if (game->event[D] == 1)
+	if (game->event[STR_RIGHT] == 1)
 		strafe_right(game);
-	if (game->event[Q] == 1
-		|| game->event[ROW_LEFT] == 1)
+	if (game->event[ROT_LEFT] == 1)
 		rotate_left(game);
-	if (game->event[E] == 1
-		|| game->event[ROW_RIGHT] == 1)
+	if (game->event[ROT_RIGHT] == 1)
 		rotate_right(game);
-	game->map.show_mega = game->event[TAB];
-	game->collision = !game->event[SHIFT];
-	if (game->event[PLUS] == 1)
+	if (game->event[INC_SPEED] == 1)
 		ft_inc_speed(game, 0.01);
-	if (game->event[MINUS] == 1)
+	if (game->event[DEC_SPEED] == 1)
 		ft_inc_speed(game, -0.01);
+	game->map.show_mega = game->event[TOGGLE_MAP];
+	game->collision = !game->event[TOGGLE_COLLISION];
 }
 
 int ft_inc_speed(t_game *game, double speed)
@@ -59,20 +57,43 @@ int	ft_leave_program(t_game *game)
 	exit(EXIT_SUCCESS);
 }
 
+int toggle_key(t_game *game, int keycode, int value)
+{
+	if (keycode == KEY_W)
+		game->event[FORWARD] = value;
+	else if (keycode == KEY_S)
+		game->event[BACKWARD] = value;
+	else if (keycode == KEY_A)
+		game->event[STR_LEFT] = value;
+	else if (keycode == KEY_D)
+		game->event[STR_RIGHT] = value;
+	else if (keycode == KEY_Q || keycode == KEY_RIGHT)
+		game->event[ROT_LEFT] = value;
+	else if (keycode == KEY_E || keycode == KEY_LEFT)
+		game->event[ROT_RIGHT] = value;
+	else if (keycode == KEY_PLUS)
+		game->event[INC_SPEED] = value;
+	else if (keycode == KEY_MINUS)
+		game->event[DEC_SPEED] = value;
+	else if (keycode == KEY_M)
+		game->event[TOGGLE_MAP] = value;
+	else if (keycode == KEY_TAB)
+		game->event[TOGGLE_COLLISION] = value;
+}
+
 int	ft_keypress_hook(int keycode, t_game *game)
 {
 	printf("Key %d press\n", keycode);
-	if (keycode <= KEYCODE_MAX)
-		game->event[keycode] = 1;
+	toggle_key(game, keycode, 1);
 	return (1);
 }
 int	ft_keyrelease_hook(int keycode, t_game *game)
 {
 	printf("Key %d release\n", keycode);
-	if (keycode == ESCAPE)
-		ft_destroy_window(game);
-	else if (keycode <= KEYCODE_MAX)
-		game->event[keycode] = 0;
+	if (keycode == KEY_ESC)
+		return (ft_destroy_window(game));
+	else
+		toggle_key(game, keycode, 0);
 	return (1);
 }
 
