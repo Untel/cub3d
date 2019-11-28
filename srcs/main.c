@@ -59,6 +59,8 @@ int	ft_leave_program(t_game *game)
 
 int toggle_key(t_game *game, int keycode, int value)
 {
+	printf("W is %d\n", KEY_W);
+	printf("OS is %d\n", OS);
 	if (keycode == KEY_W)
 		game->event[FORWARD] = value;
 	else if (keycode == KEY_S)

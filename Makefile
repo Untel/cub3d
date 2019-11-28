@@ -39,7 +39,7 @@ SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 INCLUDES			= -I . -I./headers $(GNL_INCL) $(LIBFTPRINTF_INCL) -I$(MINILIBX_PATH)/
 
-CFLAGS				= -w -g $(INCLUDES)
+CFLAGS				= -D OS=$(OS) -w -g $(INCLUDES)
 OBJS				= $(SRCS:.c=.o)
 CC					= clang
 NAME				= a.out
@@ -50,7 +50,7 @@ all:				$(OBJS) srcs/cub3d.h
 					$(LIBFTPRINTF_MAKE)
 					$(MINILIBX_MAKE)
 					$(GNL_MAKE)
-					$(CC) -I./srcs -D OS=$(OS) $(OBJS) $(LIBS) -o $(NAME)
+					$(CC) -I./srcs $(OBJS) $(LIBS) -o $(NAME)
 
 # libs:				
 # 					$(LIBFTPRINTF_MAKE)
