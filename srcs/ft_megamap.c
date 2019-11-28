@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 18:20:35 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 00:08:29 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/28 22:51:07 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_draw_megamap_square(t_game *game, t_ipos pos, t_image tex)
 		}
 }
 
-int	ft_draw_megamap_pix(t_game *game, t_dpos pos, unsigned long int color)
+int	ft_draw_megamap_pix(t_game *game, t_dpos pos, unsigned int color)
 {
 	t_ipos	pix;
 	t_ipos	to_draw;

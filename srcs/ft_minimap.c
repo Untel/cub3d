@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:45:11 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/24 21:37:08 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/28 23:10:29 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_update_minimap(t_game *game, t_ray *ray)
 	ft_draw_minimap_square(game, pos, color);
 }
 
-int	ft_draw_minimap_square(t_game *game, t_ipos pos, unsigned long int color)
+int	ft_draw_minimap_square(t_game *game, t_ipos pos, unsigned int color)
 {
 	t_ipos add;
 	t_ipos to_draw;
@@ -50,9 +50,9 @@ int	ft_draw_minimap(t_game *game)
 	while (++pos.x <= game->map.width && (pos.y = -1))
 		while (++pos.y <= game->map.height)
 			if (game->map.grid[pos.y][pos.x] == WALL)
-				ft_draw_minimap_square(game, pos, 0xffffff);
+				ft_draw_minimap_square(game, pos, 0x8dffffff);
 			else if (game->map.grid[pos.y][pos.x] == OBJECT)
-				ft_draw_minimap_square(game, pos, 0x00ffff);
+				ft_draw_minimap_square(game, pos, 0x8d00ffff);
 			else
 				ft_draw_minimap_square(game, pos, 0xff000000);
 	// ft_printf("Player pos is %.2f/%.2f\n", game->player.pos.x, game->player.pos.y);

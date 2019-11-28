@@ -6,20 +6,20 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/27 21:30:25 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/28 23:13:43 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_set_pixel(t_image *ptr, t_ipos pos, unsigned long int color)
+int	ft_set_pixel(t_image *ptr, t_ipos pos, unsigned int color)
 {
 	int	index;
 	int octets;
 	
 	octets = ptr->bits >> 3;
 	index = (ptr->s_line * pos.y) + (octets * pos.x);
-	while (--octets)
+	while (--octets >= 0)
 	{
 		ptr->data[index++] = color & 0xFF;
 		color >>= 8;
@@ -27,10 +27,10 @@ int	ft_set_pixel(t_image *ptr, t_ipos pos, unsigned long int color)
 	return (SUCCESS);
 }
 
-int	ft_get_pixel(t_image *ptr, t_ipos pos)
+unsigned int ft_get_pixel(t_image *ptr, t_ipos pos)
 {
 	int	index;
-	unsigned long int color;
+	unsigned int color;
 	int octets;
 	int	i;
 
@@ -38,7 +38,7 @@ int	ft_get_pixel(t_image *ptr, t_ipos pos)
 	i = -1;
 	octets = ptr->bits >> 3;
 	index = (ptr->s_line * pos.y) + (octets * pos.x);
-	while (++i < octets)
+	while (++i < octets - 1)
 		color += ptr->data[index++] << (i << 3);
 	return (color);
 }

@@ -1,6 +1,6 @@
 R 800 600
-NO ./pics/maia.xpm
-SO ./pics/metal.xpm
+NO ./pics/maiabig.xpm
+SO ./pics/addasil_tex.xpm
 WE ./pics/stone.xpm
 EA ./pics/wood.xpm
 S ./pics/pillar.xpm
