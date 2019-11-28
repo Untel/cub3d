@@ -42,7 +42,7 @@ int	ft_draw_megamap_square(t_game *game, t_ipos pos, t_image tex)
 		}
 }
 
-int	ft_draw_megamap_pix(t_game *game, t_dpos pos, int color)
+int	ft_draw_megamap_pix(t_game *game, t_dpos pos, unsigned long int color)
 {
 	t_ipos	pix;
 	t_ipos	to_draw;
@@ -65,7 +65,6 @@ int	ft_draw_megamap(t_game *game)
 				ft_draw_megamap_square(game, pos, game->env.WE);
 			else
 				ft_draw_megamap_square(game, pos, game->env.SO);
-	// ft_printf("Player pos is %.2f/%.2f\n", game->player.pos.x, game->player.pos.y);
 	to_intpos(&pos, game->player.pos);
 	ft_draw_megamap_square(game, pos, game->env.EA);
 }

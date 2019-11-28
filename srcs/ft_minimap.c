@@ -27,7 +27,7 @@ int	ft_update_minimap(t_game *game, t_ray *ray)
 	ft_draw_minimap_square(game, pos, color);
 }
 
-int	ft_draw_minimap_square(t_game *game, t_ipos pos, int color)
+int	ft_draw_minimap_square(t_game *game, t_ipos pos, unsigned long int color)
 {
 	t_ipos add;
 	t_ipos to_draw;
@@ -54,7 +54,7 @@ int	ft_draw_minimap(t_game *game)
 			else if (game->map.grid[pos.y][pos.x] == OBJECT)
 				ft_draw_minimap_square(game, pos, 0x00ffff);
 			else
-				ft_draw_minimap_square(game, pos, 0x000000);
+				ft_draw_minimap_square(game, pos, 0xff000000);
 	// ft_printf("Player pos is %.2f/%.2f\n", game->player.pos.x, game->player.pos.y);
 	pos.x = (int)game->player.pos.x;
 	pos.y = (int)game->player.pos.y;

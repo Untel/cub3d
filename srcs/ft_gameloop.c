@@ -129,7 +129,6 @@ void    ft_draw_objects(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 	el = ray->objects;
 	while (el)
 	{
-		// printf("Shoudl draw obj at col %d\n", column);
 		ft_draw_object(game, column, (t_object *)el->content, drawer);
 		el = el->next;
 	}
@@ -185,11 +184,10 @@ int	ft_game_loop(t_game *game)
 		ft_draw_megamap(game);
     while (column < game->win.width)
     {
-        
 		game->player.plane.x = game->player.dir.x * game->win.cos[column] - game->player.dir.y * game->win.sin[column];
 		game->player.plane.y = game->player.dir.y * game->win.cos[column] + game->player.dir.x * game->win.sin[column];
         init_ray(game, &ray);
-        printf("");
+        //printf("");
         compute_ray(game, &ray);
         ray.draw_dist = (ray.vert ? ray.dist.y : ray.dist.x);
         ray.po = decimal_part((ray.vert ? game->player.pos.x + ray.draw_dist * game->player.plane.x :
@@ -205,7 +203,6 @@ int	ft_game_loop(t_game *game)
 			ft_update_megamap(game, &ray);
         column++;
     }
-	// draw_frame(game);
 	ft_render(game);
 
 	mlx_put_image_to_window(game->mlx, game->win.ref, game->map.mini.ref, 0, 0);

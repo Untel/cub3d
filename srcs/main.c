@@ -105,7 +105,6 @@ int	main(int ac, char **av)
 	ft_generate_renderer(&game);
 	// if (ac == 3 && 0)
 	// 	return (ft_snapshot(&game));
-	mlx_pixel_put(game.mlx, game.win.ref, 5, 5, 0xff0000);
 	ft_init_hook(&game);
 	SUC("RUNNING GAME\n");
     mlx_loop(game.mlx);

@@ -2,7 +2,7 @@ UNAME_S := $(shell uname -s)
 
 ifeq ($(UNAME_S), Linux)
 	LGL := -lGL -lm
-	LGL_INC := /usr/include/GLES3
+	LGL_INC := /usr/include/GL
 	MLXFLAG := -lm -lpthread -lXext -lX11
 else ifeq ($(UNAME_S), Darwin)
 	LGL := -framework OpenGL -framework AppKit

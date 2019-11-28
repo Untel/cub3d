@@ -199,17 +199,17 @@ int				ft_args(t_game *game, int ac, char **argv);
 int				ft_generate_renderer(t_game *game);
 int				ft_generate_image(t_game *game, t_image *ptr, int w, int h);
 int				ft_render(t_game *game);
-int				ft_draw_renderer(t_game *game, t_ipos pos, int color);
+int				ft_draw_renderer(t_game *game, t_ipos pos, unsigned long int color);
 
 // Image
-int				ft_set_pixel(t_image *ptr, t_ipos pos, int color);
+int				ft_set_pixel(t_image *ptr, t_ipos pos, unsigned long int color);
 int				ft_get_pixel(t_image *ptr, t_ipos pos);
 
 // Minimap
 int				ft_generate_minimap(t_game *game);
 int				ft_draw_minimap(t_game *game);
-int				ft_draw_minimap_square(t_game *game, t_ipos pos, int color);
-int				ft_draw_minimap_pix(t_game *game, double x, double y, int color);
+int				ft_draw_minimap_square(t_game *game, t_ipos pos, unsigned long int color);
+int				ft_draw_minimap_pix(t_game *game, double x, double y, unsigned long int color);
 void			to_intpos(t_ipos *ret, t_dpos pos);
 
 // Megamap

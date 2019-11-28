@@ -12,7 +12,7 @@
 
 #include "cub3d.h"
 
-int	ft_set_pixel(t_image *ptr, t_ipos pos, int color)
+int	ft_set_pixel(t_image *ptr, t_ipos pos, unsigned long int color)
 {
 	int	index;
 	int octets;
@@ -24,12 +24,13 @@ int	ft_set_pixel(t_image *ptr, t_ipos pos, int color)
 		ptr->data[index++] = color & 0xFF;
 		color >>= 8;
 	}
+	return (SUCCESS);
 }
 
 int	ft_get_pixel(t_image *ptr, t_ipos pos)
 {
 	int	index;
-	int color;
+	unsigned long int color;
 	int octets;
 	int	i;
 
