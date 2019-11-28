@@ -62,7 +62,8 @@ int	ft_leave_program(t_game *game)
 int	ft_keypress_hook(int keycode, t_game *game)
 {
 	printf("Key %d press\n", keycode);
-	game->event[keycode] = 1;
+	if (keycode <= KEYCODE_MAX)
+		game->event[keycode] = 1;
 	return (1);
 }
 int	ft_keyrelease_hook(int keycode, t_game *game)
@@ -70,7 +71,7 @@ int	ft_keyrelease_hook(int keycode, t_game *game)
 	printf("Key %d release\n", keycode);
 	if (keycode == ESCAPE)
 		ft_destroy_window(game);
-	else
+	else if (keycode <= KEYCODE_MAX)
 		game->event[keycode] = 0;
 	return (1);
 }
@@ -104,6 +105,7 @@ int	main(int ac, char **av)
 	ft_generate_renderer(&game);
 	// if (ac == 3 && 0)
 	// 	return (ft_snapshot(&game));
+	mlx_pixel_put(game.mlx, game.win.ref, 5, 5, 0xff0000);
 	ft_init_hook(&game);
 	SUC("RUNNING GAME\n");
     mlx_loop(game.mlx);

@@ -20,7 +20,7 @@
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
-# include <mlx.h>
+# include "mlx.h"
 # include <math.h>
 # include <fcntl.h>
 # include <unistd.h>
@@ -44,23 +44,42 @@ typedef enum	e_entity
 	OBJECT		= 2
 }				t_entity;
 
+// typedef enum	e_keybinds
+// {
+// 	W		 	= 13,
+// 	S			= 1,
+// 	A			= 0,
+// 	D			= 2,
+// 	Q			= 12,
+// 	E			= 14,
+// 	ROW_RIGHT	= 124,
+// 	ROW_LEFT	= 123,
+// 	ESCAPE		= 53,
+// 	CTRL		= 256,
+// 	SHIFT		= 257,
+// 	TAB			= 48,
+// 	PLUS		= 69,
+// 	MINUS		= 78,
+// }				t_keybinds;
+
 typedef enum	e_keybinds
 {
-	W		 	= 13,
-	S			= 1,
-	A			= 0,
-	D			= 2,
-	Q			= 12,
-	E			= 14,
-	ROW_RIGHT	= 124,
-	ROW_LEFT	= 123,
-	ESCAPE		= 53,
-	CTRL		= 256,
-	SHIFT		= 257,
-	TAB			= 48,
-	PLUS		= 69,
-	MINUS		= 78,
+	W		 	= 122,
+	S			= 115,
+	A			= 113,
+	D			= 100,
+	Q			= 97,
+	E			= 101,
+	ROW_RIGHT	= 0,
+	ROW_LEFT	= 0,
+	ESCAPE		= 0,
+	CTRL		= 0,
+	SHIFT		= 0,
+	TAB			= 0,
+	PLUS		= 0,
+	MINUS		= 0,
 }				t_keybinds;
+
 typedef struct	s_doublepos
 {
 	double		x;

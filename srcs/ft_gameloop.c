@@ -70,8 +70,8 @@ void    compute_ray(t_game *game, t_ray *ray)
 			if (game->map.show_mega)
 				ft_update_megamap(game, ray);
         }
-        if (game->map.grid[(int)ray->pos.y][(int)ray->pos.x] == OBJECT)
-			ft_lstadd_front(&(ray->objects), ft_lstnew(ft_newobject(game, ray), sizeof(t_object)));
+        // if (game->map.grid[(int)ray->pos.y][(int)ray->pos.x] == OBJECT)
+		// 	ft_lstadd_front(&(ray->objects), ft_lstnew(ft_newobject(game, ray), sizeof(t_object)));
         if (game->map.grid[(int)ray->pos.y][(int)ray->pos.x] == WALL)
 		{
 			if (game->map.show_mega)
@@ -178,16 +178,18 @@ int	ft_game_loop(t_game *game)
     t_ray		ray;
     t_drawer	drawer;
 
-    column = -1;
+    column = 0;
 	ft_read_events(game);
 	ft_draw_minimap(game);
 	if (game->map.show_mega)
 		ft_draw_megamap(game);
-    while (++column < game->win.width)
+    while (column < game->win.width)
     {
+        
 		game->player.plane.x = game->player.dir.x * game->win.cos[column] - game->player.dir.y * game->win.sin[column];
 		game->player.plane.y = game->player.dir.y * game->win.cos[column] + game->player.dir.x * game->win.sin[column];
         init_ray(game, &ray);
+        printf("");
         compute_ray(game, &ray);
         ray.draw_dist = (ray.vert ? ray.dist.y : ray.dist.x);
         ray.po = decimal_part((ray.vert ? game->player.pos.x + ray.draw_dist * game->player.plane.x :
@@ -198,12 +200,14 @@ int	ft_game_loop(t_game *game)
             drawer.texture = (game->player.pos.x < ray.pos.x ? &(game->env.EA) : &(game->env.WE));
 		ft_draw_column(game, column, &ray, &drawer);
 		ft_update_minimap(game, &ray);
-		ft_draw_objects(game, column, &ray, &drawer);
+		//ft_draw_objects(game, column, &ray, &drawer);
 		if (game->map.show_mega)
 			ft_update_megamap(game, &ray);
+        column++;
     }
 	// draw_frame(game);
 	ft_render(game);
+
 	mlx_put_image_to_window(game->mlx, game->win.ref, game->map.mini.ref, 0, 0);
 	if (game->map.show_mega)
 		ft_render_megamap(game);

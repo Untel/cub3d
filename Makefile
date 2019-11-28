@@ -1,25 +1,40 @@
+UNAME_S := $(shell uname -s)
+
+ifeq ($(UNAME_S), Linux)
+	LGL := -lGL -lm
+	LGL_INC := /usr/include/GLES3
+	MLXFLAG := -lm -lpthread -lXext -lX11
+else ifeq ($(UNAME_S), Darwin)
+	LGL := -framework OpenGL -framework AppKit
+	# LGL_INC := /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers
+	LGL_INC := ~/.brew/include
+	CFLAGS += -Wno-deprecated-declarations
+	MLXFLAG := -framework OpenGL -framework Appkit
+endif
+
 LIBS_DIR			= ./libs
 LIBFTPRINTF_PATH	= $(LIBS_DIR)/ft_printf
 LIBFTPRINTF_MAKE	= $(MAKE) -C $(LIBFTPRINTF_PATH)
 LIBFTPRINTF			= -L$(LIBFTPRINTF_PATH) -lftprintf
 LIBFTPRINTF_INCL	= -I $(LIBFTPRINTF_PATH) -I $(LIBFTPRINTF_PATH)/srcs -I $(LIBFTPRINTF_PATH)/libft
 
-MINILIBX_PATH		= $(LIBS_DIR)/minilibx_mms
+MINILIBX_PATH		= $(LIBS_DIR)/minilibx
 MINILIBX_MAKE		= $(MAKE) -C $(MINILIBX_PATH)
-MINILIBX			= -L$(MINILIBX_PATH) -lmlx
+MINILIBX			= $(MLXFLAG) -L$(MINILIBX_PATH) -lmlx
+
 
 GNL_PATH			= $(LIBS_DIR)/get_next_line
 GNL_MAKE			= $(MAKE) -C $(GNL_PATH)
 GNL					= -L$(GNL_PATH) -lgnl
 GNL_INCL			= -I $(GNL_PATH)
 
-LIBS				= $(LIBFTPRINTF) $(GNL) -lmlx -framework OpenGL -framework AppKit -lm
+LIBS				= -lm $(LIBFTPRINTF) $(GNL) $(MINILIBX)
 
 SRCS_DIR			= srcs
 SRCS_FILES			= main.c ft_config.c ft_move.c ft_utils.c ft_draw.c ft_texture.c ft_minimap.c ft_engine.c ft_image.c ft_gameloop.c ft_megamap.c
 SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
-INCLUDES			= -I . -I./headers $(GNL_INCL) $(LIBFTPRINTF_INCL)
+INCLUDES			= -I . -I./headers $(GNL_INCL) $(LIBFTPRINTF_INCL) -I$(MINILIBX_PATH)/
 
 CFLAGS				= -w -g $(INCLUDES)
 OBJS				= $(SRCS:.c=.o)
