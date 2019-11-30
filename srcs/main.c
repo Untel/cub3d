@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/28 22:09:31 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/30 17:34:50 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,6 @@ int	ft_leave_program(t_game *game)
 
 int toggle_key(t_game *game, int keycode, int value)
 {
-	printf("W is %d\n", KEY_W);
-	printf("OS is %d\n", OS);
 	if (keycode == KEY_W)
 		game->event[FORWARD] = value;
 	else if (keycode == KEY_S)

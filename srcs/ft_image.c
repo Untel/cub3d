@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/28 23:13:43 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/30 18:07:30 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,22 @@ unsigned int ft_get_pixel(t_image *ptr, t_ipos pos)
 	while (++i < octets - 1)
 		color += ptr->data[index++] << (i << 3);
 	return (color);
+}
+
+int	ft_transfert_pixel(t_image *from, t_ipos from_pos, t_image *to, t_ipos to_pos)
+{
+	t_ipos oct;
+	t_ipos idx;
+	int i;
+
+	oct.x = from->bits >> 3;
+	oct.y = to->bits >> 3;
+	idx.x = (from->s_line * from_pos.y) + (oct.x * from_pos.x);
+	idx.y = (to->s_line * to_pos.y) + (oct.y * to_pos.x);
+	i = -1;
+	while (++i <= oct.y)
+		to->data[idx.y + i] = from->data[idx.x + i];
+	return (SUCCESS);
 }
 
 int	ft_generate_image(t_game *game, t_image *ptr, int w, int h)

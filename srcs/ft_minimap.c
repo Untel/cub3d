@@ -6,12 +6,12 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:45:11 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/28 23:10:29 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/30 17:43:25 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-#define MINIMAP_SQUARE_SIZE 7
+#define MINIMAP_SQUARE_SIZE 6
 
 int	ft_update_minimap(t_game *game, t_ray *ray)
 {
@@ -19,9 +19,9 @@ int	ft_update_minimap(t_game *game, t_ray *ray)
 	t_ipos	pos;
 
 	if (ray->vert)
-		color = ray->pos.y > game->player.pos.x ? 0x00ff00 : 0x0000ff;
+		color = ray->pos.y > game->player.pos.y ? 0xff0000 : 0x00ff00;
 	else
-		color = ray->pos.x > game->player.pos.y ? 0xeba434 : 0x7d34eb;
+		color = ray->pos.x > game->player.pos.x ? 0xffff00 : 0x00ffff;
 	pos.x = (int)ray->pos.x;
 	pos.y = (int)ray->pos.y;
 	ft_draw_minimap_square(game, pos, color);
@@ -50,9 +50,9 @@ int	ft_draw_minimap(t_game *game)
 	while (++pos.x <= game->map.width && (pos.y = -1))
 		while (++pos.y <= game->map.height)
 			if (game->map.grid[pos.y][pos.x] == WALL)
-				ft_draw_minimap_square(game, pos, 0x8dffffff);
+				ft_draw_minimap_square(game, pos, 0xbbffffff);
 			else if (game->map.grid[pos.y][pos.x] == OBJECT)
-				ft_draw_minimap_square(game, pos, 0x8d00ffff);
+				ft_draw_minimap_square(game, pos, 0xbb00ffff);
 			else
 				ft_draw_minimap_square(game, pos, 0xff000000);
 	// ft_printf("Player pos is %.2f/%.2f\n", game->player.pos.x, game->player.pos.y);

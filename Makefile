@@ -39,7 +39,7 @@ SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 INCLUDES			= -I . -I./headers $(GNL_INCL) $(LIBFTPRINTF_INCL) -I$(MINILIBX_PATH)/
 
-CFLAGS				= -D OS=$(OS) -w -g $(INCLUDES)
+CFLAGS				= -Ofast -D OS=$(OS) -w -g $(INCLUDES)
 OBJS				= $(SRCS:.c=.o)
 CC					= clang
 NAME				= a.out

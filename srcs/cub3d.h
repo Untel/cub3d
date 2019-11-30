@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/28 23:08:08 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/30 18:01:06 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,6 +194,7 @@ int				ft_draw_minimap(t_game *game);
 int				ft_draw_minimap_square(t_game *game, t_ipos pos, unsigned int color);
 int				ft_draw_minimap_pix(t_game *game, double x, double y, unsigned int color);
 void			to_intpos(t_ipos *ret, t_dpos pos);
+int				ft_transfert_pixel(t_image *from, t_ipos from_pos, t_image *to, t_ipos to_pos);
 
 // Megamap
 int				ft_generate_megamap(t_game *game);

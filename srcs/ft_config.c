@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/28 22:10:58 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/30 17:33:52 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,11 +126,8 @@ int	ft_verify_map(t_game *game)
 
 int	ft_set_image(t_game *game, t_image *img, char *path)
 {
-	printf("Will i set a :IMG?\n\n");
 	if (!(img->ref = mlx_xpm_file_to_image(game->mlx, path, &(img->width), &(img->height))))
-		return (ERR("Cannot open '%s'", path));
-	printf("Will i set a :YOO?\n\n");
-	
+		return (ERR("Cannot open '%s'", path));	
 	if (!(img->data = mlx_get_data_addr(img->ref, &(img->bits), &(img->s_line), &(img->endian))))
 		return (ERR("Cannot get data adr %s", path));
 	return (SUC("Image texture %s has been set", path));
@@ -138,7 +135,6 @@ int	ft_set_image(t_game *game, t_image *img, char *path)
 
 int	ft_set_sprite(t_game *game, t_sprite *spr, char *path)
 {
-	printf("Will i set a sprite?\n\n");
 	if (ft_set_image(game, &(spr->img), path) == ERROR)
 		return (ERROR);
 

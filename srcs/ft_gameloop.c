@@ -159,8 +159,9 @@ void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
     {
 		draw_tex.x = (int)(ray->po * drawer->texture->height);
 		draw_tex.y = (int)(posy * drawer->texture->width);
-		ft_set_pixel(&(game->win.renderer), draw, 
-			ft_get_pixel(drawer->texture, draw_tex));
+		ft_transfert_pixel(drawer->texture, draw_tex, &(game->win.renderer), draw);
+		// ft_set_pixel(&(game->win.renderer), draw, 
+		// 	ft_get_pixel(drawer->texture, draw_tex));
         posy += drawer->step_posy;
 		draw.y++;
     }
