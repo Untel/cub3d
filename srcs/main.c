@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/30 17:34:50 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/30 22:17:32 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,13 +106,6 @@ int	ft_init_hook(t_game *game)
 	mlx_loop_hook(game->mlx, ft_game_loop, game);
 }
 
-int ft_snapshot(t_game *game)
-{
-	draw_frame(game);
-	ft_render(game);
-	ft_draw_minimap(game);
-}
-
 int	main(int ac, char **av)
 {
 	t_game	game;
@@ -121,11 +114,13 @@ int	main(int ac, char **av)
 		|| ft_args(&game, ac, av) == ERROR
 		|| !(game.win.ref = mlx_new_window(game.mlx, game.win.width, game.win.height, "Cub3d")))
 		return (EXIT_FAILURE);
+	ft_generate_renderer(&game);
 	ft_generate_minimap(&game);
 	ft_generate_megamap(&game);
-	ft_generate_renderer(&game);
-	// if (ac == 3 && 0)
-	// 	return (ft_snapshot(&game));
+	if (ac == 3)
+		return (ft_strncmp(*(av + 2), "-save", 10) == 0 ?
+			ft_snapshot(&game)
+			: ERR("Please use -save to save a snapshot"));
 	ft_init_hook(&game);
 	SUC("RUNNING GAME\n");
     mlx_loop(game.mlx);

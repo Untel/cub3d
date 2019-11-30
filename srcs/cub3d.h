@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/30 18:01:06 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/30 20:10:21 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,13 @@
 # include <stdio.h>
 # include <string.h>
 # include <unistd.h>
-# include "mlx.h"
 # include <math.h>
 # include <fcntl.h>
 # include <unistd.h>
 # define MAX_WIDTH		1920
 # define MAX_HEIGHT		1080
+# define MAX_MAP_HEIGHT	300
+# define MAX_MAP_WIDTH	200
 # define GAME_WIDTH		800
 # define GAME_HEIGHT	600
 # define TEX_HEIGHT		64
@@ -39,8 +40,10 @@
 # define LINUX_OS 1
 # if OS == LINUX_OS
 #  include "keys_linux.h"
+#  include "mlx.h"
 # else
 #  include "keys_darwin.h"
+#  include <mlx.h>
 # endif
 
 typedef enum	e_entity
@@ -93,14 +96,16 @@ typedef struct	s_object
 {
 	int			dist;
 	double		angle;
-	t_dpos		pos;
+	double		dir;
+	t_ipos		pos;
 }				t_object;
 typedef int 	t_texture[TEX_HEIGHT * TEX_WIDTH];
 typedef struct	s_map
 {
 	int			width;
 	int			height;
-	int			grid[MAX_WIDTH][MAX_HEIGHT];
+	int			grid[MAX_MAP_WIDTH][MAX_MAP_HEIGHT];
+	int			sprites[MAX_MAP_WIDTH][MAX_MAP_HEIGHT];
 	t_image		mini;
 	t_image		mega;
 	int			show_mega;
@@ -153,7 +158,7 @@ typedef struct	s_game
 	t_player	player;
 	env_t		env;
 	t_image		image;
-	char		zbuffer[MAX_WIDTH];
+	double		zbuffer[MAX_WIDTH];
 	char		collision;
 	char		event[EXIT + 1];
 }				t_game;
@@ -175,7 +180,7 @@ void			rotate_right(t_game *game);
 void			update_orientation(double angle, t_dpos *dir);
 int				strafe_left(t_game *game);
 int				strafe_right(t_game *game);
-int				draw_frame(t_game *game);
+int				ft_draw_frame(t_game *game);
 int				ft_game_loop(t_game *game);
 int				ft_read_events(t_game *game);
 int				ft_args(t_game *game, int ac, char **argv);

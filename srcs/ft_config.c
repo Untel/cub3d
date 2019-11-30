@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/30 17:33:52 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/11/30 18:11:54 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ int	ft_configure(t_game *game, char *filename)
 	char	*line;
 
 	if ((fd = open(filename, O_RDONLY)) == ERROR)
-		return (ERROR);
+		return (ERR("Cannot open file %s", filename));
 	ret = SUCCESS;
 	ft_printf("===========================================\n");
 	ft_printf("Configuring from %s\n", filename);
@@ -192,7 +192,6 @@ int	ft_configure(t_game *game, char *filename)
 		ret = ft_readline(game, line);
 		free(line);
 	}
-	ft_printf("===========================================\n");
 	return (ret);
 }
 
