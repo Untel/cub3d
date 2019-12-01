@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 05:38:19 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 07:06:45 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,17 @@
 int	ft_get_next_number(char **str)
 {
 	int nb;
+	int i;
 
-	while (!ft_isdigit(**str))
-		(*str)++;
+	i = 0;
+	while (!ft_isdigit((*str)[i]))
+		i++;
 	if (!*str)
 		return (ERROR);
-	nb = ft_atoi(*str);
-	while (ft_isdigit(**str))
-		(*str)++;
+	nb = ft_atoi(*str + i);
+	while (ft_isdigit((*str)[i]))
+		i++;
+	*str += i;
 	return (nb);
 }
 
@@ -135,11 +138,17 @@ int	ft_set_image(t_game *game, t_image *img, char *path)
 
 int	ft_set_sprite(t_game *game, t_sprite *spr, char *path)
 {
+	if (ft_isdigit(*path))
+	{
+		spr->frame_size = ft_get_next_number(&path);
+		spr->index.x = 0;
+		spr->index.y = 0;
+		path++;
+	}
+	else
+		spr->frame_size = -1;
 	if (ft_set_image(game, &(spr->img), path) == ERROR)
 		return (ERROR);
-
-	spr->index = 0;
-	spr->frame_size = 64;
 	return (SUC("Sprite texture %s has been set", path));
 }
 

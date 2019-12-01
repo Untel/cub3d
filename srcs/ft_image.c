@@ -6,11 +6,35 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 00:54:16 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 07:34:21 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	ft_draw_sprite(t_game *game, t_sprite *spr, t_ipos draw, t_dpos draw_tex)
+{
+	unsigned int color;
+	t_ipos draw_tex_pos;
+
+	// printf("Should draw sprite");
+	if (spr->frame_size > 0)
+	{
+		draw_tex_pos.x = draw_tex.x * (spr->index.x * spr->frame_size);//* (spr->frame_size * (spr->index % 3));
+		draw_tex_pos.y = draw_tex.y * (spr->index.y * spr->frame_size);//(spr->frame_size * (spr->index % 3));
+		color = ft_get_pixel(&(spr->img), draw_tex_pos);
+		if (color > 0)
+			ft_set_pixel(&(game->win.renderer), draw, color & 0x00FFFFFF);
+	}
+	else
+	{
+		draw_tex_pos.x = draw_tex.x * spr->img.width;
+		draw_tex_pos.y = draw_tex.y * spr->img.height;
+		color = ft_get_pixel(&(spr->img), draw_tex_pos);
+		if (color > 0)
+			ft_set_pixel(&(game->win.renderer), draw, color & 0x00FFFFFF);
+	}
+}
 
 int	ft_set_pixel(t_image *ptr, t_ipos pos, unsigned int color)
 {

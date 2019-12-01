@@ -1,4 +1,4 @@
-R 800 600
+R 1920 1080
 NO ./pics/bluestone.png
 SO ./pics/colorstone.png
 WE ./pics/greystone.png

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 18:20:35 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/28 22:51:07 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 07:34:36 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ int	ft_update_megamap(t_game *game, t_ray *ray)
 	ft_set_pixel(&(game->map.mega), pos, color);
 }
 
-int	ft_draw_megamap_square(t_game *game, t_ipos pos, t_image tex)
+int	ft_draw_megamap_square(t_game *game, t_dpos pos, t_image *tex, unsigned int color)
 {
 	t_ipos	pix;
 	t_ipos	to_draw;
-	int		color;
+	// int		color;
 
 	pix.x = -1;
 	while (++pix.x < MEGAMAP_SQUARE_SIZE && (pix.y = -1))
@@ -36,9 +36,12 @@ int	ft_draw_megamap_square(t_game *game, t_ipos pos, t_image tex)
 		{
 			to_draw.x = pos.x * MEGAMAP_SQUARE_SIZE + pix.x;										
 			to_draw.y = pos.y * MEGAMAP_SQUARE_SIZE + pix.y;
-			color = ft_get_pixel(&tex, pix);
-			// printf("drawing %d at %d %d", color, pix.x, pix.y);
-			ft_set_pixel(&(game->map.mega), to_draw, color);
+			if (tex)
+				ft_transfert_pixel(tex, pix, &(game->map.mega), to_draw);
+			else
+				ft_set_pixel(&(game->map.mega), to_draw, color);
+			// color = ft_get_pixel(&tex, pix);
+			// // printf("drawing %d at %d %d", color, pix.x, pix.y);
 		}
 }
 
@@ -54,19 +57,20 @@ int	ft_draw_megamap_pix(t_game *game, t_dpos pos, unsigned int color)
 
 int	ft_draw_megamap(t_game *game)
 {
-	t_ipos pos;
+	t_dpos pos;
 
 	pos.x = -1;
 	while (++pos.x <= game->map.width && (pos.y = -1))
 		while (++pos.y <= game->map.height)
-			if (game->map.grid[pos.y][pos.x] == WALL)
-				ft_draw_megamap_square(game, pos, game->env.NO);
-			else if (game->map.grid[pos.y][pos.x] == OBJECT)
-				ft_draw_megamap_square(game, pos, game->env.WE);
+			if (game->map.grid[(int)pos.y][(int)pos.x] == WALL)
+				ft_draw_megamap_square(game, pos, &(game->env.NO), 0);
+			else if ((int)game->map.grid[(int)pos.y][(int)pos.x] == OBJECT)
+				ft_draw_megamap_square(game, pos, NULL, 0x8fffff00);
 			else
-				ft_draw_megamap_square(game, pos, game->env.SO);
-	to_intpos(&pos, game->player.pos);
-	ft_draw_megamap_square(game, pos, game->env.EA);
+				ft_draw_megamap_square(game, pos, NULL, 0xad000000);
+	pos.x = game->player.pos.x - .5;
+	pos.y = game->player.pos.y - .5;
+	ft_draw_megamap_square(game, pos, NULL, 0x8fff0000);
 }
 
 int	ft_render_megamap(t_game *game)

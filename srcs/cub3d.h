@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 04:57:36 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 07:33:55 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ typedef struct	s_image
 typedef struct	t_sprite
 {
 	t_image		img;
+	t_ipos		index;
 	int			frame_size;
-	int			index;
 }				t_sprite;
 typedef struct	s_object
 {
@@ -204,6 +204,7 @@ int				ft_hud(t_game *game);
 // Image
 int				ft_set_pixel(t_image *ptr, t_ipos pos, unsigned int color);
 unsigned int	ft_get_pixel(t_image *ptr, t_ipos pos);
+void			ft_draw_sprite(t_game *game, t_sprite *spr, t_ipos draw, t_dpos draw_tex);
 
 // Minimap
 int				ft_generate_minimap(t_game *game);
