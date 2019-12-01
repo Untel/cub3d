@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 15:10:39 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 18:09:56 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ void	ft_draw_sprite(t_game *game, t_sprite *spr, t_ipos draw, t_dpos draw_tex)
 	unsigned int	color;
 	t_ipos			draw_tex_pos;
 
-	if (spr->frame_size > 0)
+	if (spr->frame_size.x > 0)
 	{
-		draw_tex_pos.x = (draw_tex.x * spr->frame_size) + (spr->index.x * spr->frame_size);
-		draw_tex_pos.y = (draw_tex.y * spr->frame_size) + (spr->index.y * spr->frame_size);
+		draw_tex_pos.x = (draw_tex.x * spr->frame_size.x) + (spr->index.x * spr->frame_size.x);
+		draw_tex_pos.y = (draw_tex.y * spr->frame_size.y) + (spr->index.y * spr->frame_size.y);
 	}
 	else
 	{

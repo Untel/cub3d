@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 11:13:10 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 18:21:14 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ typedef enum	e_keybinds
 	TOGGLE_COLLISION,
 	INC_SPEED,
 	DEC_SPEED,
+	FIRE,
 	EXIT,
 }				t_keybings;
 typedef struct	s_doublepos
@@ -106,7 +107,7 @@ typedef struct	t_sprite
 {
 	t_image		img;
 	t_ipos		index;
-	int			frame_size;
+	t_ipos		frame_size;
 }				t_sprite;
 typedef struct	s_object
 {
@@ -115,7 +116,6 @@ typedef struct	s_object
 	double		dir;
 	t_dpos		pos;
 }				t_object;
-typedef int 	t_texture[TEX_HEIGHT * TEX_WIDTH];
 typedef struct	s_map
 {
 	int			width;
@@ -178,6 +178,7 @@ typedef struct	s_game
 	t_player	player;
 	env_t		env;
 	t_image		image;
+	t_sprite	weapon;
 	char		collision;
 	char		event[EXIT + 1];
 }				t_game;
@@ -210,10 +211,13 @@ int				ft_generate_image(t_game *game, t_image *ptr, int w, int h);
 int				ft_render(t_game *game);
 int				ft_draw_renderer(t_game *game, t_ipos pos, unsigned int color);
 int				ft_destroy_window(t_game *game);
+
+int				ft_increment_sprite_index(t_sprite *spr);
 //rays
 // void			init_ray(t_game *game, t_ray *ray);
 // void			compute_ray(t_game *game, t_ray *ray);
 void			ft_draw_objects(t_game *game, int column, t_ray *ray, t_drawer *drawer);
+void			ft_draw_object(t_game *game, int column, t_object *obj, t_drawer *drawer);
 t_object		*ft_newobject(t_game *game, t_ray *ray);
 int				ft_hud(t_game *game);
 

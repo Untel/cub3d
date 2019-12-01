@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 11:07:24 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 18:24:27 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,14 @@ int	ft_read_events(t_game *game)
 		ft_inc_speed(game, 0.01);
 	if (game->event[DEC_SPEED] == 1)
 		ft_inc_speed(game, -0.01);
+	if (game->event[FIRE] == 1)
+		ft_increment_sprite_index(&game->weapon);
+	else
+	{
+		game->weapon.index.x = 0;
+		game->weapon.index.y = 0;
+	}
+
 	game->map.show_mega = game->event[TOGGLE_MAP];
 	game->collision = !game->event[TOGGLE_COLLISION];
 }
@@ -72,9 +80,9 @@ int toggle_key(t_game *game, int keycode, int value)
 		game->event[STR_LEFT] = value;
 	else if (keycode == KEY_D)
 		game->event[STR_RIGHT] = value;
-	else if (keycode == KEY_Q || keycode == KEY_RIGHT)
+	else if (keycode == KEY_Q || keycode == KEY_LEFT)
 		game->event[ROT_LEFT] = value;
-	else if (keycode == KEY_E || keycode == KEY_LEFT)
+	else if (keycode == KEY_E || keycode == KEY_RIGHT)
 		game->event[ROT_RIGHT] = value;
 	else if (keycode == KEY_UP)
 		game->event[ROT_UP] = value;
@@ -88,6 +96,8 @@ int toggle_key(t_game *game, int keycode, int value)
 		game->event[TOGGLE_MAP] = value;
 	else if (keycode == KEY_TAB)
 		game->event[TOGGLE_COLLISION] = value;
+	else if (keycode == KEY_SPACE)
+		game->event[FIRE] = value;
 }
 
 int	ft_keypress_hook(int keycode, t_game *game)

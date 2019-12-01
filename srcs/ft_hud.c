@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:47:19 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 11:07:47 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 19:03:25 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,57 @@ int
 }
 
 int
+	ft_weapon(t_game *game)
+{
+	t_ipos start_draw;
+	t_ipos draw;
+	t_dpos draw_tex_step;
+	t_dpos draw_tex;
+	int pad = ((double)game->win.width / 3);
+	draw = (t_ipos) { .x = game->win.width - pad + (pad / 10), .y = game->win.height - pad + (pad / 7) };
+	start_draw = (t_ipos) { .x = draw.x + pad, .y = draw.y + pad};
+	draw_tex_step = (t_dpos) {
+		.x = (1 / (double)(start_draw.x - draw.x)),
+		.y = (1 / (double)(start_draw.y - draw.y))
+	};
+	draw_tex = (t_dpos) { 0, 0 };
+	while (draw.x < (start_draw.x))
+	{
+		(draw.y = game->win.height - pad + (pad / 7));
+		draw_tex.y = 0;
+		while (draw.y < (start_draw.y))
+		{
+			ft_draw_sprite(game, &(game->weapon), draw, draw_tex);
+			draw_tex.y += draw_tex_step.y;
+			draw.y++;
+		}
+		draw.x++;
+		draw_tex.x += draw_tex_step.x;
+	}
+	// printf("Weapon drawed");
+}
+
+int	ft_draw_crosshair(t_game *game)
+{
+	t_ipos pos;
+	int i;
+
+	i = -1;
+	pos.x = game->win.width / 2 - CH_RADIAN;
+	pos.y = game->win.height / 2;
+	while (pos.x++ < game->win.width / 2 + CH_RADIAN)
+		ft_draw_renderer(game, pos, CH_COLOR);
+	pos.x = game->win.width / 2;
+	pos.y = game->win.height / 2 - CH_RADIAN;	
+	while (pos.y++ < game->win.height / 2 + CH_RADIAN)
+		ft_draw_renderer(game, pos, CH_COLOR);
+}
+
+int
 	ft_hud(t_game *game)
 {
+	// printf("weapon is %d  /  %d", game->weapon.frame_size.x, game->weapon.frame_size.y);
+	ft_weapon(game);
+	ft_draw_crosshair(game);
 	ft_healthbar(game);
 }

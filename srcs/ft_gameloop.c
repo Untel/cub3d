@@ -22,20 +22,20 @@ int ft_trigger_hp_losing(t_game *game)
 			ft_destroy_window(game);
 	}
 	else if (game->player.hp < game->player.max_hp)
-		game->player.hp++;	
+		game->player.hp++;
 }
 
 int	ft_increment_sprite_index(t_sprite *spr)
 {
-	if (spr->frame_size > 0)
+	if (spr->frame_size.x > 0)
 	{
 		spr->index.x++;
-		if (spr->index.x >= (spr->img.width / spr->frame_size))
+		if (spr->index.x >= (spr->img.width / spr->frame_size.x))
 		{
 			spr->index.x = 0;
 			spr->index.y++;
 		}
-		if (spr->index.y >= (spr->img.height / spr->frame_size))
+		if (spr->index.y >= (spr->img.height / spr->frame_size.y))
 		{
 			spr->index.x = 0;
 			spr->index.y = 0;
@@ -54,6 +54,7 @@ int	ft_game_loop(t_game *game)
 		ft_draw_megamap(game);
 	ft_draw_frame(game);
 	mlx_put_image_to_window(game->mlx, game->win.ref, game->map.mini.ref, 0, 0);
+	// mlx_put_image_to_window(game->mlx, game->win.ref, game->weapon.img.ref, 0, 0);
 	if (game->map.show_mega)
 	{
 		ft_render_megamap(game);

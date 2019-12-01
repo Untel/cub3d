@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:33:46 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 13:28:09 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 18:28:54 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,22 +171,6 @@ void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 			ft_set_pixel(&(game->win.renderer), draw, game->env.FLOOR) && draw.y++;
 }
 
-int	ft_draw_crosshair(t_game *game)
-{
-	t_ipos pos;
-	int i;
-
-	i = -1;
-	pos.x = game->win.width / 2 - CH_RADIAN;
-	pos.y = game->win.height / 2;
-	while (pos.x++ < game->win.width / 2 + CH_RADIAN)
-		ft_draw_renderer(game, pos, CH_COLOR);
-	pos.x = game->win.width / 2;
-	pos.y = game->win.height / 2 - CH_RADIAN;	
-	while (pos.y++ < game->win.height / 2 + CH_RADIAN)
-		ft_draw_renderer(game, pos, CH_COLOR);
-}
-
 int	ft_draw_frame(t_game *game)
 {
 	int			column;
@@ -214,6 +198,5 @@ int	ft_draw_frame(t_game *game)
 			ft_update_megamap(game, &ray);
         column++;
     }
-	ft_draw_crosshair(game);
 	ft_hud(game);
 }

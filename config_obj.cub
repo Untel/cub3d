@@ -1,9 +1,9 @@
-R 1920 1080
+R 800 600 
 NO ./pics/brick.xpm
 SO ./pics/maiabig.xpm
 WE ./pics/stone.xpm
 EA ./pics/wood.xpm
-S 64 ./pics/fire_64.xpm
+S 64 64 ./pics/fire_64.xpm
 F 125,125,125
 C 225,30,0
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
