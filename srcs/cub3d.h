@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 03:57:23 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 04:57:36 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,8 +151,8 @@ typedef struct	s_ray
 	t_ipos		pos;
 	t_dpos		dir;
 	double		draw_dist;
-    int			vert;
     double		po;
+    int			vert;
 	t_list		*objects;
 }               t_ray;
 typedef struct	s_game
@@ -194,7 +194,7 @@ int				ft_generate_renderer(t_game *game);
 int				ft_generate_image(t_game *game, t_image *ptr, int w, int h);
 int				ft_render(t_game *game);
 int				ft_draw_renderer(t_game *game, t_ipos pos, unsigned int color);
-
+int				ft_destroy_window(t_game *game);
 //rays
 // void			init_ray(t_game *game, t_ray *ray);
 // void			compute_ray(t_game *game, t_ray *ray);

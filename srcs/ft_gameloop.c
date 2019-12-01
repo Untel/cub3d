@@ -17,9 +17,12 @@ int ft_trigger_hp_losing(t_game *game)
 {
 	if (game->map.grid[(int)game->player.pos.y][(int)game->player.pos.x] == OBJECT)
 	{
-		game->player.hp -= 1;
-		printf("Ourge, loosing hp %d\n", game->player.hp);
+		game->player.hp -= 10;
+		if (game->player.hp <= 0)
+			ft_destroy_window(game);
 	}
+	else if (game->player.hp < game->player.max_hp)
+		game->player.hp++;	
 }
 
 int	ft_game_loop(t_game *game)
@@ -32,7 +35,6 @@ int	ft_game_loop(t_game *game)
 	if (game->map.show_mega)
 		ft_draw_megamap(game);
 	ft_draw_frame(game);
-	ft_render(game);
 	mlx_put_image_to_window(game->mlx, game->win.ref, game->map.mini.ref, 0, 0);
 	if (game->map.show_mega)
 		ft_render_megamap(game);
