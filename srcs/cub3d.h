@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/30 20:10:21 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 00:36:06 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,10 +94,10 @@ typedef struct	t_sprite
 }				t_sprite;
 typedef struct	s_object
 {
-	int			dist;
+	double		dist;
 	double		angle;
 	double		dir;
-	t_ipos		pos;
+	t_dpos		pos;
 }				t_object;
 typedef int 	t_texture[TEX_HEIGHT * TEX_WIDTH];
 typedef struct	s_map

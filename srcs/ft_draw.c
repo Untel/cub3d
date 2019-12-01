@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:33:46 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/30 21:54:13 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 01:08:48 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,46 +30,44 @@ void    init_ray(t_game *game, t_ray *ray)
 	ray->objects = NULL;
 }
 
-t_object	*ft_newobject(t_game *game, t_ray *ray, t_ipos pos)
+t_object	*ft_newobject(t_game *game, t_ray *ray)
 {
 	t_object *obj;
 
     if (!(obj = malloc(sizeof(t_object))))
         return (NULL);
-    obj->pos.x = pos.x;
-    obj->pos.y = pos.y;
-    obj->dist = (ray->vert ? ray->dist.y : ray->dist.x);
+    obj->pos.x = floor(ray->pos.x) + .5;
+    obj->pos.y = floor(ray->pos.y) + .5;
+	obj->dist = sqrt(pow((game->player.pos.y - obj->pos.y), 2) + pow(game->player.pos.x - obj->pos.x, 2));
     obj->angle = asin(((obj->pos.x - game->player.pos.x) * game->player.plane.y * -1 +
                         (obj->pos.y - game->player.pos.y) * game->player.plane.x) / obj->dist);
-    obj->dir = 0.5 + obj->dist * tan(obj->angle);
+    obj->dir = .5 + obj->dist * tan(obj->angle);
 	return (obj);
 }
 
-int	ft_add_object(t_game *game, t_ray *ray, t_ipos pos)
+int	ft_add_object(t_game *game, t_ray *ray)
 {
 	// if (game->map.sprites[pos.x][pos.y] == 1)
 	// 	return (1);
 	// printf("Adding obj");
 	// game->map.sprites[pos.x][pos.y] = 1;
-	ft_lstadd_front(&(ray->objects), ft_lstnew(ft_newobject(game, ray, pos), sizeof(t_object *)));
+	ft_lstadd_front(&(ray->objects), ft_lstnew(
+		ft_newobject(game, ray), sizeof(t_object *)));
 	return (1);
 }
 
 void    compute_ray(t_game *game, t_ray *ray)
 {
     int    i;
-	t_ipos pos;
+
     i = -1;
     while (++i < 100)
     {
-		pos.y = (int)ray->pos.y;
-		pos.x = (int)ray->pos.x;
         if (ray->dist.x < ray->dist.y)
         {
             ray->vert = 0;
             ray->pos.x += ray->step.x;
-			pos.x = (int)ray->pos.x;
-            if (game->map.grid[pos.y][pos.x] != WALL)
+            if (game->map.grid[(int)ray->pos.y][(int)ray->pos.x] != WALL)
                 ray->dist.x += ray->step_dist.x;
 			if (game->map.show_mega)
 				ft_update_megamap(game, ray);
@@ -78,15 +76,14 @@ void    compute_ray(t_game *game, t_ray *ray)
         {
             ray->vert = 1;
             ray->pos.y += ray->step.y;
-			pos.y = (int)ray->pos.y;
-            if (game->map.grid[pos.y][pos.x] != WALL)
+            if (game->map.grid[(int)ray->pos.y][(int)ray->pos.x] != WALL)
                 ray->dist.y += ray->step_dist.y;
 			if (game->map.show_mega)
 				ft_update_megamap(game, ray);
         }
-        if (game->map.grid[pos.y][pos.x] == OBJECT)
-			ft_add_object(game, ray, pos);
-        if (game->map.grid[pos.y][pos.x] == WALL)
+        if (game->map.grid[(int)ray->pos.y][(int)ray->pos.x] == OBJECT)
+			ft_add_object(game, ray);
+        if (game->map.grid[(int)ray->pos.y][(int)ray->pos.x] == WALL)
 		{
 			if (game->map.show_mega)
 				ft_update_megamap(game, ray);
@@ -112,12 +109,15 @@ void    ft_draw_object(t_game *game, int column, t_object *obj, t_drawer *drawer
     double	height;
 	t_ipos	draw;
 	t_ipos	draw_tex;
+	unsigned int color;
 
-	// printf("drawing obj");
+    if (obj->dir <= 0 || obj->dir >= 1)
+        return ;
     height = game->win.height / obj->dist;
-    drawer->start = game->win.height / 2 - height / 2;
+	// printf("== %.2f", height);
+    drawer->start = (double)game->win.height / 2 - height / 2;
     drawer->start = fmax(drawer->start, 0);
-    drawer->end = game->win.height / 2 + height / 2;
+    drawer->end = (double)game->win.height / 2 + height / 2;
     drawer->end = fmin(drawer->end, game->win.height - 1);
     drawer->step_posy = 1 / ((double)(drawer->end - drawer->start));
     draw.y = drawer->start;
@@ -125,9 +125,13 @@ void    ft_draw_object(t_game *game, int column, t_object *obj, t_drawer *drawer
     posy = 0;
     while (++draw.y < drawer->end)
     {
-		draw_tex.x = (int)(obj->dir);
-		draw_tex.y = (int)(posy);
-		ft_transfert_pixel(&(game->env.S.img), draw_tex, &(game->win.renderer), draw);
+		draw_tex.x = (obj->dir * game->env.S.img.width);
+		draw_tex.y = (posy * game->env.S.img.height);
+		color = ft_get_pixel(&(game->env.S.img), draw_tex);
+		if (color > 0)
+			ft_set_pixel(&(game->win.renderer), draw, color & 0x00FFFFFF);
+		// ft_transfert_pixel(&(game->env.S.img), draw_tex,
+		// 	&(game->win.renderer), draw);
         posy += drawer->step_posy;
     }
 }
@@ -203,7 +207,6 @@ int	ft_draw_frame(t_game *game)
             drawer.texture = (game->player.pos.y < ray.pos.y ? &(game->env.SO) : &(game->env.NO));
         else
             drawer.texture = (game->player.pos.x < ray.pos.x ? &(game->env.EA) : &(game->env.WE));
-		game->zbuffer[column] = ray.draw_dist;
 		ft_draw_column(game, column, &ray, &drawer);
 		ft_update_minimap(game, &ray);
 		ft_draw_objects(game, column, &ray, &drawer);
