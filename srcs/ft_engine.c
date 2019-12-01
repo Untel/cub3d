@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 19:16:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/28 22:51:07 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 19:52:54 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,5 @@ int	ft_generate_renderer(t_game *game)
 int	ft_render(t_game *game)
 {
 	mlx_put_image_to_window(game->mlx, game->win.ref, game->win.renderer.ref, 0, 0);
+	mlx_put_image_to_window(game->mlx, game->win.ref, game->map.mini.ref, 0, 0);
 }

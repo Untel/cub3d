@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 18:49:13 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 19:56:33 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ int	ft_set_sprite(t_game *game, t_sprite *spr, char *path)
 		spr->frame_size.x = ft_get_next_number(&path);
 		spr->frame_size.y = ft_get_next_number(&path);
 		spr->frame_size.y = spr->frame_size.y > -1 ? spr->frame_size.y : spr->frame_size.x;
-		spr->index.x = 1;
-		spr->index.y = 1;
+		spr->index.x = 0;
+		spr->index.y = 0;
 		path++;
 	}
 	else
@@ -203,7 +203,7 @@ int	ft_configure(t_game *game, char *filename)
 		ret = ft_readline(game, line);
 		free(line);
 	}
-	ret = ft_set_sprite(game, &(game->weapon), "215 127 ./pics/weapon2.xpm");
+	ret = ft_set_sprite(game, &(game->weapon), "215 127 ./pics/weapon.xpm");
 	// ret = ft_set_sprite(game, &(game->weapon), "64 64 ./pics/fire_64.xpm");
 	return (ret);
 }
@@ -213,7 +213,7 @@ int	init_config(t_game *game)
 	game->player.ms = 0.12;
 	game->player.rs = 0.04;
 	game->player.view = 0;
-	game->player.hp = 1;
+	game->player.hp = 999;
 	game->player.max_hp = 999;
 	game->collision = 1;
 	ft_memset(game->event, 0, EXIT + 1);

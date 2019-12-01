@@ -48,12 +48,10 @@ int	ft_game_loop(t_game *game)
 	char		txt[300];
 
 	ft_read_events(game);
-	ft_draw_minimap(game);
 	ft_trigger_hp_losing(game);
 	if (game->map.show_mega)
 		ft_draw_megamap(game);
 	ft_draw_frame(game);
-	mlx_put_image_to_window(game->mlx, game->win.ref, game->map.mini.ref, 0, 0);
 	// mlx_put_image_to_window(game->mlx, game->win.ref, game->weapon.img.ref, 0, 0);
 	if (game->map.show_mega)
 	{

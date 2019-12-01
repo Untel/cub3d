@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:47:19 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 19:37:34 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 19:52:00 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,6 @@ int
 	// printf("weapon is %d  /  %d", game->weapon.frame_size.x, game->weapon.frame_size.y);
 	ft_weapon(game);
 	ft_draw_crosshair(game);
+	ft_draw_minimap(game);
 	ft_healthbar(game);
 }
