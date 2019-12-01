@@ -32,17 +32,18 @@ int	ft_game_loop(t_game *game)
 	if (spr->frame_size > 0)
 	{
 		spr->index.x++;
-		if (spr->index.x > (spr->img.width / spr->frame_size))
+		if (spr->index.x >= (spr->img.width / spr->frame_size))
 		{
 			spr->index.x = 0;
 			spr->index.y++;
 		}
-		if (spr->index.y > (spr->img.height / spr->frame_size))
+		if (spr->index.y >= (spr->img.height / spr->frame_size))
 		{
 			spr->index.x = 0;
 			spr->index.y = 0;
 		}
 	}
+	printf("Index %d/%d\n", spr->index.x, spr->img.width / spr->frame_size);
 	ft_read_events(game);
 	ft_draw_minimap(game);
 	ft_trigger_hp_losing(game);

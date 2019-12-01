@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 07:06:45 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 08:27:44 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,14 +141,19 @@ int	ft_set_sprite(t_game *game, t_sprite *spr, char *path)
 	if (ft_isdigit(*path))
 	{
 		spr->frame_size = ft_get_next_number(&path);
-		spr->index.x = 0;
-		spr->index.y = 0;
+		spr->index.x = 1;
+		spr->index.y = 1;
 		path++;
 	}
 	else
 		spr->frame_size = -1;
 	if (ft_set_image(game, &(spr->img), path) == ERROR)
 		return (ERROR);
+	if (spr->frame_size > -1)
+	{
+		// spr->img.width = spr->frame_size;
+		// spr->img.height = spr->frame_size;
+	}
 	return (SUC("Sprite texture %s has been set", path));
 }
 
