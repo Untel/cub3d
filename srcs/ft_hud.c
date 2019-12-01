@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:47:19 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 19:03:25 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 19:37:34 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int
 	t_dpos draw_tex_step;
 	t_dpos draw_tex;
 	int pad = ((double)game->win.width / 3);
-	draw = (t_ipos) { .x = game->win.width - pad + (pad / 10), .y = game->win.height - pad + (pad / 7) };
+	draw = (t_ipos) { .x = game->win.width - pad + (pad / 15), .y = game->win.height - pad + (pad / 7) };
 	start_draw = (t_ipos) { .x = draw.x + pad, .y = draw.y + pad};
 	draw_tex_step = (t_dpos) {
 		.x = (1 / (double)(start_draw.x - draw.x)),

@@ -1,7 +1,7 @@
-R 800 600 
+R 1200 800
 NO ./pics/brick.xpm
 SO ./pics/maiabig.xpm
-WE ./pics/stone.xpm
+WE ./pics/williamc.xpm
 EA ./pics/wood.xpm
 S 64 64 ./pics/fire_64.xpm
 F 125,125,125
