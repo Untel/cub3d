@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/30 22:17:32 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 03:04:56 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,10 @@ int	ft_read_events(t_game *game)
 		rotate_left(game);
 	if (game->event[ROT_RIGHT] == 1)
 		rotate_right(game);
+	if (game->event[ROT_UP] == 1)
+		rotate_up(game);
+	if (game->event[ROT_DOWN] == 1)
+		rotate_down(game);
 	if (game->event[INC_SPEED] == 1)
 		ft_inc_speed(game, 0.01);
 	if (game->event[DEC_SPEED] == 1)
@@ -71,6 +75,10 @@ int toggle_key(t_game *game, int keycode, int value)
 		game->event[ROT_LEFT] = value;
 	else if (keycode == KEY_E || keycode == KEY_LEFT)
 		game->event[ROT_RIGHT] = value;
+	else if (keycode == KEY_UP)
+		game->event[ROT_UP] = value;
+	else if (keycode == KEY_DOWN)
+		game->event[ROT_DOWN] = value;
 	else if (keycode == KEY_PLUS)
 		game->event[INC_SPEED] = value;
 	else if (keycode == KEY_MINUS)

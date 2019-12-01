@@ -34,7 +34,7 @@ GNL_INCL			= -I $(GNL_PATH)
 LIBS				= -lm $(LIBFTPRINTF) $(GNL) $(MINILIBX)
 
 SRCS_DIR			= srcs
-SRCS_FILES			= main.c ft_snapshot.c ft_config.c ft_move.c ft_utils.c ft_draw.c ft_texture.c ft_minimap.c ft_engine.c ft_image.c ft_gameloop.c ft_megamap.c
+SRCS_FILES			= main.c ft_hud.c ft_snapshot.c ft_config.c ft_move.c ft_utils.c ft_draw.c ft_texture.c ft_minimap.c ft_engine.c ft_image.c ft_gameloop.c ft_megamap.c
 SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 INCLUDES			= -I . -I./headers $(GNL_INCL) $(LIBFTPRINTF_INCL) -I$(MINILIBX_PATH)/

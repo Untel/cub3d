@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 00:36:06 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 03:57:23 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ typedef enum	e_keybinds
 	STR_RIGHT,
 	ROT_LEFT,
 	ROT_RIGHT,
+	ROT_UP,
+	ROT_DOWN,
 	TOGGLE_MAP,
 	TOGGLE_COLLISION,
 	INC_SPEED,
@@ -118,6 +120,9 @@ typedef struct	s_player
 	double		angle;
 	double		ms;
 	double		rs;
+	double		view;
+	int			hp;
+	int			max_hp;
 }				t_player;
 typedef struct	s_window
 {
@@ -158,7 +163,6 @@ typedef struct	s_game
 	t_player	player;
 	env_t		env;
 	t_image		image;
-	double		zbuffer[MAX_WIDTH];
 	char		collision;
 	char		event[EXIT + 1];
 }				t_game;
@@ -177,6 +181,8 @@ int				move_backward(t_game *game);
 int 			rotate(t_game *game, double deg);
 void			rotate_left(t_game *game);
 void			rotate_right(t_game *game);
+void			rotate_up(t_game *game);
+void			rotate_down(t_game *game);
 void			update_orientation(double angle, t_dpos *dir);
 int				strafe_left(t_game *game);
 int				strafe_right(t_game *game);
@@ -188,6 +194,12 @@ int				ft_generate_renderer(t_game *game);
 int				ft_generate_image(t_game *game, t_image *ptr, int w, int h);
 int				ft_render(t_game *game);
 int				ft_draw_renderer(t_game *game, t_ipos pos, unsigned int color);
+
+//rays
+// void			init_ray(t_game *game, t_ray *ray);
+// void			compute_ray(t_game *game, t_ray *ray);
+void			ft_draw_objects(t_game *game, int column, t_ray *ray, t_drawer *drawer);
+int				ft_hud(t_game *game);
 
 // Image
 int				ft_set_pixel(t_image *ptr, t_ipos pos, unsigned int color);

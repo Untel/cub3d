@@ -13,12 +13,22 @@
 
 #include "cub3d.h"
 
+int ft_trigger_hp_losing(t_game *game)
+{
+	if (game->map.grid[(int)game->player.pos.y][(int)game->player.pos.x] == OBJECT)
+	{
+		game->player.hp -= 1;
+		printf("Ourge, loosing hp %d\n", game->player.hp);
+	}
+}
+
 int	ft_game_loop(t_game *game)
 {
 	char		txt[300];
 
 	ft_read_events(game);
 	ft_draw_minimap(game);
+	ft_trigger_hp_losing(game);
 	if (game->map.show_mega)
 		ft_draw_megamap(game);
 	ft_draw_frame(game);
