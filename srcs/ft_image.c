@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 10:37:00 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 15:10:39 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ void	ft_draw_sprite(t_game *game, t_sprite *spr, t_ipos draw, t_dpos draw_tex)
 		draw_tex_pos.x = draw_tex.x * spr->img.width;
 		draw_tex_pos.y = draw_tex.y * spr->img.height;
 	}
+	// ft_transfert_pixel(&spr->img, draw_tex_pos, &(game->win.renderer), draw);
 	color = ft_get_pixel(spr, draw_tex_pos);
+	if (!game->collision)
+		color = color & 0x00FFFFFF ^ ft_get_pixel(&(game->win.renderer), draw);
 	if (color > 0)
 		ft_set_pixel(&(game->win.renderer), draw, color & 0x00FFFFFF);
 }

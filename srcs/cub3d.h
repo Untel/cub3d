@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 10:36:41 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 11:13:10 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@
 # define WHITE 0x00ffffff
 # define BLACK 0x0
 # define OCTET 0xFF
+# define CH_RADIAN 10
+# define CH_COLOR GREEN
+# define CH_SIZE 2
 # define HEALTHBAR_WIDTH 150
 # define HEALTHBAR_HEIGHT 20
 # define HEALTHBAR_PADDING 5
@@ -161,6 +164,7 @@ typedef struct	s_ray
     t_dpos		step_dist;
 	t_ipos		pos;
 	t_dpos		dir;
+	t_dpos		floor;
 	double		draw_dist;
     double		po;
     int			vert;
@@ -210,6 +214,7 @@ int				ft_destroy_window(t_game *game);
 // void			init_ray(t_game *game, t_ray *ray);
 // void			compute_ray(t_game *game, t_ray *ray);
 void			ft_draw_objects(t_game *game, int column, t_ray *ray, t_drawer *drawer);
+t_object		*ft_newobject(t_game *game, t_ray *ray);
 int				ft_hud(t_game *game);
 
 // Image

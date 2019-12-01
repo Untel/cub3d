@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 08:27:44 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 12:26:15 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -213,7 +213,7 @@ int	init_config(t_game *game)
 {
 	game->player.ms = 0.12;
 	game->player.rs = 0.04;
-	game->player.view = 2;
+	game->player.view = 0;
 	game->player.hp = 1;
 	game->player.max_hp = 999;
 	game->collision = 1;

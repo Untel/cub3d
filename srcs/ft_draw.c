@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:33:46 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 10:24:40 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 13:28:09 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,6 @@ void    init_ray(t_game *game, t_ray *ray)
         (game->player.pos.y - ray->pos.y));
     ray->vert = (ray->dist.x >= ray->dist.y);
 	ray->objects = NULL;
-}
-
-t_object	*ft_newobject(t_game *game, t_ray *ray)
-{
-	t_object *obj;
-
-    if (!(obj = malloc(sizeof(t_object))))
-        return (NULL);
-    obj->pos.x = (int)ray->pos.x + .5;
-    obj->pos.y = (int)ray->pos.y + .5;
-	obj->dist = sqrt(pow((game->player.pos.y - obj->pos.y), 2) + pow(game->player.pos.x - obj->pos.x, 2));
-    obj->angle = asin(((obj->pos.x - game->player.pos.x) * game->player.plane.y * -1 +
-                        (obj->pos.y - game->player.pos.y) * game->player.plane.x) / obj->dist);
-    obj->dir = .5 + obj->dist * tan(obj->angle);
-	return (obj);
 }
 
 void    compute_ray(t_game *game, t_ray *ray)
@@ -87,122 +72,58 @@ double	decim(double val)
 	return (val - (int)val);
 }
 
-void	ft_clear_object(t_list *el)
+void	ft_floor_cast(t_game *game, t_ray *ray, t_ipos draw)
 {
-	if (el->content)
-		free(el->content);
+	if (ray->vert == 0 && ray->dir.x > 0)
+		ray->floor = (t_dpos){ ray->pos.x, ray->pos.y + ray->draw_dist };
+	else if (ray->vert == 0 && ray->dir.x < 0)
+		ray->floor = (t_dpos){ ray->pos.x + 1., ray->pos.y + ray->draw_dist };
+	else if (ray->vert && ray->dir.y > 0)
+		ray->floor = (t_dpos){ ray->pos.x + ray->draw_dist, ray->pos.y};
+	else if (ray->vert && ray->dir.y < 0)
+		ray->floor = (t_dpos){ ray->pos.x + ray->draw_dist, ray->pos.y + 1.};
 }
 
-void    ft_draw_object(t_game *game, int column, t_object *obj, t_drawer *drawer)
-{
-    double	posy;
-    double	height;
-	t_ipos	draw;
-	t_dpos	draw_tex;
-	unsigned int color;
-	int		delta;
-
-    if (obj->dir <= 0 || obj->dir >= 1)
-        return ;
-    height = game->win.height / obj->dist;
-	delta =	height - game->win.height;
-
-    drawer->start = delta <= 0 ? (double)game->win.height / game->player.view - height / game->player.view : 0;
-    drawer->end = delta <= 0 ? (double)game->win.height / game->player.view + height / game->player.view : game->win.height;
-    drawer->step_posy = 1 / (delta <= 0 ? (double)(drawer->end - drawer->start) : height);
-    draw.y = drawer->start;
-	draw.x = column;
-	posy = delta > 0 ? (drawer->step_posy * (delta / game->player.view)) : 0;
-    while (++draw.y < drawer->end)
-    {
-		draw_tex.x = (obj->dir);
-		draw_tex.y = (posy);
-		ft_draw_sprite(game, &game->env.S, draw, draw_tex);
-		// color = ft_get_pixel(&(game->env.S.img), draw_tex);
-		// if (color > 0)
-		// 	ft_set_pixel(&(game->win.renderer), draw, color & 0x00FFFFFF);
-		// ft_transfert_pixel(&(game->env.S.img), draw_tex,
-		// 	&(game->win.renderer), draw);
-        posy += drawer->step_posy;
-    }
-}
-
-void    ft_draw_objects(t_game *game, int column, t_ray *ray, t_drawer *drawer)
-{
-	t_list *el;
-
-	if (!ray->objects)
-		return ;
-	el = ray->objects;
-	while (el)
-	{
-		ft_draw_object(game, column, (t_object *)el->content, drawer);
-		el = el->next;
-	}
-	ft_lstclear(&(ray->objects), ft_clear_object);
-}
-
-void	ft_draw_floor(t_game *game, t_ray *ray, t_ipos *draw)
+void	ft_draw_floor(t_game *game, t_ray *ray, t_ipos draw)
 {
 	t_dpos floorpos;
-
-	if(!ray->vert && ray->dir.x >= 0)
-	{
-        floorpos.x = ray->pos.x;
-        floorpos.y = ray->pos.y + ray->dist.y;
-	}
-	else if(!ray->vert && ray->dir.x < 0)
-	{
-		floorpos.x = ray->pos.x + 1.0;
-        floorpos.y = ray->pos.y + ray->dist.y;
-	}
-	else if(ray->vert && ray->dir.y >= 0)
-	{
-        floorpos.x = ray->pos.x + ray->dist.x;
-        floorpos.y = ray->pos.y;
-	}
-	else if(ray->vert && ray->dir.y < 0)
-	{
-        floorpos.x = ray->pos.x + ray->dist.x;
-        floorpos.y = ray->pos.y + 1;
-	}
-	else
-	{
-		floorpos.x = 0;
-		floorpos.y = 0;
-	}
 	double distWall, distPlayer, currentDist;
 
+	ft_floor_cast(game, ray, draw);
 	distWall = sqrt(pow((ray->pos.y), 2) + pow(ray->pos.x, 2));
 	distPlayer = 0.0;
-
 	//draw the floor from drawEnd to the bottom of the screen
 	t_image *tex = &(game->env.EA);
 	double weight;
 	t_dpos ratio;
 	t_ipos draw_tex;
 	// printf("hey %d|%d\n", draw->y, draw->y < game->map.height);
-	while(draw->y < game->win.height)
+	while(draw.y < game->win.height)
 	{
 		// printf("hey %d\n", draw->y);
-		currentDist = game->win.height / (2.0 * draw->y - game->map.height);
+		currentDist = game->win.height / (2.0 * draw.y - game->map.height);
 		weight = (currentDist - distPlayer) / (distWall - distPlayer);
 
-		ratio.x = weight * floorpos.x + (1.0 - weight) * game->player.pos.x;
-		ratio.y = weight * floorpos.y + (1.0 - weight) * game->player.pos.y;
+		ratio.x = weight * ray->floor.x + (1.0 - weight) * game->player.pos.x;
+		ratio.y = weight * ray->floor.y + (1.0 - weight) * game->player.pos.y;
 		draw_tex.x = (int)(ratio.x * tex->width) % tex->width;
 		draw_tex.y = (int)(ratio.y * tex->height) % tex->height;
+		// draw_tex.x = (int)(ray->floor.x * tex->width);
+		// if (ray->vert == 0 && ray->dir.x > 0.)
+		// 	draw_tex.x = tex->width - draw_tex.x - 1.;
+		// else if (ray->vert == 1 && ray->dir.y < 0.)
+		// 	draw_tex.x = tex->width - draw_tex.x - 1.;
 
 		//floor
 		// unsigned int color = ft_get_pixel(tex, draw_tex);
 		// ft_set_pixel(&(game->win.renderer), *draw, color & 0x00FFFFFF);
-		ft_transfert_pixel(tex, draw_tex, &(game->win.renderer), *draw);
+		ft_transfert_pixel(tex, draw_tex, &(game->win.renderer), draw);
 		// draw->y = game->win.height - draw->y;
 		// ft_transfert_pixel(tex, draw_tex, &(game->win.renderer), *draw);
 		// buffer[y][x] = (texture[3][texWidth * floorTexY + floorTexX] >> 1) & 8355711;
 		//ceiling (symmetrical!)
 		// buffer[h - y][x] = texture[6][texWidth * floorTexY + floorTexX];
-		draw->y++;
+		draw.y++;
 	}
 }
 
@@ -217,15 +138,23 @@ void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 	draw.x = column;
     height = game->win.height / ray->draw_dist / game->win.cos[column];
 	delta =	height - game->win.height;
-    drawer->start = delta <= 0 ? (game->win.height / game->player.view - height / game->player.view) : 0;
-    drawer->end = delta <= 0 ? (game->win.height / game->player.view + height / game->player.view) : game->win.height;
-	drawer->step_posy = 1 / (delta <= 0 ?
-		((double)(drawer->end - drawer->start)) : height);
-    draw.y = 0;
+    drawer->start = delta <= 0 ? (game->win.height / 2 - height / 2) - game->player.view : 0;
+    drawer->end = delta <= 0 ? (game->win.height / 2 + height / 2) - game->player.view : game->win.height;
+	drawer->step_posy = 1 / (delta <= 0 ? (double)(drawer->end - drawer->start) : height);
+    posy = 0;
+	draw.y = 0;
 	if (delta <= 0)
 		while (draw.y < drawer->start)
 			ft_set_pixel(&(game->win.renderer), draw, game->env.CEIL) && draw.y++;
-	posy = delta > 0 ? (drawer->step_posy * (delta / game->player.view)) : 0;
+	if (delta > 0)
+	{
+		posy = (drawer->step_posy * (delta / 2));
+		// if (game->player.view > 0)
+		// 	posy -= (drawer->step_posy * (game->player.view));
+		// else if (game->player.view < 0)
+		// 	posy += (drawer->step_posy * (game->player.view));
+		// if ((drawer->end - drawer->start) > hei)
+	}
     while (draw.y < drawer->end)
     {
 		draw_tex.x = (int)(ray->po * drawer->texture->height);
@@ -237,14 +166,11 @@ void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 		draw.y++;
     }
 	if (delta <= 0)
-		// ft_draw_floor(game, ray, &draw);
+		// ft_draw_floor(game, ray, draw);
     	while (draw.y < game->win.height)
 			ft_set_pixel(&(game->win.renderer), draw, game->env.FLOOR) && draw.y++;
 }
 
-#define CH_RADIAN 10
-#define CH_COLOR 0xcf00ff00
-#define CH_SIZE 2
 int	ft_draw_crosshair(t_game *game)
 {
 	t_ipos pos;

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 04:53:06 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 11:07:24 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	ft_destroy_window(t_game *game)
 int	ft_leave_program(t_game *game)
 {
 	SUC("Good bye\n");
+	system("leaks a.out");
 	exit(EXIT_SUCCESS);
 }
 
