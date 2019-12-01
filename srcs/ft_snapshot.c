@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 20:13:21 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/30 22:28:09 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 10:29:24 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_filename(char *buffer)
 {
 	ft_strcpy(buffer, "snapshot.bmp");
-	return (1);
+	return (SUCCESS);
 }
 
 int	ft_put_octet(int value, int len, int fd)
@@ -29,6 +29,7 @@ int	ft_put_octet(int value, int len, int fd)
 		c = value / pow(256, i);
 		write(fd, &c, 1);
 	}
+	return (SUCCESS);
 }
 
 int ft_write_image(t_game *game, int fd)
@@ -56,6 +57,7 @@ int ft_write_image(t_game *game, int fd)
 		write(fd, &game->win.renderer.data[
 			(game->win.height - i) * game->win.renderer.s_line],
 			game->win.renderer.s_line);
+	return (SUCCESS);
 }
 
 int ft_snapshot(t_game *game)
@@ -69,5 +71,5 @@ int ft_snapshot(t_game *game)
 	fd = open(filename, O_RDWR|O_CREAT, 0666);
 	ft_write_image(game, fd);
 	close(fd);
-	return (0);
+	return (EXIT_SUCCESS);
 }

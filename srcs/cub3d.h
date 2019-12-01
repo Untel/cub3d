@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 07:33:55 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 10:36:41 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@
 # define ERROR 			-1
 # define SUCCESS		1
 # define HAS_ERR(x)		(x == ERROR)
+# define RED 0x00ff0000
+# define ORANGE 0x00ffA500
+# define YELLOW 0x00ffff00
+# define GREEN 0x0000ff00
+# define WHITE 0x00ffffff
+# define BLACK 0x0
+# define OCTET 0xFF
+# define HEALTHBAR_WIDTH 150
+# define HEALTHBAR_HEIGHT 20
+# define HEALTHBAR_PADDING 5
+# define HEALTHBAR_BORDER WHITE
 # define LINUX_OS 1
 # if OS == LINUX_OS
 #  include "keys_linux.h"

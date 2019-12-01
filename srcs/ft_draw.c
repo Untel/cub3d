@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:33:46 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 07:34:05 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 10:24:40 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,63 +142,69 @@ void    ft_draw_objects(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 	ft_lstclear(&(ray->objects), ft_clear_object);
 }
 
-// void	ft_draw_floor(t_game *game, t_ray *ray, t_ipos *draw)
-// {
-// 	t_dpos floorpos;
+void	ft_draw_floor(t_game *game, t_ray *ray, t_ipos *draw)
+{
+	t_dpos floorpos;
 
-// 	if(!ray->vert && ray->dir.x > 0)
-// 	{
-//         floorpos.x = (int)game->player.pos.x;
-//         floorpos.y = (int)game->player.pos.y + ray->dist.y;
-// 	}
-// 	else if(!ray->vert && ray->dir.x < 0)
-// 	{
-// 		floorpos.x = (int)game->player.pos.x + 1.0;
-//         floorpos.y = (int)game->player.pos.y + ray->dist.y;
-// 	}
-// 	else if(ray->vert && ray->dir.y > 0)
-// 	{
-//         floorpos.x = (int)game->player.pos.x + ray->dist.x;
-//         floorpos.y = (int)game->player.pos.y;
-// 	}
-// 	else
-// 	{
-//         floorpos.x = (int)game->player.pos.x + ray->dist.x;
-//         floorpos.y = (int)game->player.pos.y + 1;
-// 	}
+	if(!ray->vert && ray->dir.x >= 0)
+	{
+        floorpos.x = ray->pos.x;
+        floorpos.y = ray->pos.y + ray->dist.y;
+	}
+	else if(!ray->vert && ray->dir.x < 0)
+	{
+		floorpos.x = ray->pos.x + 1.0;
+        floorpos.y = ray->pos.y + ray->dist.y;
+	}
+	else if(ray->vert && ray->dir.y >= 0)
+	{
+        floorpos.x = ray->pos.x + ray->dist.x;
+        floorpos.y = ray->pos.y;
+	}
+	else if(ray->vert && ray->dir.y < 0)
+	{
+        floorpos.x = ray->pos.x + ray->dist.x;
+        floorpos.y = ray->pos.y + 1;
+	}
+	else
+	{
+		floorpos.x = 0;
+		floorpos.y = 0;
+	}
+	double distWall, distPlayer, currentDist;
 
-// 	double distWall, distPlayer, currentDist;
+	distWall = sqrt(pow((ray->pos.y), 2) + pow(ray->pos.x, 2));
+	distPlayer = 0.0;
 
-// 	distWall = ray->draw_dist;
-// 	distPlayer = 0.0;
+	//draw the floor from drawEnd to the bottom of the screen
+	t_image *tex = &(game->env.EA);
+	double weight;
+	t_dpos ratio;
+	t_ipos draw_tex;
+	// printf("hey %d|%d\n", draw->y, draw->y < game->map.height);
+	while(draw->y < game->win.height)
+	{
+		// printf("hey %d\n", draw->y);
+		currentDist = game->win.height / (2.0 * draw->y - game->map.height);
+		weight = (currentDist - distPlayer) / (distWall - distPlayer);
 
-// 	//draw the floor from drawEnd to the bottom of the screen
-// 	t_image *tex = &(game->env.EA);
-// 	double weight;
-// 	t_dpos ratio;
-// 	t_ipos draw_tex;
-// 	// printf("hey %d|%d\n", draw->y, draw->y < game->map.height);
-// 	while(draw->y < game->win.height)
-// 	{
-// 		// printf("hey %d\n", draw->y);
-// 		currentDist = game->win.height / (2.0 * draw->y - game->map.height); //you could make a small lookup table for this instead
-// 		weight = (currentDist - distPlayer) / (distWall - distPlayer);
+		ratio.x = weight * floorpos.x + (1.0 - weight) * game->player.pos.x;
+		ratio.y = weight * floorpos.y + (1.0 - weight) * game->player.pos.y;
+		draw_tex.x = (int)(ratio.x * tex->width) % tex->width;
+		draw_tex.y = (int)(ratio.y * tex->height) % tex->height;
 
-// 		ratio.x = weight * floorpos.x + (1.0 - weight) * game->player.pos.x;
-// 		ratio.y = weight * floorpos.y + (1.0 - weight) * game->player.pos.y;
-// 		draw_tex.x = (int)(ratio.x * tex->width) % tex->width;
-// 		draw_tex.y = (int)(ratio.y * tex->height) % tex->height;
-
-// 		//floor
-// 		// unsigned int color = ft_get_pixel(tex, draw_tex);
-// 		// ft_set_pixel(&(game->win.renderer), *draw, color & 0x00FFFFFF);
-// 		ft_transfert_pixel(tex, draw_tex, &(game->win.renderer), *draw);
-// 		// buffer[y][x] = (texture[3][texWidth * floorTexY + floorTexX] >> 1) & 8355711;
-// 		//ceiling (symmetrical!)
-// 		// buffer[h - y][x] = texture[6][texWidth * floorTexY + floorTexX];
-// 		draw->y++;
-// 	}
-// }
+		//floor
+		// unsigned int color = ft_get_pixel(tex, draw_tex);
+		// ft_set_pixel(&(game->win.renderer), *draw, color & 0x00FFFFFF);
+		ft_transfert_pixel(tex, draw_tex, &(game->win.renderer), *draw);
+		// draw->y = game->win.height - draw->y;
+		// ft_transfert_pixel(tex, draw_tex, &(game->win.renderer), *draw);
+		// buffer[y][x] = (texture[3][texWidth * floorTexY + floorTexX] >> 1) & 8355711;
+		//ceiling (symmetrical!)
+		// buffer[h - y][x] = texture[6][texWidth * floorTexY + floorTexX];
+		draw->y++;
+	}
+}
 
 void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 {

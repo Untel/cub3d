@@ -6,52 +6,17 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 08:35:18 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/01 10:37:00 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-unsigned int ft_get_sprite_pixel(t_sprite *ptr, t_ipos pos)
-{
-	int	index;
-	unsigned int color;
-	int octets;
-	int	i;
-
-	color = 0;
-	i = -1;
-	octets = ptr->img.bits >> 3;
-	index = ((ptr->img.s_line) * pos.y) + (octets * pos.x);
-	// index *= ptr->frame_size;
-	while (++i < octets - 1)
-		color += ptr->img.data[index++] << (i << 3);
-	return (color);
-}
-
-int	ft_transfert_sprite_pixel(t_sprite *from, t_ipos from_pos, t_image *to, t_ipos to_pos)
-{
-	t_ipos oct;
-	t_ipos idx;
-	int i;
-
-	oct.x = from->img.bits >> 3;
-	oct.y = to->bits >> 3;
-	idx.x = (from->img.s_line * from_pos.y) + (oct.x * from_pos.x);
-	idx.y = (to->s_line * to_pos.y) + (oct.y * to_pos.x);
-	i = 0;
-	to->data[idx.y + i] = 0;
-	while (++i <= oct.y)
-		to->data[idx.y + i] = from->img.data[idx.x + i];
-	return (SUCCESS);
-}
-
 void	ft_draw_sprite(t_game *game, t_sprite *spr, t_ipos draw, t_dpos draw_tex)
 {
-	unsigned int color;
-	t_ipos draw_tex_pos;
+	unsigned int	color;
+	t_ipos			draw_tex_pos;
 
-	// printf("Should draw sprite");
 	if (spr->frame_size > 0)
 	{
 		draw_tex_pos.x = (draw_tex.x * spr->frame_size) + (spr->index.x * spr->frame_size);
@@ -65,7 +30,6 @@ void	ft_draw_sprite(t_game *game, t_sprite *spr, t_ipos draw, t_dpos draw_tex)
 	color = ft_get_pixel(spr, draw_tex_pos);
 	if (color > 0)
 		ft_set_pixel(&(game->win.renderer), draw, color & 0x00FFFFFF);
-	// ft_transfert_sprite_pixel(spr, draw_tex_pos, &(game->win.renderer), draw);
 }
 
 int	ft_set_pixel(t_image *ptr, t_ipos pos, unsigned int color)
@@ -77,7 +41,7 @@ int	ft_set_pixel(t_image *ptr, t_ipos pos, unsigned int color)
 	index = (ptr->s_line * pos.y) + (octets * pos.x);
 	while (--octets >= 0)
 	{
-		ptr->data[index++] = color & 0xFF;
+		ptr->data[index++] = color & OCTET;
 		color >>= 8;
 	}
 	return (SUCCESS);
@@ -85,10 +49,10 @@ int	ft_set_pixel(t_image *ptr, t_ipos pos, unsigned int color)
 
 unsigned int ft_get_pixel(t_image *ptr, t_ipos pos)
 {
-	int	index;
-	unsigned int color;
-	int octets;
-	int	i;
+	int				index;
+	unsigned int	color;
+	int				octets;
+	int				i;
 
 	color = 0;
 	i = -1;

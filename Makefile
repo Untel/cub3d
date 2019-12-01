@@ -58,11 +58,10 @@ all:				$(OBJS) srcs/cub3d.h
 # 					$(GNL_MAKE)
 
 run:				all
-					rm -f snapshot.bmp
 					./$(NAME) $(ARGS)
 
-runv1:				v1
-					./$(NAME) $(ARGS)
+norme:
+					norminette $(SRCS)
 
 clean:
 					$(RM) $(OBJS)

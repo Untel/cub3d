@@ -25,10 +25,8 @@ int ft_trigger_hp_losing(t_game *game)
 		game->player.hp++;	
 }
 
-int	ft_game_loop(t_game *game)
+int	ft_increment_sprite_index(t_sprite *spr)
 {
-	char		txt[300];
-	t_sprite *spr = &game->env.S;
 	if (spr->frame_size > 0)
 	{
 		spr->index.x++;
@@ -43,7 +41,12 @@ int	ft_game_loop(t_game *game)
 			spr->index.y = 0;
 		}
 	}
-	printf("Index %d/%d\n", spr->index.x, spr->img.width / spr->frame_size);
+}
+
+int	ft_game_loop(t_game *game)
+{
+	char		txt[300];
+
 	ft_read_events(game);
 	ft_draw_minimap(game);
 	ft_trigger_hp_losing(game);
@@ -61,5 +64,6 @@ int	ft_game_loop(t_game *game)
 			game->player.angle);
 		mlx_string_put(game->mlx, game->win.ref, 10, game->win.height - 20, 0xffffff, txt);
 	}
+	ft_increment_sprite_index(&(game->env.S));
 }
 
