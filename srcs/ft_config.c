@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 19:56:33 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/02 16:31:39 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,25 @@ int	ft_verify_map(t_game *game)
 
 int	ft_set_image(t_game *game, t_image *img, char *path)
 {
+	int i;
+	int j;
+	char tmp;
+
 	if (!(img->ref = mlx_xpm_file_to_image(game->mlx, path, &(img->width), &(img->height))))
-		return (ERR("Cannot open '%s'", path));	
+		return (ERR("Cannot open '%s'", path));
 	if (!(img->data = mlx_get_data_addr(img->ref, &(img->bits), &(img->s_line), &(img->endian))))
 		return (ERR("Cannot get data adr %s", path));
+	// i = -1;
+	// while (++i < img->height)
+	// {
+	// 	j = -1;
+	// 	while (++j < img->width / 2)
+	// 	{
+	// 		tmp = img->data[(i * img->s_line + (img->s_line - j - 1))];
+	// 		img->data[(i * img->s_line + (img->s_line - j - 1))] = img->data[i * img->s_line + j];
+	// 		img->data[i * img->s_line + j] = tmp;
+	// 	}
+	// }
 	return (SUC("Image texture %s has been set", path));
 }
 
@@ -213,9 +228,12 @@ int	init_config(t_game *game)
 	game->player.ms = 0.12;
 	game->player.rs = 0.04;
 	game->player.view = 0;
+	game->player.view2 = 0;
 	game->player.hp = 999;
 	game->player.max_hp = 999;
 	game->collision = 1;
+	game->hud = 0;
+	game->player.jumping = 0;
 	ft_memset(game->event, 0, EXIT + 1);
 }
 

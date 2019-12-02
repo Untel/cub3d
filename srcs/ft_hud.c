@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:47:19 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 19:52:00 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/02 22:15:23 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,10 @@ int
 	t_ipos draw;
 	t_dpos draw_tex_step;
 	t_dpos draw_tex;
-	int pad = ((double)game->win.width / 3);
-	draw = (t_ipos) { .x = game->win.width - pad + (pad / 15), .y = game->win.height - pad + (pad / 7) };
+	int pad;
+	
+	pad = ((double)game->win.width / 3);
+	draw = (t_ipos) { .x = game->win.width - pad + (pad / 15), .y = game->win.height - pad + (pad / 10) };
 	start_draw = (t_ipos) { .x = draw.x + pad, .y = draw.y + pad};
 	draw_tex_step = (t_dpos) {
 		.x = (1 / (double)(start_draw.x - draw.x)),
@@ -77,7 +79,7 @@ int
 	draw_tex = (t_dpos) { 0, 0 };
 	while (draw.x < (start_draw.x))
 	{
-		(draw.y = game->win.height - pad + (pad / 7));
+		(draw.y = game->win.height - pad + (pad / 15));
 		draw_tex.y = 0;
 		while (draw.y < (start_draw.y))
 		{
@@ -110,9 +112,13 @@ int	ft_draw_crosshair(t_game *game)
 int
 	ft_hud(t_game *game)
 {
-	// printf("weapon is %d  /  %d", game->weapon.frame_size.x, game->weapon.frame_size.y);
-	ft_weapon(game);
-	ft_draw_crosshair(game);
-	ft_draw_minimap(game);
-	ft_healthbar(game);
+	if (game->hud)
+	{
+		ft_weapon(game);
+		ft_draw_crosshair(game);
+		ft_healthbar(game);
+		mlx_put_image_to_window(game->mlx, game->win.ref, game->map.mini.ref, 0, 0);
+	}
+	else
+		ft_render(game);
 }

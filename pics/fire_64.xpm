@@ -2,13 +2,13 @@
 static char *c05058b26998402ce776aa1f0b2a2810[] = {
 /* columns rows colors chars-per-pixel */
 "640 384 7 1 ",
-"  c black",
-". c #250000",
-"X c #750000",
-"o c #FB642F",
-"O c #FFBA38",
-"+ c #FFFDA5",
-"@ c white",
+"  c None",
+". c #60250000",
+"X c #50750000",
+"o c #40FB642F",
+"O c #30FFBA38",
+"+ c #20FFFDA5",
+"@ c #10FFFFFF",
 /* pixels */
 "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ",
 "                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                ",

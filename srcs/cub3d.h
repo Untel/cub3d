@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 18:21:14 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/02 19:40:16 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,35 +23,35 @@
 # include <math.h>
 # include <fcntl.h>
 # include <unistd.h>
-# define MAX_WIDTH		1920
-# define MAX_HEIGHT		1080
-# define MAX_MAP_HEIGHT	300
-# define MAX_MAP_WIDTH	200
-# define GAME_WIDTH		800
-# define GAME_HEIGHT	600
-# define TEX_HEIGHT		64
-# define TEX_WIDTH		64
-# define PATH_URL_SIZE	1024
-# define ERR(...) 		(((printf("[\e[0;31mERROR\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1) * -1)
-# define SUC(...) 		(((printf("[\e[0;32mSUCCESS\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1))
-# define ERROR 			-1
-# define SUCCESS		1
-# define HAS_ERR(x)		(x == ERROR)
-# define RED 0x00ff0000
-# define ORANGE 0x00ffA500
-# define YELLOW 0x00ffff00
-# define GREEN 0x0000ff00
-# define WHITE 0x00ffffff
-# define BLACK 0x0
-# define OCTET 0xFF
-# define CH_RADIAN 10
-# define CH_COLOR GREEN
-# define CH_SIZE 2
-# define HEALTHBAR_WIDTH 150
-# define HEALTHBAR_HEIGHT 20
-# define HEALTHBAR_PADDING 5
-# define HEALTHBAR_BORDER WHITE
-# define LINUX_OS 1
+# define MAX_WIDTH			1920
+# define MAX_HEIGHT			1080
+# define MAX_MAP_HEIGHT		300
+# define MAX_MAP_WIDTH		200
+# define GAME_WIDTH			800
+# define GAME_HEIGHT		600
+# define TEX_HEIGHT			64
+# define TEX_WIDTH			64
+# define PATH_URL_SIZE		1024
+# define ERR(...) 			(((printf("[\e[0;31mERROR\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1) * -1)
+# define SUC(...) 			(((printf("[\e[0;32mSUCCESS\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1))
+# define ERROR 				-1
+# define SUCCESS			1
+# define HAS_ERR(x)			(x == ERROR)
+# define RED				0x00ff0000
+# define ORANGE				0x00ffA500
+# define YELLOW				0x00ffff00
+# define GREEN				0x0000ff00
+# define WHITE				0x00ffffff
+# define BLACK				0x0
+# define OCTET				0xFF
+# define CH_RADIAN			10
+# define CH_COLOR			GREEN
+# define CH_SIZE			2
+# define HEALTHBAR_WIDTH	150
+# define HEALTHBAR_HEIGHT	20
+# define HEALTHBAR_PADDING	5
+# define HEALTHBAR_BORDER	WHITE
+# define LINUX_OS			1
 # if OS == LINUX_OS
 #  include "keys_linux.h"
 #  include "mlx.h"
@@ -62,9 +62,9 @@
 
 typedef enum	e_entity
 {
-	EMPTY		= 0,
-	WALL		= 1,
-	OBJECT		= 2
+	EMPTY,
+	WALL,
+	OBJECT
 }				t_entity;
 typedef enum	e_keybinds
 {
@@ -81,6 +81,9 @@ typedef enum	e_keybinds
 	INC_SPEED,
 	DEC_SPEED,
 	FIRE,
+	HUD,
+	JUMP,
+	CROUCH,
 	EXIT,
 }				t_keybings;
 typedef struct	s_doublepos
@@ -133,8 +136,12 @@ typedef struct	s_player
 	t_dpos		plane;
 	double		angle;
 	double		ms;
+	double		old_ms;
 	double		rs;
-	double		view;
+	int			view;
+	int			view2;
+	int			jumping;
+	int			crouched;
 	int			hp;
 	int			max_hp;
 }				t_player;
@@ -180,6 +187,8 @@ typedef struct	s_game
 	t_image		image;
 	t_sprite	weapon;
 	char		collision;
+	int			max_jump;
+	int			hud;
 	char		event[EXIT + 1];
 }				t_game;
 
@@ -189,6 +198,8 @@ typedef struct	s_drawer
     int			end;
 	t_image		*texture;
     double		step_posy;
+    double		posy;
+	int			delta;
 }				t_drawer;
 
 // Movements
@@ -202,6 +213,9 @@ void			rotate_down(t_game *game);
 void			update_orientation(double angle, t_dpos *dir);
 int				strafe_left(t_game *game);
 int				strafe_right(t_game *game);
+void			crouch(t_game *game);
+void			jump(t_game *game);
+void			fire(t_game *game);
 int				ft_draw_frame(t_game *game);
 int				ft_game_loop(t_game *game);
 int				ft_read_events(t_game *game);
@@ -225,6 +239,7 @@ int				ft_hud(t_game *game);
 int				ft_set_pixel(t_image *ptr, t_ipos pos, unsigned int color);
 unsigned int	ft_get_pixel(t_image *ptr, t_ipos pos);
 void			ft_draw_sprite(t_game *game, t_sprite *spr, t_ipos draw, t_dpos draw_tex);
+int				ft_init_drawer(t_game *game, t_drawer *drawer, double height);
 
 // Minimap
 int				ft_generate_minimap(t_game *game);

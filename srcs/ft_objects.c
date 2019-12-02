@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 01:34:03 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 17:20:34 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/02 20:07:19 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,20 @@ void    ft_draw_object(t_game *game, int column, t_object *obj, t_drawer *drawer
     if (obj->dir <= 0 || obj->dir >= 1)
         return ;
     height = game->win.height / obj->dist;
-	delta =	height - game->win.height;
-    drawer->start = delta <= 0 ? (double)(game->win.height / 2 - height / 2) - game->player.view: 0;
-    drawer->end = delta <= 0 ? (double)(game->win.height / 2 + height / 2) - game->player.view : game->win.height;
-    drawer->step_posy = 1 / height;
+	ft_init_drawer(game, drawer, height);
     draw.y = drawer->start;
 	draw.x = column;
-	posy = delta > 0 ? (drawer->step_posy * (delta / 2) - game->player.view) : 0;
     while (++draw.y < drawer->end)
     {
 		draw_tex.x = (obj->dir);
-		draw_tex.y = (posy);
+		draw_tex.y = (drawer->posy);
 		ft_draw_sprite(game, &game->env.S, draw, draw_tex);
 		// color = ft_get_pixel(&(game->env.S.img), draw_tex);
 		// if (color > 0)
 		// 	ft_set_pixel(&(game->win.renderer), draw, color & 0x00FFFFFF);
 		// ft_transfert_pixel(&(game->env.S.img), draw_tex,
 		// 	&(game->win.renderer), draw);
-        posy += drawer->step_posy;
+        drawer->posy += drawer->step_posy;
     }
 }
 

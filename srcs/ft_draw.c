@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:33:46 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 18:28:54 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/02 20:09:30 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,48 +127,65 @@ void	ft_draw_floor(t_game *game, t_ray *ray, t_ipos draw)
 	}
 }
 
+int	ft_init_drawer(t_game *game, t_drawer *drawer, double height)
+{
+	int			delta;
+	
+	drawer->delta =	(height - fabs(game->player.view + game->player.view2)) - game->win.height;
+	if (game->player.view + game->player.view2 > 0)
+		drawer->delta -= game->player.view + game->player.view2;
+	else if (game->player.view + game->player.view2 < 0)
+		drawer->delta += game->player.view + game->player.view2;
+	drawer->step_posy = 1 / height;
+	drawer->start = (game->win.height / 2 - height / 2) - game->player.view - game->player.view2;
+	drawer->end = (game->win.height / 2 + height / 2) - game->player.view - game->player.view2;
+	drawer->posy = 0;
+	if (drawer->delta > 0)
+	{
+		drawer->start += delta / 2;
+		drawer->end -= delta / 2;
+		drawer->posy += (drawer->step_posy * (delta / 2));
+	}
+	if (drawer->start < 0)
+	{
+		drawer->posy += (-drawer->start * drawer->step_posy);
+		drawer->start = 0;
+	}
+	if (drawer->start > game->win.height)
+		drawer->start = game->win.height;
+	if (drawer->end < 0)
+		drawer->end = 0;
+	if (drawer->end > game->win.height)
+		drawer->end = game->win.height;
+	// if (column == 0 || column == 800 || column == 750)
+	// 	printf("%d == Sky = %dpx Wall %dpx Floor %dpx\n", column, drawer->start, drawer->end - drawer->start, game->win.height - drawer->end);
+	return (drawer->delta);
+}
+
 void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 {
     double		posy;
-    double		height;
 	t_ipos		draw;
 	t_ipos		draw_tex;
 	int			delta;
 
 	draw.x = column;
-    height = game->win.height / ray->draw_dist / game->win.cos[column];
-	delta =	height - game->win.height;
-    drawer->start = delta <= 0 ? (game->win.height / 2 - height / 2) - game->player.view : 0;
-    drawer->end = delta <= 0 ? (game->win.height / 2 + height / 2) - game->player.view : game->win.height;
-	drawer->step_posy = 1 / (delta <= 0 ? (double)(drawer->end - drawer->start) : height);
-    posy = 0;
 	draw.y = 0;
-	if (delta <= 0)
-		while (draw.y < drawer->start)
-			ft_set_pixel(&(game->win.renderer), draw, game->env.CEIL) && draw.y++;
-	if (delta > 0)
-	{
-		posy = (drawer->step_posy * (delta / 2));
-		// if (game->player.view > 0)
-		// 	posy -= (drawer->step_posy * (game->player.view));
-		// else if (game->player.view < 0)
-		// 	posy += (drawer->step_posy * (game->player.view));
-		// if ((drawer->end - drawer->start) > hei)
-	}
+	delta = ft_init_drawer(game, drawer, (game->win.height / ray->draw_dist / game->win.cos[column]));
+	while (draw.y < drawer->start)
+		ft_set_pixel(&(game->win.renderer), draw, game->env.CEIL) && draw.y++;
     while (draw.y < drawer->end)
     {
 		draw_tex.x = (int)(ray->po * drawer->texture->height);
-		draw_tex.y = (int)(posy * drawer->texture->width);
+		draw_tex.y = (int)(drawer->posy * drawer->texture->width);
 		ft_transfert_pixel(drawer->texture, draw_tex, &(game->win.renderer), draw);
 		// ft_set_pixel(&(game->win.renderer), draw, 
 		// 	ft_get_pixel(drawer->texture, draw_tex));
-        posy += drawer->step_posy;
+        drawer->posy += drawer->step_posy;
 		draw.y++;
     }
-	if (delta <= 0)
-		// ft_draw_floor(game, ray, draw);
-    	while (draw.y < game->win.height)
-			ft_set_pixel(&(game->win.renderer), draw, game->env.FLOOR) && draw.y++;
+	while (draw.y < game->win.height)
+		ft_set_pixel(&(game->win.renderer), draw, game->env.FLOOR) && draw.y++;
 }
 
 int	ft_draw_frame(t_game *game)
@@ -178,6 +195,8 @@ int	ft_draw_frame(t_game *game)
     t_drawer	drawer;
 
     column = 0;
+	if (game->hud)
+		ft_draw_minimap(game);
 	while (column < game->win.width)
     {
 		game->player.plane.x = game->player.dir.x * game->win.cos[column] - game->player.dir.y * game->win.sin[column];

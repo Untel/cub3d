@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 19:55:13 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/02 21:07:54 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ int	ft_read_events(t_game *game)
 	if (game->event[FIRE] == 1)
 		ft_increment_sprite_index(&game->weapon);
 	else
-	{
-		game->weapon.index.x = 0;
-		game->weapon.index.y = 0;
-	}
+		game->weapon.index = (t_ipos) { 0, 0};
+	if (game->event[JUMP] == 1 && !game->player.jumping)
+		game->player.jumping = 1;
 
+	game->player.crouched = game->event[CROUCH];
+	game->player.crouched = game->event[CROUCH];
 	game->map.show_mega = game->event[TOGGLE_MAP];
 	game->collision = !game->event[TOGGLE_COLLISION];
 }
@@ -96,8 +97,14 @@ int toggle_key(t_game *game, int keycode, int value)
 		game->event[TOGGLE_MAP] = value;
 	else if (keycode == KEY_TAB)
 		game->event[TOGGLE_COLLISION] = value;
-	else if (keycode == KEY_SPACE)
+	else if (keycode == KEY_F)
 		game->event[FIRE] = value;
+	else if (keycode == KEY_H)
+		game->event[HUD] = value;
+	else if (keycode == KEY_CTRL)
+		game->event[CROUCH] = value;
+	else if (keycode == KEY_SPACE)
+		game->event[JUMP] = value;
 }
 
 int	ft_keypress_hook(int keycode, t_game *game)
@@ -109,7 +116,10 @@ int	ft_keypress_hook(int keycode, t_game *game)
 int	ft_keyrelease_hook(int keycode, t_game *game)
 {
 	printf("Key %d release\n", keycode);
-	if (keycode == KEY_ESC)
+
+	if (keycode == KEY_H)
+		game->hud = !game->hud;
+	else if (keycode == KEY_ESC)
 		return (ft_destroy_window(game));
 	else
 		toggle_key(game, keycode, 0);

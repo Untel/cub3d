@@ -48,4 +48,5 @@
 # define KEY_DOWN 125
 # define KEY_UP 126
 # define KEY_SPACE 49
+# define KEY_CTRL 256
 #endif

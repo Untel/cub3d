@@ -49,6 +49,9 @@ int	ft_game_loop(t_game *game)
 
 	ft_read_events(game);
 	ft_trigger_hp_losing(game);
+	if (game->player.jumping > 0)
+		jump(game);
+	crouch(game);
 	if (game->map.show_mega)
 		ft_draw_megamap(game);
 	ft_draw_frame(game);
