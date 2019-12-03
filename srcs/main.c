@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/03 18:18:06 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 18:53:38 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,11 @@ int	ft_keyrelease_hook(int keycode, t_game *game)
 	if (keycode == KEY_H)
 		game->hud = !game->hud;
 	if (keycode == KEY_O)
+	{
 		game->shading = !game->shading;
+		if (game->shading && (!game->win.floor_dist))
+			ft_generate_floor_dist(game);
+	}
 	else if (keycode == KEY_ESC)
 		return (ft_destroy_window(game));
 	else

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:33:46 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/03 16:37:04 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 19:05:33 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,9 +189,13 @@ void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 	draw.y = 0;
 	delta = ft_init_drawer(game, drawer, (game->win.height / ray->draw_dist / game->win.cos[column]));
 	while (draw.y < drawer->start)
-		ft_set_pixel(&(game->win.renderer), draw,
-			ft_shader(game->env.CEIL, game->shading ? game->win.sky_dist[(draw.y + ((game->player.view2 + game->player.view) / 2))] : 0))
+	{
+		if (game->shading)
+			ft_set_pixel(&(game->win.renderer), draw, ft_shader(game->env.CEIL, game->win.sky_dist[(draw.y + ((game->player.view2 + game->player.view) / 2))]))
 				&& draw.y++;
+		else
+			ft_set_pixel(&(game->win.renderer), draw, game->env.CEIL) && draw.y++;
+	}
     while (draw.y < drawer->end)
     {
 		draw_tex.x = (int)(ray->po * drawer->texture->height);
@@ -208,9 +212,11 @@ void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 		draw.y++;
     }
 	while (draw.y < game->win.height)
-		ft_set_pixel(&(game->win.renderer), draw,
-			ft_shader(game->env.FLOOR, game->shading ?
-				game->win.floor_dist[(draw.y - (-(game->player.view2 + game->player.view) / 2))] : 0))
+		if (game->shading)
+			ft_set_pixel(&(game->win.renderer), draw, ft_shader(game->env.FLOOR, game->win.sky_dist[game->win.height - (draw.y - (-(game->player.view2 + game->player.view) / 2))]))
+				&& draw.y++;
+		else
+			ft_set_pixel(&(game->win.renderer), draw, game->env.FLOOR)
 				&& draw.y++;
 }
 
@@ -221,7 +227,7 @@ int	ft_draw_frame(t_game *game)
     t_drawer	drawer;
 
     column = 0;
-	if (game->hud)
+
 		ft_draw_minimap(game);
 	while (column < game->win.width)
     {

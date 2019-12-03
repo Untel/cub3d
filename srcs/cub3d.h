@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/03 18:13:32 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 18:57:05 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,7 @@ int				ft_generate_image(t_game *game, t_image *ptr, int w, int h);
 int				ft_render(t_game *game);
 int				ft_draw_renderer(t_game *game, t_ipos pos, unsigned int color);
 int				ft_destroy_window(t_game *game);
-
+int				ft_generate_floor_dist(t_game *game);
 int				ft_increment_sprite_index(t_sprite *spr);
 //rays
 // void			init_ray(t_game *game, t_ray *ray);

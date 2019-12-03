@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/03 18:04:54 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 19:07:28 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ft_transfert_pixel(t_image *from, t_image *to, double fog_rate)
 		to->data[idx.y + i] =
 			(unsigned char)to->data[idx.y + i] * alpha
 			+ (unsigned char)from->data[idx.x + i] * (1 - alpha);
-		if (fog_rate > -1 && alpha < 1)
+		if (fog_rate >= 1 && alpha < 1)
 			to->data[idx.y + i] = ft_shade(to->data[idx.y + i], fog_rate, idx.y);
 	}
 	return (SUCCESS);

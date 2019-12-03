@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/03 18:11:01 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 20:02:06 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,10 +244,10 @@ int	ft_generate_cos_sin_table(t_game *game)
 	double dtheta;
 	double theta0;
 
-	game->win.sin = malloc(sizeof(double) * game->win.width);
-	game->win.cos = malloc(sizeof(double) * game->win.width);
-	game->win.floor_dist = malloc(sizeof(double) * game->win.height);
-	game->win.sky_dist = malloc(sizeof(double) * game->win.height);
+	if (!(game->win.sin = malloc(sizeof(double) * game->win.width))
+		|| !(game->win.cos = malloc(sizeof(double) * game->win.width))
+	)
+		return (ft_destroy_window(game));
 	i = -1;
     dtheta = -M_PI / 3 / (game->win.width - 1);
     theta0 = M_PI / 6;
@@ -257,6 +257,17 @@ int	ft_generate_cos_sin_table(t_game *game)
         game->win.cos[i] = cos(theta0);
         theta0 += dtheta;
     }
+}
+
+int	ft_generate_floor_dist(t_game *game)
+{
+	int i;
+
+	if (!(game->win.floor_dist = malloc(sizeof(double) * game->win.height))
+		|| !(game->win.sky_dist = malloc(sizeof(double) * game->win.height))
+	)
+		return (ft_destroy_window(game));
+
 	i = -1;
 	while (++i < game->win.height / 2)
 	{
@@ -269,7 +280,6 @@ int	ft_generate_cos_sin_table(t_game *game)
 		game->win.sky_dist[game->win.height - i] = (game->win.height / (2. * (double)i - game->win.height));
 		i++;
 	}
-	// i = -1;
 }
 
 int	ft_args(t_game *game, int ac, char **argv)
