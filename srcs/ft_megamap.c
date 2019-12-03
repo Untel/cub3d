@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 18:20:35 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 07:34:36 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 17:59:02 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ int	ft_draw_megamap_square(t_game *game, t_dpos pos, t_image *tex, unsigned int 
 			to_draw.x = pos.x * MEGAMAP_SQUARE_SIZE + pix.x;										
 			to_draw.y = pos.y * MEGAMAP_SQUARE_SIZE + pix.y;
 			if (tex)
-				ft_transfert_pixel(tex, pix, &(game->map.mega), to_draw);
+			{
+				tex->draw = to_draw;
+				game->map.mega.draw = to_draw;
+				ft_transfert_pixel(tex, &(game->map.mega), 0);
+			}
 			else
 				ft_set_pixel(&(game->map.mega), to_draw, color);
 			// color = ft_get_pixel(&tex, pix);

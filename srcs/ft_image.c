@@ -6,13 +6,13 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/02 20:59:30 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 18:04:54 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	ft_draw_sprite(t_game *game, t_sprite *spr, t_ipos draw, t_dpos draw_tex)
+void	ft_draw_sprite(t_game *game, t_sprite *spr, t_dpos draw_tex, double rate)
 {
 	unsigned int	color;
 	t_ipos			draw_tex_pos;
@@ -27,7 +27,9 @@ void	ft_draw_sprite(t_game *game, t_sprite *spr, t_ipos draw, t_dpos draw_tex)
 			.x = (draw_tex.x * spr->img.width),
 			.y = (draw_tex.y * spr->img.height)
 		};
-	ft_transfert_pixel(&spr->img, draw_tex_pos, &(game->win.renderer), draw);
+	spr->img.draw = draw_tex_pos;
+	ft_transfert_pixel(&spr->img, &(game->win.renderer), rate);
+
 	// color = ft_get_pixel(spr, draw_tex_pos);
 	// if (!game->collision)
 	// 	color = color & 0x00FFFFFF ^ ft_get_pixel(&(game->win.renderer), draw);
@@ -66,7 +68,7 @@ unsigned int ft_get_pixel(t_image *ptr, t_ipos pos)
 	return (color);
 }
 
-int	ft_transfert_pixel(t_image *from, t_ipos from_pos, t_image *to, t_ipos to_pos)
+int	ft_transfert_pixel(t_image *from, t_image *to, double fog_rate)
 {
 	t_ipos	oct;
 	t_ipos	idx;
@@ -75,15 +77,17 @@ int	ft_transfert_pixel(t_image *from, t_ipos from_pos, t_image *to, t_ipos to_po
 
 	oct.x = from->bits >> 3;
 	oct.y = to->bits >> 3;
-	idx.x = (from->s_line * from_pos.y) + (oct.x * from_pos.x);
-	idx.y = (to->s_line * to_pos.y) + (oct.y * to_pos.x);
+	idx.x = (from->s_line * from->draw.y) + (oct.x * from->draw.x);
+	idx.y = (to->s_line * to->draw.y) + (oct.y * to->draw.x);
 	i = -1;
-	alpha = (unsigned char)from->data[idx.x + 3] / 255.0;
+	alpha = (unsigned char)from->data[idx.x + 3] / 255.;
 	while (++i < oct.y - 1)
 	{
 		to->data[idx.y + i] =
 			(unsigned char)to->data[idx.y + i] * alpha
 			+ (unsigned char)from->data[idx.x + i] * (1 - alpha);
+		if (fog_rate > -1 && alpha < 1)
+			to->data[idx.y + i] = ft_shade(to->data[idx.y + i], fog_rate, idx.y);
 	}
 	return (SUCCESS);
 }

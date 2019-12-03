@@ -1,4 +1,4 @@
-R 1200 800
+R 800 600
 NO ./pics/brick.xpm
 SO ./pics/maiabig.xpm
 WE ./pics/williamc.xpm

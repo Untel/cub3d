@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 01:34:03 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/02 20:07:19 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 17:54:41 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,9 @@ void    ft_draw_object(t_game *game, int column, t_object *obj, t_drawer *drawer
     {
 		draw_tex.x = (obj->dir);
 		draw_tex.y = (drawer->posy);
-		ft_draw_sprite(game, &game->env.S, draw, draw_tex);
+		game->win.renderer.draw = draw;
+		// printf("show sprite\n\n");
+		ft_draw_sprite(game, &game->env.S, draw_tex, game->shading ? obj->dist / 2 : 0);
 		// color = ft_get_pixel(&(game->env.S.img), draw_tex);
 		// if (color > 0)
 		// 	ft_set_pixel(&(game->win.renderer), draw, color & 0x00FFFFFF);

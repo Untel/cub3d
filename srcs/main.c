@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/02 21:07:54 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 18:18:06 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	ft_read_events(t_game *game)
 		game->weapon.index = (t_ipos) { 0, 0};
 	if (game->event[JUMP] == 1 && !game->player.jumping)
 		game->player.jumping = 1;
-
 	game->player.crouched = game->event[CROUCH];
 	game->player.crouched = game->event[CROUCH];
 	game->map.show_mega = game->event[TOGGLE_MAP];
@@ -66,6 +65,16 @@ int	ft_destroy_window(t_game *game)
 
 int	ft_leave_program(t_game *game)
 {
+	free(game->win.sky_dist);
+	free(game->win.floor_dist);
+	free(game->win.cos);
+	free(game->win.sin);
+	mlx_destroy_image(game->mlx, game->env.EA.ref);
+	mlx_destroy_image(game->mlx, game->env.WE.ref);
+	mlx_destroy_image(game->mlx, game->env.NO.ref);
+	mlx_destroy_image(game->mlx, game->env.SO.ref);
+	mlx_destroy_image(game->mlx, game->env.S.img.ref);
+	mlx_destroy_image(game->mlx, game->weapon.img.ref);
 	SUC("Good bye\n");
 	system("leaks a.out");
 	exit(EXIT_SUCCESS);
@@ -99,8 +108,6 @@ int toggle_key(t_game *game, int keycode, int value)
 		game->event[TOGGLE_COLLISION] = value;
 	else if (keycode == KEY_F)
 		game->event[FIRE] = value;
-	else if (keycode == KEY_H)
-		game->event[HUD] = value;
 	else if (keycode == KEY_CTRL)
 		game->event[CROUCH] = value;
 	else if (keycode == KEY_SPACE)
@@ -119,6 +126,8 @@ int	ft_keyrelease_hook(int keycode, t_game *game)
 
 	if (keycode == KEY_H)
 		game->hud = !game->hud;
+	if (keycode == KEY_O)
+		game->shading = !game->shading;
 	else if (keycode == KEY_ESC)
 		return (ft_destroy_window(game));
 	else

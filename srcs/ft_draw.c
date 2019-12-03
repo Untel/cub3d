@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:33:46 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/02 20:09:30 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 16:37:04 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,48 +84,48 @@ void	ft_floor_cast(t_game *game, t_ray *ray, t_ipos draw)
 		ray->floor = (t_dpos){ ray->pos.x + ray->draw_dist, ray->pos.y + 1.};
 }
 
-void	ft_draw_floor(t_game *game, t_ray *ray, t_ipos draw)
-{
-	t_dpos floorpos;
-	double distWall, distPlayer, currentDist;
+// void	ft_draw_floor(t_game *game, t_ray *ray, t_ipos draw)
+// {
+// 	t_dpos floorpos;
+// 	double distWall, distPlayer, currentDist;
 
-	ft_floor_cast(game, ray, draw);
-	distWall = sqrt(pow((ray->pos.y), 2) + pow(ray->pos.x, 2));
-	distPlayer = 0.0;
-	//draw the floor from drawEnd to the bottom of the screen
-	t_image *tex = &(game->env.EA);
-	double weight;
-	t_dpos ratio;
-	t_ipos draw_tex;
-	// printf("hey %d|%d\n", draw->y, draw->y < game->map.height);
-	while(draw.y < game->win.height)
-	{
-		// printf("hey %d\n", draw->y);
-		currentDist = game->win.height / (2.0 * draw.y - game->map.height);
-		weight = (currentDist - distPlayer) / (distWall - distPlayer);
+// 	ft_floor_cast(game, ray, draw);
+// 	distWall = sqrt(pow((ray->pos.y), 2) + pow(ray->pos.x, 2));
+// 	distPlayer = 0.0;
+// 	//draw the floor from drawEnd to the bottom of the screen
+// 	t_image *tex = &(game->env.EA);
+// 	double weight;
+// 	t_dpos ratio;
+// 	t_ipos draw_tex;
+// 	// printf("hey %d|%d\n", draw->y, draw->y < game->map.height);
+// 	while(draw.y < game->win.height)
+// 	{
+// 		// printf("hey %d\n", draw->y);
+// 		currentDist = game->win.height / (2.0 * draw.y - game->map.height);
+// 		weight = (currentDist - distPlayer) / (distWall - distPlayer);
 
-		ratio.x = weight * ray->floor.x + (1.0 - weight) * game->player.pos.x;
-		ratio.y = weight * ray->floor.y + (1.0 - weight) * game->player.pos.y;
-		draw_tex.x = (int)(ratio.x * tex->width) % tex->width;
-		draw_tex.y = (int)(ratio.y * tex->height) % tex->height;
-		// draw_tex.x = (int)(ray->floor.x * tex->width);
-		// if (ray->vert == 0 && ray->dir.x > 0.)
-		// 	draw_tex.x = tex->width - draw_tex.x - 1.;
-		// else if (ray->vert == 1 && ray->dir.y < 0.)
-		// 	draw_tex.x = tex->width - draw_tex.x - 1.;
+// 		ratio.x = weight * ray->floor.x + (1.0 - weight) * game->player.pos.x;
+// 		ratio.y = weight * ray->floor.y + (1.0 - weight) * game->player.pos.y;
+// 		draw_tex.x = (int)(ratio.x * tex->width) % tex->width;
+// 		draw_tex.y = (int)(ratio.y * tex->height) % tex->height;
+// 		// draw_tex.x = (int)(ray->floor.x * tex->width);
+// 		// if (ray->vert == 0 && ray->dir.x > 0.)
+// 		// 	draw_tex.x = tex->width - draw_tex.x - 1.;
+// 		// else if (ray->vert == 1 && ray->dir.y < 0.)
+// 		// 	draw_tex.x = tex->width - draw_tex.x - 1.;
 
-		//floor
-		// unsigned int color = ft_get_pixel(tex, draw_tex);
-		// ft_set_pixel(&(game->win.renderer), *draw, color & 0x00FFFFFF);
-		ft_transfert_pixel(tex, draw_tex, &(game->win.renderer), draw);
-		// draw->y = game->win.height - draw->y;
-		// ft_transfert_pixel(tex, draw_tex, &(game->win.renderer), *draw);
-		// buffer[y][x] = (texture[3][texWidth * floorTexY + floorTexX] >> 1) & 8355711;
-		//ceiling (symmetrical!)
-		// buffer[h - y][x] = texture[6][texWidth * floorTexY + floorTexX];
-		draw.y++;
-	}
-}
+// 		//floor
+// 		// unsigned int color = ft_get_pixel(tex, draw_tex);
+// 		// ft_set_pixel(&(game->win.renderer), *draw, color & 0x00FFFFFF);
+// 		ft_transfert_pixel(tex, draw_tex, &(game->win.renderer), draw);
+// 		// draw->y = game->win.height - draw->y;
+// 		// ft_transfert_pixel(tex, draw_tex, &(game->win.renderer), *draw);
+// 		// buffer[y][x] = (texture[3][texWidth * floorTexY + floorTexX] >> 1) & 8355711;
+// 		//ceiling (symmetrical!)
+// 		// buffer[h - y][x] = texture[6][texWidth * floorTexY + floorTexX];
+// 		draw.y++;
+// 	}
+// }
 
 int	ft_init_drawer(t_game *game, t_drawer *drawer, double height)
 {
@@ -162,6 +162,22 @@ int	ft_init_drawer(t_game *game, t_drawer *drawer, double height)
 	return (drawer->delta);
 }
 
+int ft_shader(int color, double divide)
+{
+	if (divide <= 1.)
+		return (color);
+	return (((int)(((0xFF0000 & color) >> 16) / divide) << 16)
+		+ ((int)(((0x00FF00 & color) >> 8) / divide) << 8)
+		+ ((int)((0x0000FF & color) / divide)));
+}
+
+unsigned char ft_shade(unsigned char oct, double divide, int idx)
+{
+	if (divide <= 1.)
+		return (oct);
+	return ((unsigned char)((int)((oct >> (idx << 3)) / divide) << (idx << 3)));
+}
+
 void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 {
     double		posy;
@@ -173,19 +189,29 @@ void    ft_draw_column(t_game *game, int column, t_ray *ray, t_drawer *drawer)
 	draw.y = 0;
 	delta = ft_init_drawer(game, drawer, (game->win.height / ray->draw_dist / game->win.cos[column]));
 	while (draw.y < drawer->start)
-		ft_set_pixel(&(game->win.renderer), draw, game->env.CEIL) && draw.y++;
+		ft_set_pixel(&(game->win.renderer), draw,
+			ft_shader(game->env.CEIL, game->shading ? game->win.sky_dist[(draw.y + ((game->player.view2 + game->player.view) / 2))] : 0))
+				&& draw.y++;
     while (draw.y < drawer->end)
     {
 		draw_tex.x = (int)(ray->po * drawer->texture->height);
 		draw_tex.y = (int)(drawer->posy * drawer->texture->width);
-		ft_transfert_pixel(drawer->texture, draw_tex, &(game->win.renderer), draw);
+		game->win.renderer.draw = draw;
+		drawer->texture->draw = draw_tex;
+		// ft_shader(fog, ray->draw_dist);
+		ft_transfert_pixel(drawer->texture, &(game->win.renderer), game->shading ? ray->draw_dist * 1.5 : 0);
+		// ft_set_pixel(&(game->win.renderer), draw, 
+		// 	ft_shader(ft_get_pixel(drawer->texture, draw_tex), ray->draw_dist * 1.5));
 		// ft_set_pixel(&(game->win.renderer), draw, 
 		// 	ft_get_pixel(drawer->texture, draw_tex));
         drawer->posy += drawer->step_posy;
 		draw.y++;
     }
 	while (draw.y < game->win.height)
-		ft_set_pixel(&(game->win.renderer), draw, game->env.FLOOR) && draw.y++;
+		ft_set_pixel(&(game->win.renderer), draw,
+			ft_shader(game->env.FLOOR, game->shading ?
+				game->win.floor_dist[(draw.y - (-(game->player.view2 + game->player.view) / 2))] : 0))
+				&& draw.y++;
 }
 
 int	ft_draw_frame(t_game *game)

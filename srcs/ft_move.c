@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:21:30 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/02 16:32:39 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 15:54:49 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,15 @@ void    rotate_left(t_game *game)
 void    rotate_up(t_game *game)
 {
     game->player.view2 -= game->win.height / 30;
+	if (game->player.view2 <= -(game->win.height / 1.5))
+		game->player.view2 = -(game->win.height / 1.5);
 }
 
 void    rotate_down(t_game *game)
 {
     game->player.view2 += game->win.height / 30;
+	if (game->player.view2 >= (game->win.height / 1.5))
+		game->player.view2 = (game->win.height / 1.5);
 }
 
 void	fire(t_game *game)

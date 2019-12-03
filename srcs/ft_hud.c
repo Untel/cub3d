@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:47:19 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/02 22:15:23 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 17:55:53 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ int
 	t_dpos draw_tex;
 	int pad;
 	
-	pad = ((double)game->win.width / 3);
+	pad = (game->win.width / 3);
 	draw = (t_ipos) { .x = game->win.width - pad + (pad / 15), .y = game->win.height - pad + (pad / 10) };
 	start_draw = (t_ipos) { .x = draw.x + pad, .y = draw.y + pad};
 	draw_tex_step = (t_dpos) {
@@ -79,11 +79,13 @@ int
 	draw_tex = (t_dpos) { 0, 0 };
 	while (draw.x < (start_draw.x))
 	{
-		(draw.y = game->win.height - pad + (pad / 15));
+		draw.y = game->win.height - pad + (pad / 15);
 		draw_tex.y = 0;
 		while (draw.y < (start_draw.y))
 		{
-			ft_draw_sprite(game, &(game->weapon), draw, draw_tex);
+			game->win.renderer.draw = draw;
+				// ft_printf("printing weapon at %d %d", draw.x, draw.y);
+			ft_draw_sprite(game, &(game->weapon), draw_tex, 0);
 			draw_tex.y += draw_tex_step.y;
 			draw.y++;
 		}
@@ -114,7 +116,7 @@ int
 {
 	if (game->hud)
 	{
-		ft_weapon(game);
+		ft_weapon(game);	
 		ft_draw_crosshair(game);
 		ft_healthbar(game);
 		mlx_put_image_to_window(game->mlx, game->win.ref, game->map.mini.ref, 0, 0);

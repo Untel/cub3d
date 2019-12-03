@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 19:16:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/02 21:08:02 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 18:00:00 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ft_draw_renderer(t_game *game, t_ipos pos, unsigned int color)
 	// 	return (0);
 	// if (game->map.show_mega && pos.x < game->map.mega.width && pos.y < game->map.mega.height)
 	// 	return (0);
+	game->win.renderer.draw = pos;
 	ft_set_pixel(&(game->win.renderer), pos, color);
 }
 

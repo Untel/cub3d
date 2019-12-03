@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/02 19:40:16 by adda-sil         ###   ########.fr       */
+/*   Updated: 2019/12/03 18:13:32 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <fcntl.h>
 # include <unistd.h>
 # define MAX_WIDTH			1920
-# define MAX_HEIGHT			1080
+# define MAX_HEIGHT			1920
 # define MAX_MAP_HEIGHT		300
 # define MAX_MAP_WIDTH		200
 # define GAME_WIDTH			800
@@ -78,10 +78,10 @@ typedef enum	e_keybinds
 	ROT_DOWN,
 	TOGGLE_MAP,
 	TOGGLE_COLLISION,
+	TOGGLE_SHADING,
 	INC_SPEED,
 	DEC_SPEED,
 	FIRE,
-	HUD,
 	JUMP,
 	CROUCH,
 	EXIT,
@@ -105,6 +105,7 @@ typedef struct	s_image
 	int			bits;
 	int			endian;
 	int			s_line;
+	t_ipos		draw;
 }				t_image;
 typedef struct	t_sprite
 {
@@ -124,7 +125,6 @@ typedef struct	s_map
 	int			width;
 	int			height;
 	int			grid[MAX_MAP_WIDTH][MAX_MAP_HEIGHT];
-	int			sprites[MAX_MAP_WIDTH][MAX_MAP_HEIGHT];
 	t_image		mini;
 	t_image		mega;
 	int			show_mega;
@@ -151,8 +151,11 @@ typedef struct	s_window
 	int			width;
     void		*ref;
 	t_image		renderer;
-	double		cos[MAX_WIDTH];
-	double		sin[MAX_WIDTH];
+	double		*cos;
+	double		*sin;
+	double		*floor_dist;
+	double		*sky_dist;
+	
 }				t_window;
 typedef struct	env_s
 {
@@ -177,6 +180,15 @@ typedef struct	s_ray
     int			vert;
 	t_list		*objects;
 }               t_ray;
+
+typedef unsigned char t_bgra[4];
+typedef struct s_argb
+{
+	double a;
+	double r;
+	double g;
+	double b;
+}				t_argb;
 typedef struct	s_game
 {
     void		*mlx;
@@ -188,7 +200,8 @@ typedef struct	s_game
 	t_sprite	weapon;
 	char		collision;
 	int			max_jump;
-	int			hud;
+	char		hud;
+	char		shading;
 	char		event[EXIT + 1];
 }				t_game;
 
@@ -238,16 +251,17 @@ int				ft_hud(t_game *game);
 // Image
 int				ft_set_pixel(t_image *ptr, t_ipos pos, unsigned int color);
 unsigned int	ft_get_pixel(t_image *ptr, t_ipos pos);
-void			ft_draw_sprite(t_game *game, t_sprite *spr, t_ipos draw, t_dpos draw_tex);
 int				ft_init_drawer(t_game *game, t_drawer *drawer, double height);
-
+void			ft_draw_sprite(t_game *game, t_sprite *spr, t_dpos draw_tex, double rate);
+int				ft_transfert_pixel(t_image *from, t_image *to, double rate);
+unsigned char	ft_shade(unsigned char oct, double divide, int idx);
+int				ft_shader(int color, double divide);
 // Minimap
 int				ft_generate_minimap(t_game *game);
 int				ft_draw_minimap(t_game *game);
 int				ft_draw_minimap_square(t_game *game, t_ipos pos, unsigned int color);
 int				ft_draw_minimap_pix(t_game *game, double x, double y, unsigned int color);
 void			to_intpos(t_ipos *ret, t_dpos pos);
-int				ft_transfert_pixel(t_image *from, t_ipos from_pos, t_image *to, t_ipos to_pos);
 
 // Megamap
 int				ft_generate_megamap(t_game *game);
