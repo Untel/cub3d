@@ -5,13 +5,9 @@ ifeq ($(UNAME_S), Linux)
 	OS = 1
 	LGL := -lGL -lm
 	LGL_INC := /usr/include/GL
-	MLXFLAG := -lm -lpthread -lXext -lX11
+	MLXFLAG := -lm -lXext -lX11
 else ifeq ($(UNAME_S), Darwin)
 	OS = 2
-	LGL := -framework OpenGL -framework AppKit
-	# LGL_INC := /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers
-	LGL_INC := ~/.brew/include
-	CFLAGS += -Wno-deprecated-declarations
 	MLXFLAG := -framework OpenGL -framework Appkit
 endif
 
@@ -25,7 +21,6 @@ MINILIBX_PATH		= $(LIBS_DIR)/minilibx
 MINILIBX_MAKE		= $(MAKE) -C $(MINILIBX_PATH)
 MINILIBX			= $(MLXFLAG) -L$(MINILIBX_PATH) -lmlx
 
-
 GNL_PATH			= $(LIBS_DIR)/get_next_line
 GNL_MAKE			= $(MAKE) -C $(GNL_PATH)
 GNL					= -L$(GNL_PATH) -lgnl
@@ -34,7 +29,25 @@ GNL_INCL			= -I $(GNL_PATH)
 LIBS				= -lm $(LIBFTPRINTF) $(GNL) $(MINILIBX)
 
 SRCS_DIR			= srcs
-SRCS_FILES			= main.c ft_objects.c ft_hud.c ft_snapshot.c ft_config.c ft_move.c ft_utils.c ft_draw.c ft_texture.c ft_minimap.c ft_engine.c ft_image.c ft_gameloop.c ft_megamap.c
+SRCS_FILES			= \
+	main.c\
+	ft_objects.c\
+	ft_hud.c\
+	ft_snapshot.c\
+	ft_config.c\
+	ft_move.c\
+	ft_utils.c\
+	ft_draw.c\
+	ft_texture.c\
+	ft_minimap.c\
+	ft_engine.c\
+	ft_image.c\
+	ft_gameloop.c\
+	ft_megamap.c\
+	ft_errors.c\
+	ft_events.c\
+	ft_hooks.c\
+
 SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 INCLUDES			= -I . -I./headers $(GNL_INCL) $(LIBFTPRINTF_INCL) -I$(MINILIBX_PATH)/

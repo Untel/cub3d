@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/03 18:57:05 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/11 17:00:58 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,4 +268,16 @@ int				ft_generate_megamap(t_game *game);
 int				ft_draw_megamap(t_game *game);
 int				ft_render_megamap(t_game *game);
 int				ft_update_megamap(t_game *game, t_ray *ray);
+
+// hooks
+int				ft_keypress_hook(int keycode, t_game *game);
+int				ft_keyrelease_hook(int keycode, t_game *game);
+int				ft_init_hook(t_game *game);
+
+// events
+int				ft_read_events(t_game *game);
+int				ft_destroy_window(t_game *game);
+int				ft_leave_program(t_game *game);
+int 			toggle_key(t_game *game, int keycode, int value);
+
 #endif
