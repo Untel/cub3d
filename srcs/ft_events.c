@@ -6,13 +6,14 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:57:28 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/11 16:59:00 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/11 21:17:55 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_read_events(t_game *game)
+int
+	ft_read_events(t_game *game)
 {
 	if (game->event[FORWARD] == 1)
 		move_forward(game);
@@ -37,40 +38,36 @@ int	ft_read_events(t_game *game)
 	if (game->event[FIRE] == 1)
 		ft_increment_sprite_index(&game->weapon);
 	else
-		game->weapon.index = (t_ipos) { 0, 0};
+		game->weapon.index = (t_ipos) { 0, 0 };
+	return (ft_read_events2(game));
+}
+
+int
+	ft_read_events2(t_game *game)
+{
 	if (game->event[JUMP] == 1 && !game->player.jumping)
 		game->player.jumping = 1;
 	game->player.crouched = game->event[CROUCH];
-	game->player.crouched = game->event[CROUCH];
 	game->map.show_mega = game->event[TOGGLE_MAP];
 	game->collision = !game->event[TOGGLE_COLLISION];
+	return (SUCCESS);
 }
 
-int	ft_destroy_window(t_game *game)
+void
+	ft_toggle_key2(t_game *game, int keycode, int value)
 {
-	SUC("Destroying\n");
-	mlx_destroy_window(game->mlx, game->win.ref);
-	ft_leave_program(game);
+	if (keycode == KEY_TAB)
+		game->event[TOGGLE_COLLISION] = value;
+	else if (keycode == KEY_F)
+		game->event[FIRE] = value;
+	else if (keycode == KEY_CTRL)
+		game->event[CROUCH] = value;
+	else if (keycode == KEY_SPACE)
+		game->event[JUMP] = value;
 }
 
-int	ft_leave_program(t_game *game)
-{
-	free(game->win.sky_dist);
-	free(game->win.floor_dist);
-	free(game->win.cos);
-	free(game->win.sin);
-	mlx_destroy_image(game->mlx, game->env.EA.ref);
-	mlx_destroy_image(game->mlx, game->env.WE.ref);
-	mlx_destroy_image(game->mlx, game->env.NO.ref);
-	mlx_destroy_image(game->mlx, game->env.SO.ref);
-	mlx_destroy_image(game->mlx, game->env.S.img.ref);
-	mlx_destroy_image(game->mlx, game->weapon.img.ref);
-	SUC("Good bye\n");
-	system("leaks a.out");
-	exit(EXIT_SUCCESS);
-}
-
-int toggle_key(t_game *game, int keycode, int value)
+void
+	ft_toggle_key(t_game *game, int keycode, int value)
 {
 	if (keycode == KEY_W)
 		game->event[FORWARD] = value;
@@ -94,12 +91,6 @@ int toggle_key(t_game *game, int keycode, int value)
 		game->event[DEC_SPEED] = value;
 	else if (keycode == KEY_M)
 		game->event[TOGGLE_MAP] = value;
-	else if (keycode == KEY_TAB)
-		game->event[TOGGLE_COLLISION] = value;
-	else if (keycode == KEY_F)
-		game->event[FIRE] = value;
-	else if (keycode == KEY_CTRL)
-		game->event[CROUCH] = value;
-	else if (keycode == KEY_SPACE)
-		game->event[JUMP] = value;
+	else
+		ft_toggle_key2(game, keycode, value);
 }

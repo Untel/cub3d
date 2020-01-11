@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:21:30 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/03 15:54:49 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/11 19:37:06 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,6 @@ void	crouch(t_game *game)
 	}
 }
 
-
-
 void	jump(t_game *game)
 {
 	int inc;
@@ -145,4 +143,3 @@ void	jump(t_game *game)
 		game->player.view = 0;
 	}
 }
-

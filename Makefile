@@ -5,9 +5,13 @@ ifeq ($(UNAME_S), Linux)
 	OS = 1
 	LGL := -lGL -lm
 	LGL_INC := /usr/include/GL
-	MLXFLAG := -lm -lXext -lX11
+	MLXFLAG := -lm -lpthread -lXext -lX11
 else ifeq ($(UNAME_S), Darwin)
 	OS = 2
+	LGL := -framework OpenGL -framework AppKit
+	# LGL_INC := /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers
+	LGL_INC := ~/.brew/include
+	CFLAGS += -Wno-deprecated-declarations
 	MLXFLAG := -framework OpenGL -framework Appkit
 endif
 
@@ -20,6 +24,7 @@ LIBFTPRINTF_INCL	= -I $(LIBFTPRINTF_PATH) -I $(LIBFTPRINTF_PATH)/srcs -I $(LIBFT
 MINILIBX_PATH		= $(LIBS_DIR)/minilibx
 MINILIBX_MAKE		= $(MAKE) -C $(MINILIBX_PATH)
 MINILIBX			= $(MLXFLAG) -L$(MINILIBX_PATH) -lmlx
+
 
 GNL_PATH			= $(LIBS_DIR)/get_next_line
 GNL_MAKE			= $(MAKE) -C $(GNL_PATH)

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/11 17:00:58 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/11 21:19:49 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <math.h>
 # include <fcntl.h>
 # include <unistd.h>
+# include <errno.h>
 # define MAX_WIDTH			1920
 # define MAX_HEIGHT			1920
 # define MAX_MAP_HEIGHT		300
@@ -230,7 +231,7 @@ void			crouch(t_game *game);
 void			jump(t_game *game);
 void			fire(t_game *game);
 int				ft_draw_frame(t_game *game);
-int				ft_game_loop(t_game *game);
+void			ft_game_loop(t_game *game);
 int				ft_read_events(t_game *game);
 int				ft_args(t_game *game, int ac, char **argv);
 int				ft_generate_renderer(t_game *game);
@@ -239,7 +240,7 @@ int				ft_render(t_game *game);
 int				ft_draw_renderer(t_game *game, t_ipos pos, unsigned int color);
 int				ft_destroy_window(t_game *game);
 int				ft_generate_floor_dist(t_game *game);
-int				ft_increment_sprite_index(t_sprite *spr);
+void			ft_increment_sprite_index(t_sprite *spr);
 //rays
 // void			init_ray(t_game *game, t_ray *ray);
 // void			compute_ray(t_game *game, t_ray *ray);
@@ -277,7 +278,11 @@ int				ft_init_hook(t_game *game);
 // events
 int				ft_read_events(t_game *game);
 int				ft_destroy_window(t_game *game);
-int				ft_leave_program(t_game *game);
-int 			toggle_key(t_game *game, int keycode, int value);
+void			ft_leave_program(t_game *game);
+void 			ft_toggle_key(t_game *game, int keycode, int value);
 
+// error
+int 			ft_print_err(char *txt);
+int 			ft_print_defined_err();
+double			decim(double val)
 #endif

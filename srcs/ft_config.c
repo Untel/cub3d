@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/03 20:02:06 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/11 19:04:47 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,41 +29,47 @@ int	ft_get_next_number(char **str)
 	return (nb);
 }
 
-int	ft_set_color(char *key, int *color, char *str)
+int
+	ft_set_color(char *key, int *color, char *str)
 {
 	int r;
 	int g;
 	int b;
 
+	
 	r = ft_get_next_number(&str);
 	g = ft_get_next_number(&str);
 	b = ft_get_next_number(&str);
 	if (!(r >= 0 && r <= 255
 		&& g >= 0 && g <= 255
-		&& b >= 0 && b <= 255))
-		return (ERR("setting RGB color for %s", key));
+		&& b >= 0 && b <= 255)
+		|| *str)
+		return (ft_print_err("Error\nSetting color failed."));
 	*color = (b << 16) + (g << 8) + r;
-	return (SUC("%s set to %d %d %d (%#X)", key, r, g, b, *color));
+	return (SUCCESS);
 }
 
-int	ft_set_path(char *key, char *buffer, char *str)
+int
+	ft_set_path(char *key, char *buffer, char *str)
 {
 	if (ft_strlen(str) >= PATH_URL_SIZE)
 		return (ERROR);
 	ft_strcpy(buffer, str);
-	return (SUC("%s path: \"%s\"", key, buffer));
+	return (SUCCESS);
 }
 
-int	ft_set_window_size(t_game *game, char *str)
+int
+	ft_set_window_size(t_game *game, char *str)
 {
 	game->win.width = ft_get_next_number(&str);
 	game->win.height = ft_get_next_number(&str);
-	if (game->win.width == -1 || game->win.height == -1)
-		return (ERR("Error setting Win Size\n"));
-	return (SUC("Win Size %d/%d", game->win.width, game->win.height));
+	if (game->win.width < 1 || game->win.height < 1)
+		return (ft_print_err("Error\nWin size incorrect.\n"));
+	return (SUCCESS);
 }
 
-int	ft_set_player_position(t_game *game, char dir, int x, int y)
+int
+	ft_set_player_position(t_game *game, char dir, int x, int y)
 {
 	game->player.pos.y = (double)x + .5;
 	game->player.pos.x = (double)y + .5;
@@ -77,10 +83,11 @@ int	ft_set_player_position(t_game *game, char dir, int x, int y)
 	else
 		game->player.angle = 0;
     update_orientation(game->player.angle, &(game->player.dir));
-	return (SUC("Player start at x%d, y%d", x, y));
+	return (SUCCESS);
 }
 
-int	ft_fill_map(t_game *game, char *str)
+int
+	ft_fill_map(t_game *game, char *str)
 {
 	static int	line = 0;
 	char		*ptr;
@@ -97,20 +104,21 @@ int	ft_fill_map(t_game *game, char *str)
 		{
 			x = (*str - '0');
 			if (x < 0 || x > 8)
-				return (ERR("filling map %d,%d (%d)", line, i, x));
+				return (ft_print_err("Error\nA character in map is unknown."));
 			game->map.grid[line][++i] = x;
 			str++;
 		}
 	if (line == 0)
 		game->map.width = i;
 	else if (game->map.width != i)
-		return (ERR("filling map, not same width at line %d", line + 1));
+		return (ft_print_err("Error\nMap don't have same width on each line."));
 	game->map.height = line;
 	line++;
 	return (SUCCESS);
 }
 
-int	ft_verify_map(t_game *game)
+int
+	ft_verify_map(t_game *game)
 {
 	int	i;
 
@@ -127,31 +135,22 @@ int	ft_verify_map(t_game *game)
 	return (SUCCESS);
 }
 
-int	ft_set_image(t_game *game, t_image *img, char *path)
+int
+	ft_set_image(t_game *game, t_image *img, char *path)
 {
 	int i;
 	int j;
 	char tmp;
 
 	if (!(img->ref = mlx_xpm_file_to_image(game->mlx, path, &(img->width), &(img->height))))
-		return (ERR("Cannot open '%s'", path));
+		return (ft_print_err("Error\nCannot open file."));
 	if (!(img->data = mlx_get_data_addr(img->ref, &(img->bits), &(img->s_line), &(img->endian))))
-		return (ERR("Cannot get data adr %s", path));
-	// i = -1;
-	// while (++i < img->height)
-	// {
-	// 	j = -1;
-	// 	while (++j < img->width / 2)
-	// 	{
-	// 		tmp = img->data[(i * img->s_line + (img->s_line - j - 1))];
-	// 		img->data[(i * img->s_line + (img->s_line - j - 1))] = img->data[i * img->s_line + j];
-	// 		img->data[i * img->s_line + j] = tmp;
-	// 	}
-	// }
-	return (SUC("Image texture %s has been set", path));
+		return (ft_print_err("Error\nCannot get data address file."));
+	return (SUCCESS);
 }
 
-int	ft_set_sprite(t_game *game, t_sprite *spr, char *path)
+int
+	ft_set_sprite(t_game *game, t_sprite *spr, char *path)
 {
 	if (ft_isdigit(*path))
 	{
@@ -166,10 +165,11 @@ int	ft_set_sprite(t_game *game, t_sprite *spr, char *path)
 		spr->frame_size = (t_ipos) { -1, -1 };
 	if (ft_set_image(game, &(spr->img), path) == ERROR)
 		return (ERROR);
-	return (SUC("Sprite texture %s has been set", path));
+	return (SUCCESS);
 }
 
-int	ft_readline(t_game *game, char *line)
+int
+	ft_readline(t_game *game, char *line)
 {
 	int ret;
 
@@ -196,18 +196,16 @@ int	ft_readline(t_game *game, char *line)
 	return (ret);
 }
 
-int	ft_configure(t_game *game, char *filename)
+int
+	ft_configure(t_game *game, char *filename)
 {
 	int		fd;
 	int		ret;
 	char	*line;
 
 	if ((fd = open(filename, O_RDONLY)) == ERROR)
-		return (ERR("Cannot open file %s", filename));
+		return (ft_print_err("Error\nCannot open file."));
 	ret = SUCCESS;
-	ft_printf("===========================================\n");
-	ft_printf("Configuring from %s\n", filename);
-	ft_printf("===========================================\n");
 	while (ret == SUCCESS && (ret = get_next_line(fd, &line)) == SUCCESS)
 	{
 		ret = ft_readline(game, line);
@@ -218,12 +216,15 @@ int	ft_configure(t_game *game, char *filename)
 		ret = ft_readline(game, line);
 		free(line);
 	}
+	else
+		return (ret);
 	ret = ft_set_sprite(game, &(game->weapon), "215 127 ./pics/weapon.xpm");
 	// ret = ft_set_sprite(game, &(game->weapon), "64 64 ./pics/fire_64.xpm");
 	return (ret);
 }
 
-int	init_config(t_game *game)
+int
+	init_config(t_game *game)
 {
 	game->player.ms = 0.12;
 	game->player.rs = 0.04;
@@ -238,7 +239,8 @@ int	init_config(t_game *game)
 	ft_memset(game->event, 0, EXIT + 1);
 }
 
-int	ft_generate_cos_sin_table(t_game *game)
+int
+	ft_generate_cos_sin_table(t_game *game)
 {
 	int i;
 	double dtheta;
@@ -247,7 +249,7 @@ int	ft_generate_cos_sin_table(t_game *game)
 	if (!(game->win.sin = malloc(sizeof(double) * game->win.width))
 		|| !(game->win.cos = malloc(sizeof(double) * game->win.width))
 	)
-		return (ft_destroy_window(game));
+		return (ft_print_defined_err("Error\nMalloc cos/sin table failed"));
 	i = -1;
     dtheta = -M_PI / 3 / (game->win.width - 1);
     theta0 = M_PI / 6;
@@ -259,14 +261,14 @@ int	ft_generate_cos_sin_table(t_game *game)
     }
 }
 
-int	ft_generate_floor_dist(t_game *game)
+int
+	ft_generate_floor_dist(t_game *game)
 {
 	int i;
 
 	if (!(game->win.floor_dist = malloc(sizeof(double) * game->win.height))
-		|| !(game->win.sky_dist = malloc(sizeof(double) * game->win.height))
-	)
-		return (ft_destroy_window(game));
+		|| !(game->win.sky_dist = malloc(sizeof(double) * game->win.height)))
+		return (ft_print_defined_err("Error\nMalloc sky/floor dist failed"));
 
 	i = -1;
 	while (++i < game->win.height / 2)
@@ -282,13 +284,22 @@ int	ft_generate_floor_dist(t_game *game)
 	}
 }
 
-int	ft_args(t_game *game, int ac, char **argv)
+int
+	ft_args(t_game *game, int ac, char **argv)
 {
 	int ret;
 
-	init_config(game);
+	ret = SUCCESS;
 	if (ac > 1)
-		ret = ft_configure(game, *++argv);
-	ft_generate_cos_sin_table(game);
+	{
+		if (ret == SUCCESS)
+			ret = init_config(game);
+		if (ret == SUCCESS)		
+			ret = ft_configure(game, *++argv);
+		if (ret == SUCCESS)		
+			ret = ft_generate_cos_sin_table(game);
+	}
+	else
+		ret = ERROR;
 	return (ret);
 }

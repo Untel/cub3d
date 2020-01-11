@@ -1,4 +1,3 @@
-
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -6,14 +5,15 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/11/23 16:47:25 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/11/26 15:42:55 by adda-sil         ###   ########.fr       */	
+/*   Created: 2020/01/11 21:18:59 by adda-sil          #+#    #+#             */
+/*   Updated: 2020/01/11 21:19:58 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int ft_trigger_hp_losing(t_game *game)
+void
+	ft_trigger_hp_losing(t_game *game)
 {
 	if (game->map.grid[(int)game->player.pos.y][(int)game->player.pos.x] == OBJECT)
 	{
@@ -25,7 +25,8 @@ int ft_trigger_hp_losing(t_game *game)
 		game->player.hp++;
 }
 
-int	ft_increment_sprite_index(t_sprite *spr)
+void
+	ft_increment_sprite_index(t_sprite *spr)
 {
 	if (spr->frame_size.x > 0)
 	{
@@ -43,7 +44,8 @@ int	ft_increment_sprite_index(t_sprite *spr)
 	}
 }
 
-int	ft_game_loop(t_game *game)
+void
+	ft_game_loop(t_game *game)
 {
 	char		txt[300];
 
@@ -55,7 +57,6 @@ int	ft_game_loop(t_game *game)
 	if (game->map.show_mega)
 		ft_draw_megamap(game);
 	ft_draw_frame(game);
-	// mlx_put_image_to_window(game->mlx, game->win.ref, game->weapon.img.ref, 0, 0);
 	if (game->map.show_mega)
 	{
 		ft_render_megamap(game);
@@ -68,4 +69,3 @@ int	ft_game_loop(t_game *game)
 	}
 	ft_increment_sprite_index(&(game->env.S));
 }
-
