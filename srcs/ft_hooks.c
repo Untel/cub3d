@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:58:30 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/11 20:00:13 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/12 14:25:27 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,9 @@ int	ft_keyrelease_hook(int keycode, t_game *game)
 int	ft_init_hook(t_game *game)
 {
 	mlx_do_key_autorepeatoff(game->mlx);
-    mlx_hook(game->win.ref, 2, 1L << 0, ft_keypress_hook, game);
-    mlx_hook(game->win.ref, 3, 1L << 1, ft_keyrelease_hook, game);
-    mlx_hook(game->win.ref, 17, 0, ft_leave_program, game);
+	mlx_hook(game->win.ref, 2, 1L << 0, ft_keypress_hook, game);
+	mlx_hook(game->win.ref, 3, 1L << 1, ft_keyrelease_hook, game);
+	mlx_hook(game->win.ref, 17, 0, ft_leave_program, game);
 	mlx_loop_hook(game->mlx, ft_game_loop, game);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/11 19:57:10 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/12 15:52:59 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,19 +52,23 @@ int	main(int ac, char **av)
 {
 	t_game	game;
 
-	if (!(game.mlx = mlx_init())
-		|| ft_args(&game, ac, av) == ERROR
-		|| !(game.win.ref = mlx_new_window(game.mlx,
+	if (!(game.mlx = mlx_init()))
+		return (ft_print_defined_err() || EXIT_FAILURE);
+	if (ft_args(&game, ac, av) == ERROR)
+		return (EXIT_SUCCESS);
+	ft_printf("ya!!\n");
+	if (!(game.win.ref = mlx_new_window(game.mlx,
 			game.win.width, game.win.height, "Cub3d")))
 		return (EXIT_FAILURE);
+	ft_printf("yoooo!!\n");
 	ft_generate_renderer(&game);
 	ft_generate_minimap(&game);
 	ft_generate_megamap(&game);
-	if (ac == 3)
-		return (ft_strncmp(*(av + 2), "-save", 10) == 0
-			? ft_snapshot(&game)
-			: ft_print_err("Error\n Use -save to save a snapshot"));
+	if (ac == 3 && ft_strncmp(*(av + 2), "-save", 10) == 0)
+		return (ft_snapshot(&game));
 	ft_init_hook(&game);
 	mlx_loop(game.mlx);
+	system("leaks a.out");
+
 	return (EXIT_SUCCESS);
 }

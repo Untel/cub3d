@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 21:18:59 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/11 21:19:58 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/12 14:17:45 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 void
 	ft_trigger_hp_losing(t_game *game)
 {
-	if (game->map.grid[(int)game->player.pos.y][(int)game->player.pos.x] == OBJECT)
+	if (game->map.grid[(int)game->player.pos.y]
+		[(int)game->player.pos.x] == OBJECT)
 	{
 		game->player.hp -= 10;
 		if (game->player.hp <= 0)
@@ -60,12 +61,12 @@ void
 	if (game->map.show_mega)
 	{
 		ft_render_megamap(game);
-		ft_sprintf(txt, "Pos: x%.2f/y%.2f | Dir x%.2f/y%.2f | Plane x%.2f/y%.2f | Angle %.2f",
+		ft_sprintf(txt, "Pos: x%.2f/y%.2f | Dir x%.2f/y%.2f | Angle %.2f",
 			game->player.pos.x, game->player.pos.y,
 			game->player.dir.x, game->player.dir.y,
-			game->player.plane.x, game->player.plane.y,
 			game->player.angle);
-		mlx_string_put(game->mlx, game->win.ref, 10, game->win.height - 20, 0xffffff, txt);
+		mlx_string_put(game->mlx, game->win.ref, 10,
+			game->win.height - 20, 0xffffff, txt);
 	}
 	ft_increment_sprite_index(&(game->env.S));
 }

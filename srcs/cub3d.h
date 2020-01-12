@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/11 21:19:49 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/12 14:26:07 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,5 +284,5 @@ void 			ft_toggle_key(t_game *game, int keycode, int value);
 // error
 int 			ft_print_err(char *txt);
 int 			ft_print_defined_err();
-double			decim(double val)
+double			decim(double val);
 #endif

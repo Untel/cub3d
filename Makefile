@@ -60,7 +60,7 @@ INCLUDES			= -I . -I./headers $(GNL_INCL) $(LIBFTPRINTF_INCL) -I$(MINILIBX_PATH)
 CFLAGS				= -Ofast -D OS=$(OS) -w -g $(INCLUDES)
 OBJS				= $(SRCS:.c=.o)
 CC					= clang
-NAME				= a.out
+NAME				= cub3d
 
 ARGS				= config.cub
 
