@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 14:26:07 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/12 21:15:17 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,17 @@
 # include <fcntl.h>
 # include <unistd.h>
 # include <errno.h>
-# define MAX_WIDTH			1920
-# define MAX_HEIGHT			1920
-# define MAX_MAP_HEIGHT		300
-# define MAX_MAP_WIDTH		200
+# define MAX_WIDTH			2560
+# define MAX_HEIGHT			1440
+# define MAX_MAP_HEIGHT		500
+# define MAX_MAP_WIDTH		500
 # define GAME_WIDTH			800
 # define GAME_HEIGHT		600
 # define TEX_HEIGHT			64
 # define TEX_WIDTH			64
 # define PATH_URL_SIZE		1024
-# define ERR(...) 			(((printf("[\e[0;31mERROR\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1) * -1)
-# define SUC(...) 			(((printf("[\e[0;32mSUCCESS\e[0m] ") && printf(__VA_ARGS__) && printf("\n")) || 1))
 # define ERROR 				-1
 # define SUCCESS			1
-# define HAS_ERR(x)			(x == ERROR)
 # define RED				0x00ff0000
 # define ORANGE				0x00ffA500
 # define YELLOW				0x00ffff00
@@ -182,14 +179,6 @@ typedef struct	s_ray
 	t_list		*objects;
 }               t_ray;
 
-typedef unsigned char t_bgra[4];
-typedef struct s_argb
-{
-	double a;
-	double r;
-	double g;
-	double b;
-}				t_argb;
 typedef struct	s_game
 {
     void		*mlx;
@@ -285,4 +274,10 @@ void 			ft_toggle_key(t_game *game, int keycode, int value);
 int 			ft_print_err(char *txt);
 int 			ft_print_defined_err();
 double			decim(double val);
+int				ft_check_ext(char *path, char *ext);
+int				ft_get_next_number(char **str, char ignorable);
+int				ft_set_player_position(t_game *game, char dir, int x, int y);
+int				ft_set_image(t_game *game, t_image *img, char *path);
+int				ft_verify_opts(char *opts);
+int				ft_check_opts(char *opts, char key);
 #endif

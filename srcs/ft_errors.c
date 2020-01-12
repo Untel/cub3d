@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 17:06:22 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 16:16:13 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/12 17:26:26 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,9 @@ int
 }
 
 int
-	ft_print_defined_err(void)
+	ft_print_defined_err(char *txt)
 {
-	perror("Error\n");
+	ft_fprintf(2, "Error\n");
+	perror(txt);
 	return (ERROR);
 }

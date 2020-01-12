@@ -36,6 +36,8 @@ SRCS_FILES			= \
 	ft_hud.c\
 	ft_snapshot.c\
 	ft_config.c\
+	ft_config_setters.c\
+	ft_config_map.c\
 	ft_move.c\
 	ft_utils.c\
 	ft_draw.c\
@@ -58,11 +60,13 @@ OBJS				= $(SRCS:.c=.o)
 CC					= clang
 NAME				= cub3d
 
-ARGS				= config.cub
+ARGS				= 1.cub
 
 all:				$(OBJS) srcs/cub3d.h
 					$(LIBFTPRINTF_MAKE)
+ifeq ($(UNAME_S), Linux)
 					$(MINILIBX_MAKE)
+endif
 					$(GNL_MAKE)
 					$(CC) -I./srcs $(OBJS) $(LIBS) -o $(NAME)
 

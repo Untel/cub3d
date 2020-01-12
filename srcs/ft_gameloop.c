@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 21:18:59 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 14:17:45 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/12 19:12:07 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,10 @@ void
 	{
 		game->player.hp -= 10;
 		if (game->player.hp <= 0)
+		{
+			ft_printf("YOU DIED\n");
 			ft_destroy_window(game);
+		}
 	}
 	else if (game->player.hp < game->player.max_hp)
 		game->player.hp++;

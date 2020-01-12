@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 17:15:38 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/12 18:26:01 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void
 	mlx_destroy_image(game->mlx, game->env.SO.ref);
 	mlx_destroy_image(game->mlx, game->env.S.img.ref);
 	mlx_destroy_image(game->mlx, game->weapon.img.ref);
-	system("leaks cub3d");
+	// system("leaks cub3d");
 	exit(EXIT_SUCCESS);
 }
 
@@ -56,7 +56,7 @@ int	main(int ac, char **av)
 		return (ft_print_defined_err() || EXIT_FAILURE);
 	if (ft_args(&game, ac, av) == ERROR)
 	{
-		system("leaks cub3d");
+		// system("leaks cub3d");
 		return (EXIT_SUCCESS);
 	}
 	if (!(game.win.ref = mlx_new_window(game.mlx,
@@ -65,11 +65,11 @@ int	main(int ac, char **av)
 	ft_generate_renderer(&game);
 	ft_generate_minimap(&game);
 	ft_generate_megamap(&game);
-	if (ac == 3 && ft_strncmp(*(av + 2), "-save", 10) == 0)
+	if (ac > 2 && ft_strncmp(*(av + 2), "-save", 10) == 0)
 		return (ft_snapshot(&game));
 	ft_init_hook(&game);
 	mlx_loop(game.mlx);
-	system("leaks cub3d");
+	// system("leaks cub3d");
 
 	return (EXIT_SUCCESS);
 }

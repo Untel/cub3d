@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:45:11 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 04:54:05 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/12 18:04:50 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	ft_draw_minimap(t_game *game)
 
 int	ft_generate_minimap(t_game *game)
 {
-	printf("Map w/h is %d/%d\n\n", game->map.width, game->map.height);
 	if (ft_generate_image(game, &(game->map.mini), (game->map.width + 1) * MINIMAP_SQUARE_SIZE, (game->map.height + 1) * MINIMAP_SQUARE_SIZE) == ERROR)
 		return (ERROR);
 	return (SUCCESS);

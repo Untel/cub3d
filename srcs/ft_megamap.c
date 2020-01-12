@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 18:20:35 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/03 17:59:02 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/12 18:04:45 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int	ft_render_megamap(t_game *game)
 
 int	ft_generate_megamap(t_game *game)
 {
-	printf("Map w/h is %d/%d\n\n", game->map.width, game->map.height);
 	if (ft_generate_image(game, &(game->map.mega), (game->map.width + 1) * MEGAMAP_SQUARE_SIZE, (game->map.height + 1) * MEGAMAP_SQUARE_SIZE) == ERROR)
 		return (ERROR);
 	return (SUCCESS);
