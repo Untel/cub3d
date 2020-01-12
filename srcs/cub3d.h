@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 21:15:17 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/12 21:20:20 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,8 +231,8 @@ int				ft_destroy_window(t_game *game);
 int				ft_generate_floor_dist(t_game *game);
 void			ft_increment_sprite_index(t_sprite *spr);
 //rays
-// void			init_ray(t_game *game, t_ray *ray);
-// void			compute_ray(t_game *game, t_ray *ray);
+void			init_ray(t_game *game, t_ray *ray);
+void			compute_ray(t_game *game, t_ray *ray);
 void			ft_draw_objects(t_game *game, int column, t_ray *ray, t_drawer *drawer);
 void			ft_draw_object(t_game *game, int column, t_object *obj, t_drawer *drawer);
 t_object		*ft_newobject(t_game *game, t_ray *ray);
@@ -280,4 +280,4 @@ int				ft_set_player_position(t_game *game, char dir, int x, int y);
 int				ft_set_image(t_game *game, t_image *img, char *path);
 int				ft_verify_opts(char *opts);
 int				ft_check_opts(char *opts, char key);
-#endif
+#endif	
