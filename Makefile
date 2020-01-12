@@ -8,10 +8,6 @@ ifeq ($(UNAME_S), Linux)
 	MLXFLAG := -lm -lpthread -lXext -lX11
 else ifeq ($(UNAME_S), Darwin)
 	OS = 2
-	LGL := -framework OpenGL -framework AppKit
-	# LGL_INC := /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/OpenGL.framework/Headers
-	LGL_INC := ~/.brew/include
-	CFLAGS += -Wno-deprecated-declarations
 	MLXFLAG := -framework OpenGL -framework Appkit
 endif
 
@@ -70,10 +66,7 @@ all:				$(OBJS) srcs/cub3d.h
 					$(GNL_MAKE)
 					$(CC) -I./srcs $(OBJS) $(LIBS) -o $(NAME)
 
-# libs:				
-# 					$(LIBFTPRINTF_MAKE)
-# 					$(MINILIBX_MAKE)
-# 					$(GNL_MAKE)
+bonus:				re
 
 run:				all
 					./$(NAME) $(ARGS)

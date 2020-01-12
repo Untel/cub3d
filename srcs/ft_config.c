@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 17:07:40 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/12 17:19:22 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,10 @@ int
 	game->player.jumping = 0;
 	game->player.pos.y = -1.;
 	game->player.pos.x = -1.;
+	game->win.sin = NULL;
+	game->win.cos = NULL;
+	game->win.floor_dist = NULL;
+	game->win.sky_dist = NULL;
 	ft_memset(game->event, 0, EXIT + 1);
 }
 
@@ -330,12 +334,10 @@ int
 	if (ac > 1)
 	{
 		ret = ft_configure(game, *++argv);
-		printf("End? %d\n", ret);
 		if (ret == SUCCESS)		
 			ret = ft_generate_cos_sin_table(game);
 	}
 	else
 		return (ft_print_err("No config map provided."));
-	printf("End? %d\n", ret);
 	return (ret);
 }
