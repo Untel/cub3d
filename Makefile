@@ -74,7 +74,7 @@ endif
 					$(GNL_MAKE)
 					$(CC) -I./srcs $(OBJS) $(LIBS) -o $(NAME)
 
-bonus:				re
+bonus:				all
 
 run:				all
 					./$(NAME) $(ARGS)
