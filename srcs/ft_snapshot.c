@@ -6,16 +6,27 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 20:13:21 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/01 15:07:04 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 16:05:42 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_filename(char *buffer)
+int	ft_filename()
 {
-	ft_strcpy(buffer, "snapshot.bmp");
-	return (SUCCESS);
+	char	filename[BUFFER_SIZE];
+	int		tries;
+	int		fd;
+	
+	tries = 1;
+	ft_strcpy(filename, "snapshot.bmp");
+	while ((fd = open(filename, O_RDWR|O_CREAT|O_EXCL, 0666)) == -1
+		&& errno == 17 && tries < 20)
+		ft_sprintf(filename, "snapshot(%d).bmp", tries++);
+	if (fd == -1 && errno != 17)
+		return (ft_print_defined_err("Cannot create snapshot file"));
+	ft_printf("Generating snapshot on './%s'", filename);
+	return (fd);
 }
 
 int	ft_put_octet(int value, int len, int fd)
@@ -62,13 +73,11 @@ int ft_write_image(t_game *game, int fd)
 
 int ft_snapshot(t_game *game)
 {
-	char	filename[300];
-	int		fd;
+	int	fd;
 
-	printf("Generate snapshot\n");
-	ft_filename(filename);
+	if ((fd = ft_filename()) == -1)
+		return (ft_print_defined_err("Cannot create snapshot"));
 	ft_draw_frame(game);
-	fd = open(filename, O_RDWR|O_CREAT, 0666);
 	ft_write_image(game, fd);
 	close(fd);
 	return (EXIT_SUCCESS);

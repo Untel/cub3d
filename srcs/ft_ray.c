@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 01:25:55 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 13:51:16 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 15:30:04 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,31 +34,37 @@ void
 }
 
 void
-	compute_ray(t_game *game, t_ray *ray)
+	ft_compute_ray_length(t_game *game, t_ray *ray)
 {
-	int    i;
+	if (ray->dist.x < ray->dist.y)
+	{
+		ray->vert = 0;
+		ray->pos.x += ray->step.x;
+		if (game->map.grid[(int)ray->pos.y][(int)ray->pos.x] != WALL)
+			ray->dist.x += ray->step_dist.x;
+		if (game->map.show_mega)
+			ft_update_megamap(game, ray);
+	}
+	else
+	{
+		ray->vert = 1;
+		ray->pos.y += ray->step.y;
+		if (game->map.grid[(int)ray->pos.y][(int)ray->pos.x] != WALL)
+			ray->dist.y += ray->step_dist.y;
+		if (game->map.show_mega)
+			ft_update_megamap(game, ray);
+	}
+}
+
+void
+	ft_compute_ray(t_game *game, t_ray *ray)
+{
+	int	i;
 
 	i = -1;
 	while (++i < 100)
 	{
-		if (ray->dist.x < ray->dist.y)
-		{
-			ray->vert = 0;
-			ray->pos.x += ray->step.x;
-			if (game->map.grid[(int)ray->pos.y][(int)ray->pos.x] != WALL)
-				ray->dist.x += ray->step_dist.x;
-			if (game->map.show_mega)
-				ft_update_megamap(game, ray);
-		}
-		else
-		{
-			ray->vert = 1;
-			ray->pos.y += ray->step.y;
-			if (game->map.grid[(int)ray->pos.y][(int)ray->pos.x] != WALL)
-				ray->dist.y += ray->step_dist.y;
-			if (game->map.show_mega)
-				ft_update_megamap(game, ray);
-		}
+		ft_compute_ray_length(game, ray);
 		if (game->map.grid[(int)ray->pos.y][(int)ray->pos.x] == OBJECT)
 			ft_lstadd_front(&(ray->objects), ft_lstnew(
 				ft_newobject(game, ray), sizeof(t_object *)));

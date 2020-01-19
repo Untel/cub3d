@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:21:30 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 15:29:40 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,75 +71,4 @@ int
 
 	update_orientation(game->p.angle - M_PI, &dir);
 	return (move(game, dir));
-}
-
-void    update_orientation(double angle, t_dpos *dir)
-{
-    dir->x = cos(angle);
-    dir->y = sin(angle);
-}
-
-void    rotate_right(t_game *game)
-{
-    game->p.angle -= game->p.rs;
-    update_orientation(game->p.angle, &(game->p.dir));
-}
-
-void    rotate_left(t_game *game)
-{
-    game->p.angle += game->p.rs;
-    update_orientation(game->p.angle, &(game->p.dir));
-}
-
-void    rotate_up(t_game *game)
-{
-    game->p.view2 -= game->win.height / 30;
-	if (game->p.view2 <= -(game->win.height / 1.5))
-		game->p.view2 = -(game->win.height / 1.5);
-}
-
-void    rotate_down(t_game *game)
-{
-    game->p.view2 += game->win.height / 30;
-	if (game->p.view2 >= (game->win.height / 1.5))
-		game->p.view2 = (game->win.height / 1.5);
-}
-
-void	fire(t_game *game)
-{
-	
-}
-
-void	crouch(t_game *game)
-{
-	int inc;
-	
-	inc = game->win.height / 15;
-	if (game->p.crouched == 1 && game->p.view <= (game->win.height / 4))
-		game->p.view += inc;
-	if (game->p.crouched == 0 && game->p.view > 0)
-	{
-		if (game->p.view <= inc)
-			game->p.view = 0;
-		else
-			game->p.view -= inc;
-	}
-}
-
-void	jump(t_game *game)
-{
-	int inc;
-	
-	inc = game->win.height / 30;
-	if (game->p.jumping == 1)
-		game->p.view -= inc;
-	else if (game->p.jumping == 2)
-		game->p.view += inc;
-	if (game->p.view <= -(game->win.height / 2))
-		game->p.jumping = 2;
-	else if (game->p.jumping == 2 && game->p.view >= 0)
-	{
-		game->p.jumping = 0;
-		game->p.view = 0;
-	}
 }

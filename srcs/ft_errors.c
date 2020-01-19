@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 17:06:22 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 13:00:09 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 15:22:30 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,5 +57,27 @@ int
 	if (opts[key] == 1)
 		return (ft_print_err("A key has been set twice."));
 	opts[key] = 1;
+	return (SUCCESS);
+}
+
+int
+	ft_verify_opts(char *opts)
+{
+	if (opts[0] != 1)
+		return (ft_print_err(ERR0));
+	if (opts[1] != 1)
+		return (ft_print_err(ERR1));
+	if (opts[2] != 1)
+		return (ft_print_err(ERR2));
+	if (opts[3] != 1)
+		return (ft_print_err(ERR3));
+	if (opts[4] != 1)
+		return (ft_print_err(ERR4));
+	if (opts[5] != 1)
+		return (ft_print_err(ERR5));
+	if (opts[6] != 1)
+		return (ft_print_err(ERR6));
+	if (opts[7] != 1)
+		return (ft_print_err(ERR7));
 	return (SUCCESS);
 }

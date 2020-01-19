@@ -52,6 +52,8 @@ SRCS_FILES			= \
 	ft_hooks.c\
 	ft_ray.c\
 	ft_shades.c\
+	ft_rotation.c\
+	ft_actions.c\
 
 SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 

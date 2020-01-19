@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 16:02:15 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ int	main(int ac, char **av)
 			game.win.width, game.win.height, "Cub3d")))
 		return (ft_print_defined_err("Cannot generate window") || EXIT_FAILURE);
 	ft_generate_renderer(&game);
-	if (ac > 2 && ft_strncmp(*(av + 2), "-save", 10) == 0)
-		return (ft_snapshot(&game));
 	ft_generate_minimap(&game);
 	ft_generate_megamap(&game);
+	if (ac > 2 && ft_strncmp(*(av + 2), "-save", 10) == 0)
+		return (ft_snapshot(&game));
 	ft_init_hook(&game);
 	mlx_loop(game.mlx);
 	return (EXIT_SUCCESS);

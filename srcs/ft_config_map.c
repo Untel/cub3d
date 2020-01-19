@@ -6,23 +6,17 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 21:10:15 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 13:57:23 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 15:22:19 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 int
-	ft_fill_map(t_game *game, char *str)
+	ft_set_line_config(char *str, t_game *game, int line, int i)
 {
-	static int	line = 0;
-	char		*ptr;
-	int			i;
-	int			x;
+	int	x;
 
-	i = 0;
-	if (!*str)
-		return (ft_print_err("Map cannot have blank lines."));
 	while (*str)
 		if (*str == ' ')
 			str++;
@@ -45,6 +39,19 @@ int
 			game->map.grid[line][i++] = x;
 			str++;
 		}
+	return (i);
+}
+
+int
+	ft_fill_map(t_game *game, char *str)
+{
+	static int	line = 0;
+	char		*ptr;
+	int			i;
+
+	if (!*str)
+		return (ft_print_err("Map cannot have blank lines."));
+	i = ft_set_line_config(str, game, line, 0);
 	if (line == 0)
 		game->map.width = i;
 	else if (game->map.width != i)
@@ -54,28 +61,6 @@ int
 		return (ft_print_err("Map is too hight"));
 	line++;
 	return (2);
-}
-
-int
-	ft_verify_opts(char *opts)
-{
-	if (opts[0] != 1)
-		return (ft_print_err(ERR0));
-	if (opts[1] != 1)
-		return (ft_print_err(ERR1));
-	if (opts[2] != 1)
-		return (ft_print_err(ERR2));
-	if (opts[3] != 1)
-		return (ft_print_err(ERR3));
-	if (opts[4] != 1)
-		return (ft_print_err(ERR4));
-	if (opts[5] != 1)
-		return (ft_print_err(ERR5));
-	if (opts[6] != 1)
-		return (ft_print_err(ERR6));
-	if (opts[7] != 1)
-		return (ft_print_err(ERR7));
-	return (SUCCESS);
 }
 
 int

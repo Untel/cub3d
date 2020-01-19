@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:33:46 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 12:52:00 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 15:27:10 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int
 			- game->p.dir.y * game->win.sin[c], .y = game->p.dir.y
 			* game->win.cos[c] + game->p.dir.x * game->win.sin[c] };
 		init_ray(game, &r);
-		compute_ray(game, &r);
+		ft_compute_ray(game, &r);
 		if (r.vert)
 			d.tex = game->p.pos.y < r.pos.y ? &game->env.SO : &game->env.NO;
 		else
