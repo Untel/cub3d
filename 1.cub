@@ -1,11 +1,11 @@
-R 1920 1080
+R 1400 900
 WE ./pics/tserre.xpm
 SO ./pics/maiabig.xpm
 NO ./pics/williamc.xpm
-EA ./pics/romainc.xpm
+EA ./pics/tavio.xpm
 S 64 64 ./pics/fire_64.xpm
-F 125,125,125
-C 0,0,0
+F 200,75,75
+C 75,75,200
 
 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1
 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1

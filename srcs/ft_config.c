@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 21:14:02 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 12:09:15 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,19 @@ int
 		if (ret == -1)
 			return (ret);
 	}
+	if (ft_verify_opts(opts) == ERROR)
+		return (ERROR);
+	return (ft_read_config_file(gnl_ret, ret, fd, game));
+}
+
+int
+	ft_read_config_file(int gnl_ret, int ret, int fd, t_game *game)
+{
+	char *line;
+
 	if (gnl_ret > 0 && ret == 2 && (ret = SUCCESS))
 	{
-		if (ft_verify_opts(opts) == ERROR)
-			return (ERROR);
-		while (ret == SUCCESS && (gnl_ret = get_next_line(fd, &line)) == SUCCESS)
+		while (ret && (gnl_ret = get_next_line(fd, &line)))
 		{
 			ret = ft_fill_map(game, line) == 2;
 			free(line);
@@ -81,22 +89,22 @@ int
 int
 	ft_generate_cos_sin_table(t_game *game)
 {
-	int i;
-	double dtheta;
-	double theta0;
+	int		i;
+	double	teth;
+	double	teth0;
 
 	if (!(game->win.sin = malloc(sizeof(double) * game->win.width))
 		|| !(game->win.cos = malloc(sizeof(double) * game->win.width)))
 		return (ft_print_defined_err("Allocating cos/sin table failed"));
 	i = -1;
-    dtheta = -M_PI / 3 / (game->win.width - 1);
-    theta0 = M_PI / 6;
-    while (++i < game->win.width)
-    {
-        game->win.sin[i] = sin(theta0);
-        game->win.cos[i] = cos(theta0);
-        theta0 += dtheta;
-    }
+	teth = -M_PI / 3 / (game->win.width - 1);
+	teth0 = M_PI / 6;
+	while (++i < game->win.width)
+	{
+		game->win.sin[i] = sin(teth0);
+		game->win.cos[i] = cos(teth0);
+		teth0 += teth;
+	}
 	return (SUCCESS);
 }
 
@@ -108,7 +116,6 @@ int
 	if (!(game->win.floor_dist = malloc(sizeof(double) * game->win.height))
 		|| !(game->win.sky_dist = malloc(sizeof(double) * game->win.height)))
 		return (ft_print_defined_err("Allocating sky/floor dist table failed"));
-
 	i = -1;
 	while (++i < game->win.height / 2)
 	{
@@ -117,8 +124,10 @@ int
 	}
 	while (i < game->win.height)
 	{
-		game->win.floor_dist[i] = (game->win.height / (2. * (double)i - game->win.height));
-		game->win.sky_dist[game->win.height - i] = (game->win.height / (2. * (double)i - game->win.height));
+		game->win.floor_dist[i] =
+			(game->win.height / (2. * (double)i - game->win.height));
+		game->win.sky_dist[game->win.height - i] =
+			(game->win.height / (2. * (double)i - game->win.height));
 		i++;
 	}
 }
@@ -137,16 +146,13 @@ int
 			free(trimmed);
 			return (ft_print_err("Your config file is not a .cub extension."));
 		}
-		ret = ft_configure(game, trimmed);
+		ret = ft_configure(game, trimmed) == ERROR
+			|| ft_generate_cos_sin_table(game) == ERROR;
 		free(trimmed);
-		if (ret == ERROR)
-			return (ret);
-		ret = ft_generate_cos_sin_table(game);
-		if (ret == ERROR)
-			return (ret);
-		if (game->player.pos.x == 0)
+		if (ret)
+			return (ERROR);
+		if ((ret = -1) && game->player.pos.x == 0)
 			return (ft_print_err("Player position is missing in the map."));
-		ret = -1;
 		while (++ret < game->map.width)
 			if (game->map.grid[game->map.height][ret] != 1)
 				return (ft_print_err("There is an hole in your map"));

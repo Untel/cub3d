@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 18:26:01 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 11:53:44 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,26 +50,21 @@ int
 
 int	main(int ac, char **av)
 {
-	t_game	game;
+	t_game  game;
 
 	if (!(game.mlx = mlx_init()))
-		return (ft_print_defined_err() || EXIT_FAILURE);
+		return (ft_print_defined_err("Cannot init minilibx") || EXIT_FAILURE);
 	if (ft_args(&game, ac, av) == ERROR)
-	{
-		// system("leaks cub3d");
 		return (EXIT_SUCCESS);
-	}
 	if (!(game.win.ref = mlx_new_window(game.mlx,
 			game.win.width, game.win.height, "Cub3d")))
-		return (ft_print_defined_err() || EXIT_FAILURE);
+		return (ft_print_defined_err("Cannot generate window") || EXIT_FAILURE);
 	ft_generate_renderer(&game);
-	ft_generate_minimap(&game);
-	ft_generate_megamap(&game);
 	if (ac > 2 && ft_strncmp(*(av + 2), "-save", 10) == 0)
 		return (ft_snapshot(&game));
+	ft_generate_minimap(&game);
+	ft_generate_megamap(&game);
 	ft_init_hook(&game);
 	mlx_loop(game.mlx);
-	// system("leaks cub3d");
-
 	return (EXIT_SUCCESS);
 }
