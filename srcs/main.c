@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 11:53:44 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ void
 int
 	ft_inc_speed(t_game *game, double speed)
 {
-	game->player.ms += speed;
-	game->player.rs += (speed / 3);
-	if (game->player.ms < 0)
-		game->player.ms = 0;
-	if (game->player.rs < 0)
-		game->player.rs = 0;
+	game->p.ms += speed;
+	game->p.rs += (speed / 3);
+	if (game->p.ms < 0)
+		game->p.ms = 0;
+	if (game->p.rs < 0)
+		game->p.rs = 0;
 }
 
 int	main(int ac, char **av)

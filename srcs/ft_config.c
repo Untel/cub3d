@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 12:09:15 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,45 +67,23 @@ int
 int
 	init_config(t_game *game)
 {
-	game->player.ms = 0.12;
-	game->player.rs = 0.04;
-	game->player.view = 0;
-	game->player.view2 = 0;
-	game->player.hp = 999;
-	game->player.max_hp = 999;
+	game->p.ms = 0.12;
+	game->p.rs = 0.04;
+	game->p.view = 0;
+	game->p.view2 = 0;
+	game->p.hp = 999;
+	game->p.max_hp = 999;
 	game->collision = 1;
 	game->hud = 0;
 	game->shading = 0;
-	game->player.jumping = 0;
-	game->player.pos.y = 0;
-	game->player.pos.x = 0;
+	game->p.jumping = 0;
+	game->p.pos.y = 0;
+	game->p.pos.x = 0;
 	game->win.sin = NULL;
 	game->win.cos = NULL;
 	game->win.floor_dist = NULL;
 	game->win.sky_dist = NULL;
 	ft_memset(game->event, 0, EXIT + 1);
-}
-
-int
-	ft_generate_cos_sin_table(t_game *game)
-{
-	int		i;
-	double	teth;
-	double	teth0;
-
-	if (!(game->win.sin = malloc(sizeof(double) * game->win.width))
-		|| !(game->win.cos = malloc(sizeof(double) * game->win.width)))
-		return (ft_print_defined_err("Allocating cos/sin table failed"));
-	i = -1;
-	teth = -M_PI / 3 / (game->win.width - 1);
-	teth0 = M_PI / 6;
-	while (++i < game->win.width)
-	{
-		game->win.sin[i] = sin(teth0);
-		game->win.cos[i] = cos(teth0);
-		teth0 += teth;
-	}
-	return (SUCCESS);
 }
 
 int
@@ -151,7 +129,7 @@ int
 		free(trimmed);
 		if (ret)
 			return (ERROR);
-		if ((ret = -1) && game->player.pos.x == 0)
+		if ((ret = -1) && game->p.pos.x == 0)
 			return (ft_print_err("Player position is missing in the map."));
 		while (++ret < game->map.width)
 			if (game->map.grid[game->map.height][ret] != 1)

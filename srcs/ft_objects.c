@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 01:34:03 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/03 17:54:41 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ t_object	*ft_newobject(t_game *game, t_ray *ray)
         return (NULL);
     obj->pos.x = (int)ray->pos.x + .5;
     obj->pos.y = (int)ray->pos.y + .5;
-	obj->dist = sqrt(pow((game->player.pos.y - obj->pos.y), 2) + pow(game->player.pos.x - obj->pos.x, 2));
-    obj->angle = asin(((obj->pos.x - game->player.pos.x) * game->player.plane.y * -1 +
-                        (obj->pos.y - game->player.pos.y) * game->player.plane.x) / obj->dist);
+	obj->dist = sqrt(pow((game->p.pos.y - obj->pos.y), 2) + pow(game->p.pos.x - obj->pos.x, 2));
+    obj->angle = asin(((obj->pos.x - game->p.pos.x) * game->p.plane.y * -1 +
+                        (obj->pos.y - game->p.pos.y) * game->p.plane.x) / obj->dist);
     obj->dir = .5 + obj->dist * tan(obj->angle);
 	return (obj);
 }

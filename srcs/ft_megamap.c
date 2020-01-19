@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 18:20:35 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 21:25:16 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,8 @@ int	ft_draw_megamap(t_game *game)
 				ft_draw_megamap_square(game, pos, NULL, 0x8fffff00);
 			else
 				ft_draw_megamap_square(game, pos, NULL, 0xad000000);
-	pos.x = game->player.pos.x - .5;
-	pos.y = game->player.pos.y - .5;
+	pos.x = game->p.pos.x - .5;
+	pos.y = game->p.pos.y - .5;
 	ft_draw_megamap_square(game, pos, NULL, 0x8fff0000);
 }
 

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 21:18:59 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 19:12:07 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 void
 	ft_trigger_hp_losing(t_game *game)
 {
-	if (game->map.grid[(int)game->player.pos.y]
-		[(int)game->player.pos.x] == OBJECT)
+	if (game->map.grid[(int)game->p.pos.y]
+		[(int)game->p.pos.x] == OBJECT)
 	{
-		game->player.hp -= 10;
-		if (game->player.hp <= 0)
+		game->p.hp -= 10;
+		if (game->p.hp <= 0)
 		{
 			ft_printf("YOU DIED\n");
 			ft_destroy_window(game);
 		}
 	}
-	else if (game->player.hp < game->player.max_hp)
-		game->player.hp++;
+	else if (game->p.hp < game->p.max_hp)
+		game->p.hp++;
 }
 
 void
@@ -55,7 +55,7 @@ void
 
 	ft_read_events(game);
 	ft_trigger_hp_losing(game);
-	if (game->player.jumping > 0)
+	if (game->p.jumping > 0)
 		jump(game);
 	crouch(game);
 	if (game->map.show_mega)
@@ -65,9 +65,9 @@ void
 	{
 		ft_render_megamap(game);
 		ft_sprintf(txt, "Pos: x%.2f/y%.2f | Dir x%.2f/y%.2f | Angle %.2f",
-			game->player.pos.x, game->player.pos.y,
-			game->player.dir.x, game->player.dir.y,
-			game->player.angle);
+			game->p.pos.x, game->p.pos.y,
+			game->p.dir.x, game->p.dir.y,
+			game->p.angle);
 		mlx_string_put(game->mlx, game->win.ref, 10,
 			game->win.height - 20, 0xffffff, txt);
 	}

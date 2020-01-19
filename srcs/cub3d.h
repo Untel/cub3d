@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 21:20:20 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 13:07:39 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@
 # define HEALTHBAR_PADDING	5
 # define HEALTHBAR_BORDER	WHITE
 # define LINUX_OS			1
+# define ERR0               "Key 'R' for resolution is missing in config file."
+# define ERR1               "Key 'NO' for north wall texture path is missing in config file."
+# define ERR2               "Key 'SO' for south wall texture path is missing in config file."
+# define ERR3               "Key 'WE' for west wall texture path is missing in config file."
+# define ERR4               "Key 'EA' for east wall texture path is missing in config file."
+# define ERR5               "Key 'S' for sprite texture path is missing in config file."
+# define ERR6               "Key 'F' for floor color is missing in config file."
+# define ERR7               "Key 'C' for ceil color is missing in config file."
 # if OS == LINUX_OS
 #  include "keys_linux.h"
 #  include "mlx.h"
@@ -178,13 +186,12 @@ typedef struct	s_ray
     int			vert;
 	t_list		*objects;
 }               t_ray;
-
 typedef struct	s_game
 {
     void		*mlx;
 	t_window	win;
 	t_map		map;
-	t_player	player;
+	t_player	p;
 	env_t		env;
 	t_image		image;
 	t_sprite	weapon;
@@ -199,13 +206,12 @@ typedef struct	s_drawer
 {
     int			start;
     int			end;
-	t_image		*texture;
+	t_image		*tex;
     double		step_posy;
     double		posy;
 	int			delta;
 }				t_drawer;
 
-// Movements
 int				move_forward(t_game *game);
 int				move_backward(t_game *game);
 int 			rotate(t_game *game, double deg);
@@ -230,15 +236,12 @@ int				ft_draw_renderer(t_game *game, t_ipos pos, unsigned int color);
 int				ft_destroy_window(t_game *game);
 int				ft_generate_floor_dist(t_game *game);
 void			ft_increment_sprite_index(t_sprite *spr);
-//rays
 void			init_ray(t_game *game, t_ray *ray);
 void			compute_ray(t_game *game, t_ray *ray);
 void			ft_draw_objects(t_game *game, int column, t_ray *ray, t_drawer *drawer);
 void			ft_draw_object(t_game *game, int column, t_object *obj, t_drawer *drawer);
 t_object		*ft_newobject(t_game *game, t_ray *ray);
 int				ft_hud(t_game *game);
-
-// Image
 int				ft_set_pixel(t_image *ptr, t_ipos pos, unsigned int color);
 unsigned int	ft_get_pixel(t_image *ptr, t_ipos pos);
 int				ft_init_drawer(t_game *game, t_drawer *drawer, double height);
@@ -246,31 +249,22 @@ void			ft_draw_sprite(t_game *game, t_sprite *spr, t_dpos draw_tex, double rate)
 int				ft_transfert_pixel(t_image *from, t_image *to, double rate);
 unsigned char	ft_shade(unsigned char oct, double divide, int idx);
 int				ft_shader(int color, double divide);
-// Minimap
 int				ft_generate_minimap(t_game *game);
 int				ft_draw_minimap(t_game *game);
 int				ft_draw_minimap_square(t_game *game, t_ipos pos, unsigned int color);
 int				ft_draw_minimap_pix(t_game *game, double x, double y, unsigned int color);
 void			to_intpos(t_ipos *ret, t_dpos pos);
-
-// Megamap
 int				ft_generate_megamap(t_game *game);
 int				ft_draw_megamap(t_game *game);
 int				ft_render_megamap(t_game *game);
 int				ft_update_megamap(t_game *game, t_ray *ray);
-
-// hooks
 int				ft_keypress_hook(int keycode, t_game *game);
 int				ft_keyrelease_hook(int keycode, t_game *game);
 int				ft_init_hook(t_game *game);
-
-// events
 int				ft_read_events(t_game *game);
 int				ft_destroy_window(t_game *game);
 void			ft_leave_program(t_game *game);
 void 			ft_toggle_key(t_game *game, int keycode, int value);
-
-// error
 int 			ft_print_err(char *txt);
 int 			ft_print_defined_err();
 double			decim(double val);
@@ -280,4 +274,8 @@ int				ft_set_player_position(t_game *game, char dir, int x, int y);
 int				ft_set_image(t_game *game, t_image *img, char *path);
 int				ft_verify_opts(char *opts);
 int				ft_check_opts(char *opts, char key);
-#endif	
+int             ft_generate_cos_sin_table(t_game *game);
+void            ft_draw_floor(t_game *g, t_drawer *drawer, t_ipos *d);
+void            ft_draw_sky(t_game *g, t_drawer *drawer, t_ipos *d);
+int             ft_set_window_size(t_game *game, char *str);
+#endif

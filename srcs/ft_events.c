@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:57:28 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/11 21:17:55 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int
 int
 	ft_read_events2(t_game *game)
 {
-	if (game->event[JUMP] == 1 && !game->player.jumping)
-		game->player.jumping = 1;
-	game->player.crouched = game->event[CROUCH];
+	if (game->event[JUMP] == 1 && !game->p.jumping)
+		game->p.jumping = 1;
+	game->p.crouched = game->event[CROUCH];
 	game->map.show_mega = game->event[TOGGLE_MAP];
 	game->collision = !game->event[TOGGLE_COLLISION];
 	return (SUCCESS);

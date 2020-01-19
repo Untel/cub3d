@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:47:19 by adda-sil          #+#    #+#             */
-/*   Updated: 2019/12/03 17:55:53 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int
 	int				hp;
 	char			txt[300];
 
-	ratio = (double)game->player.hp / (double)(game->player.max_hp);
+	ratio = (double)game->p.hp / (double)(game->p.max_hp);
 	hp = HEALTHBAR_WIDTH * ratio - 1;
 	draw = (t_ipos){ .x = pos.x, .y = pos.y };
 	if (ratio > .5)
@@ -31,8 +31,8 @@ int
 	while (draw.x++ < pos.x + hp && (draw.y = pos.y))
 		while (draw.y++ < pos.y + HEALTHBAR_HEIGHT - 1)
 			ft_draw_renderer(game, draw, color);
-	ft_sprintf(txt, "%d/%d - %d%%", game->player.hp,
-		game->player.max_hp, (int)(ratio * 100));
+	ft_sprintf(txt, "%d/%d - %d%%", game->p.hp,
+		game->p.max_hp, (int)(ratio * 100));
 	ft_render(game);
 	mlx_string_put(game->mlx, game->win.ref, pos.x + 5,
 		pos.y + (HEALTHBAR_HEIGHT / 2 - 11), 0x0, txt);

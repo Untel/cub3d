@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:45:11 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 18:04:50 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int	ft_update_minimap(t_game *game, t_ray *ray)
 	t_ipos	pos;
 
 	if (ray->vert)
-		color = ray->pos.y > game->player.pos.y ? 0xff0000 : 0x00ff00;
+		color = ray->pos.y > game->p.pos.y ? 0xff0000 : 0x00ff00;
 	else
-		color = ray->pos.x > game->player.pos.x ? 0xffff00 : 0x00ffff;
+		color = ray->pos.x > game->p.pos.x ? 0xffff00 : 0x00ffff;
 	pos.x = (int)ray->pos.x;
 	pos.y = (int)ray->pos.y;
 	ft_draw_minimap_square(game, pos, color);
@@ -56,8 +56,8 @@ int	ft_draw_minimap(t_game *game)
 			else
 				ft_draw_minimap_square(game, pos, 0xff000000);
 	// ft_printf("Player pos is %.2f/%.2f\n", game->player.pos.x, game->player.pos.y);
-	pos.x = (int)game->player.pos.x;
-	pos.y = (int)game->player.pos.y;
+	pos.x = (int)game->p.pos.x;
+	pos.y = (int)game->p.pos.y;
 	ft_draw_minimap_square(game, pos, 0xff00ff);
 	mlx_put_image_to_window(game->mlx, game->win.ref, game->map.mini.ref, 0, 0);
 }
