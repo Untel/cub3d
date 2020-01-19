@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:47:19 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 18:24:44 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int
 	t_ipos	pos;
 	t_ipos	draw;
 
-	pos = (t_ipos){ .x = HEALTHBAR_PADDING, .y = game->map.mini.height + HEALTHBAR_PADDING };
+	pos = (t_ipos){ .x = HEALTHBAR_PADDING,
+		.y = game->map.mini.height + HEALTHBAR_PADDING };
 	draw = (t_ipos){ .x = pos.x, .y = pos.y };
 	while (draw.x++ < pos.x + HEALTHBAR_WIDTH)
 		ft_draw_renderer(game, draw, HEALTHBAR_BORDER);
@@ -63,42 +64,37 @@ int
 int
 	ft_weapon(t_game *game)
 {
-	t_ipos start_draw;
-	t_ipos draw;
-	t_dpos draw_tex_step;
-	t_dpos draw_tex;
-	int pad;
-	
+	t_ipos	start_draw;
+	t_ipos	draw;
+	t_dpos	draw_tex_step;
+	t_dpos	draw_tex;
+	int		pad;
+
 	pad = (game->win.width / 3);
-	draw = (t_ipos) { .x = game->win.width - pad + (pad / 15), .y = game->win.height - pad + (pad / 10) };
+	draw = (t_ipos) { .x = game->win.width - pad + (pad / 10) - 1,
+		.y = game->win.height - pad + (pad / 5) - 1 };
 	start_draw = (t_ipos) { .x = draw.x + pad, .y = draw.y + pad};
-	draw_tex_step = (t_dpos) {
-		.x = (1 / (double)(start_draw.x - draw.x)),
-		.y = (1 / (double)(start_draw.y - draw.y))
-	};
+	draw_tex_step = (t_dpos) { .x = (1 / (double)(start_draw.x - draw.x)),
+		.y = (1 / (double)(start_draw.y - draw.y)) };
 	draw_tex = (t_dpos) { 0, 0 };
-	while (draw.x < (start_draw.x))
+	while ((draw_tex.y = 0) || draw.x < start_draw.x
+		&& ++draw.x < game->win.width)
 	{
-		draw.y = game->win.height - pad + (pad / 15);
-		draw_tex.y = 0;
-		while (draw.y < (start_draw.y))
+		draw.y = game->win.height - pad + (pad / 5);
+		while (++draw.y < (start_draw.y) && draw.y < game->win.height)
 		{
 			game->win.renderer.draw = draw;
-				// ft_printf("printing weapon at %d %d", draw.x, draw.y);
 			ft_draw_sprite(game, &(game->weapon), draw_tex, 0);
 			draw_tex.y += draw_tex_step.y;
-			draw.y++;
 		}
-		draw.x++;
 		draw_tex.x += draw_tex_step.x;
 	}
-	// printf("Weapon drawed");
 }
 
 int	ft_draw_crosshair(t_game *game)
 {
-	t_ipos pos;
-	int i;
+	t_ipos	pos;
+	int		i;
 
 	i = -1;
 	pos.x = game->win.width / 2 - CH_RADIAN;
@@ -106,7 +102,7 @@ int	ft_draw_crosshair(t_game *game)
 	while (pos.x++ < game->win.width / 2 + CH_RADIAN)
 		ft_draw_renderer(game, pos, CH_COLOR);
 	pos.x = game->win.width / 2;
-	pos.y = game->win.height / 2 - CH_RADIAN;	
+	pos.y = game->win.height / 2 - CH_RADIAN;
 	while (pos.y++ < game->win.height / 2 + CH_RADIAN)
 		ft_draw_renderer(game, pos, CH_COLOR);
 }
@@ -116,10 +112,11 @@ int
 {
 	if (game->hud)
 	{
-		ft_weapon(game);	
+		ft_weapon(game);
 		ft_draw_crosshair(game);
 		ft_healthbar(game);
-		mlx_put_image_to_window(game->mlx, game->win.ref, game->map.mini.ref, 0, 0);
+		mlx_put_image_to_window(game->mlx, game->win.ref,
+			game->map.mini.ref, 0, 0);
 	}
 	else
 		ft_render(game);

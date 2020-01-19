@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:21:30 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 15:29:40 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 18:25:05 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,13 @@ int
 		next_y = 1.01;
 	else if (next_y > ((double)game->map.height - .01))
 		next_y = (double)game->map.height - .01;
-
 	if (!game->collision ||
 		game->map.grid[(int)(next_y)][(int)game->p.pos.x] != WALL)
 		game->p.pos.y = next_y;
 	if (!game->collision ||
 		game->map.grid[(int)game->p.pos.y][(int)(next_x)] != WALL)
 		game->p.pos.x = next_x;
-	return (1);
-
+	return (SUCCESS);
 }
 
 int

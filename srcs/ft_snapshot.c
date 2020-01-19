@@ -6,21 +6,22 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 20:13:21 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 16:05:42 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 16:24:19 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	ft_filename()
+int
+	ft_filename(void)
 {
 	char	filename[BUFFER_SIZE];
 	int		tries;
 	int		fd;
-	
+
 	tries = 1;
 	ft_strcpy(filename, "snapshot.bmp");
-	while ((fd = open(filename, O_RDWR|O_CREAT|O_EXCL, 0666)) == -1
+	while ((fd = open(filename, O_RDWR | O_CREAT | O_EXCL, 0666)) == -1
 		&& errno == 17 && tries < 20)
 		ft_sprintf(filename, "snapshot(%d).bmp", tries++);
 	if (fd == -1 && errno != 17)
@@ -29,7 +30,8 @@ int	ft_filename()
 	return (fd);
 }
 
-int	ft_put_octet(int value, int len, int fd)
+int
+	ft_put_octet(int value, int len, int fd)
 {
 	int		i;
 	char	c;
@@ -43,11 +45,13 @@ int	ft_put_octet(int value, int len, int fd)
 	return (SUCCESS);
 }
 
-int ft_write_image(t_game *game, int fd)
+int
+	ft_write_image(t_game *game, int fd)
 {
 	int size;
-	int i = -1;
+	int i;
 
+	i = -1;
 	size = game->win.height * game->win.width;
 	ft_putstr_fd("BM", fd);
 	ft_put_octet(size + 54, 4, fd);
@@ -71,7 +75,8 @@ int ft_write_image(t_game *game, int fd)
 	return (SUCCESS);
 }
 
-int ft_snapshot(t_game *game)
+int
+	ft_snapshot(t_game *game)
 {
 	int	fd;
 

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 16:02:15 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 18:34:32 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void
 	mlx_destroy_image(game->mlx, game->env.SO.ref);
 	mlx_destroy_image(game->mlx, game->env.S.img.ref);
 	mlx_destroy_image(game->mlx, game->weapon.img.ref);
-	// system("leaks cub3d");
 	exit(EXIT_SUCCESS);
 }
 
@@ -50,7 +49,7 @@ int
 
 int	main(int ac, char **av)
 {
-	t_game  game;
+	t_game	game;
 
 	if (!(game.mlx = mlx_init()))
 		return (ft_print_defined_err("Cannot init minilibx") || EXIT_FAILURE);

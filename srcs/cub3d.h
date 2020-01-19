@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:12:36 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 15:27:10 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 18:28:17 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -256,7 +256,6 @@ int				ft_draw_minimap_pix(t_game *game, double x, double y, unsigned int color)
 void			to_intpos(t_ipos *ret, t_dpos pos);
 int				ft_generate_megamap(t_game *game);
 int				ft_draw_megamap(t_game *game);
-int				ft_render_megamap(t_game *game);
 int				ft_update_megamap(t_game *game, t_ray *ray);
 int				ft_keypress_hook(int keycode, t_game *game);
 int				ft_keyrelease_hook(int keycode, t_game *game);

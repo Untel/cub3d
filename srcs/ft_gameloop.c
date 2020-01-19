@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 21:18:59 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 18:31:55 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void
 void
 	ft_game_loop(t_game *game)
 {
-	char		txt[300];
+	char		txt[BUFFER_SIZE];
 
 	ft_read_events(game);
 	ft_trigger_hp_losing(game);
@@ -63,7 +63,8 @@ void
 	ft_draw_frame(game);
 	if (game->map.show_mega)
 	{
-		ft_render_megamap(game);
+		mlx_put_image_to_window(game->mlx, game->win.ref,
+			game->map.mega.ref, 0, 0);
 		ft_sprintf(txt, "Pos: x%.2f/y%.2f | Dir x%.2f/y%.2f | Angle %.2f",
 			game->p.pos.x, game->p.pos.y,
 			game->p.dir.x, game->p.dir.y,
