@@ -21,5 +21,6 @@ crosshair<br/>
 jump/crouch<br/>
 watch up/down\
 inc/dec speed\
+mini/mega map\
 trigger collision\
 animated sprite
