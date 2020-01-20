@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 01:34:03 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 15:33:41 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 21:45:23 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,9 @@ void
 void
 	ft_draw_object(t_game *game, int column, t_object *obj, t_drawer *drawer)
 {
-	double	posy;
 	double	height;
 	t_ipos	draw;
 	t_dpos	draw_tex;
-	int		delta;
 
 	if (obj->dir <= 0 || obj->dir >= 1)
 		return ;
@@ -56,7 +54,7 @@ void
 		draw_tex.x = (obj->dir);
 		draw_tex.y = (drawer->posy);
 		game->win.renderer.draw = draw;
-		ft_draw_sprite(game, &game->env.S, draw_tex,
+		ft_draw_sprite(game, &game->env.s, draw_tex,
 			game->shading ? obj->dist / 2 : 0);
 		drawer->posy += drawer->step_posy;
 	}

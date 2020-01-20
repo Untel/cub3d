@@ -6,14 +6,14 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:45:11 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 18:31:36 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 19:43:11 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 #define MINIMAP_SQUARE_SIZE 6
 
-int
+void
 	ft_update_minimap(t_game *game, t_ray *ray)
 {
 	int		color;
@@ -28,7 +28,7 @@ int
 	ft_draw_minimap_square(game, pos, color);
 }
 
-int
+void
 	ft_draw_minimap_square(t_game *game, t_ipos pos, unsigned int color)
 {
 	t_ipos add;
@@ -44,7 +44,7 @@ int
 		}
 }
 
-int
+void
 	ft_draw_minimap(t_game *game)
 {
 	t_ipos pos;

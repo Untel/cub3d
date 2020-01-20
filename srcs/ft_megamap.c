@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 18:20:35 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 18:31:00 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 21:45:23 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #define MEGAMAP_SQUARE_SIZE 32
 
-int
+void
 	ft_update_megamap(t_game *game, t_ray *ray)
 {
 	int		color;
@@ -26,7 +26,7 @@ int
 	ft_set_pixel(&(game->map.mega), pos, color);
 }
 
-int
+void
 	ft_draw_megamap_square(t_game *game, t_dpos pos,
 		t_image *tex, unsigned int color)
 {
@@ -50,9 +50,9 @@ int
 		}
 }
 
-int	ft_draw_megamap_pix(t_game *game, t_dpos pos, unsigned int color)
+void
+	ft_draw_megamap_pix(t_game *game, t_dpos pos, unsigned int color)
 {
-	t_ipos	pix;
 	t_ipos	to_draw;
 
 	to_draw.x = (int)(pos.x * MEGAMAP_SQUARE_SIZE);
@@ -60,7 +60,8 @@ int	ft_draw_megamap_pix(t_game *game, t_dpos pos, unsigned int color)
 	ft_set_pixel(&(game->map.mega), to_draw, color);
 }
 
-int	ft_draw_megamap(t_game *game)
+void
+	ft_draw_megamap(t_game *game)
 {
 	t_dpos pos;
 
@@ -68,7 +69,7 @@ int	ft_draw_megamap(t_game *game)
 	while (++pos.x <= game->map.width && (pos.y = -1))
 		while (++pos.y <= game->map.height)
 			if (game->map.grid[(int)pos.y][(int)pos.x] == WALL)
-				ft_draw_megamap_square(game, pos, &(game->env.NO), 0);
+				ft_draw_megamap_square(game, pos, &(game->env.no), 0);
 			else if ((int)game->map.grid[(int)pos.y][(int)pos.x] == OBJECT)
 				ft_draw_megamap_square(game, pos, NULL, 0x8fffff00);
 			else
@@ -78,7 +79,8 @@ int	ft_draw_megamap(t_game *game)
 	ft_draw_megamap_square(game, pos, NULL, 0x8fff0000);
 }
 
-int	ft_generate_megamap(t_game *game)
+int
+	ft_generate_megamap(t_game *game)
 {
 	if (ft_generate_image(game, &(game->map.mega), (game->map.width + 1)
 		* MEGAMAP_SQUARE_SIZE, (game->map.height + 1)

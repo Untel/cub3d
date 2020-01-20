@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/14 05:29:51 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 18:34:32 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 21:45:23 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,23 +20,24 @@ int
 	return (SUCCESS);
 }
 
-void
+int
 	ft_leave_program(t_game *game)
 {
 	free(game->win.sky_dist);
 	free(game->win.floor_dist);
 	free(game->win.cos);
 	free(game->win.sin);
-	mlx_destroy_image(game->mlx, game->env.EA.ref);
-	mlx_destroy_image(game->mlx, game->env.WE.ref);
-	mlx_destroy_image(game->mlx, game->env.NO.ref);
-	mlx_destroy_image(game->mlx, game->env.SO.ref);
-	mlx_destroy_image(game->mlx, game->env.S.img.ref);
+	mlx_destroy_image(game->mlx, game->env.ea.ref);
+	mlx_destroy_image(game->mlx, game->env.we.ref);
+	mlx_destroy_image(game->mlx, game->env.no.ref);
+	mlx_destroy_image(game->mlx, game->env.so.ref);
+	mlx_destroy_image(game->mlx, game->env.s.img.ref);
 	mlx_destroy_image(game->mlx, game->weapon.img.ref);
 	exit(EXIT_SUCCESS);
+	return (1);
 }
 
-int
+void
 	ft_inc_speed(t_game *game, double speed)
 {
 	game->p.ms += speed;

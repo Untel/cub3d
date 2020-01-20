@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 17:06:22 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 15:22:30 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/20 17:35:01 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,20 +39,21 @@ int
 	if (!(game->win.sin = malloc(sizeof(double) * game->win.width))
 		|| !(game->win.cos = malloc(sizeof(double) * game->win.width)))
 		return (ft_print_defined_err("Allocating cos/sin table failed"));
-	i = -1;
+	i = game->win.width - 1;
 	teth = -M_PI / 3 / (game->win.width - 1);
 	teth0 = M_PI / 6;
-	while (++i < game->win.width)
+	while (i >= 0)
 	{
 		game->win.sin[i] = sin(teth0);
 		game->win.cos[i] = cos(teth0);
 		teth0 += teth;
+		i--;
 	}
 	return (SUCCESS);
 }
 
 int
-	ft_check_opts(char *opts, char key)
+	ft_check_opts(char opts[8], int key)
 {
 	if (opts[key] == 1)
 		return (ft_print_err("A key has been set twice."));

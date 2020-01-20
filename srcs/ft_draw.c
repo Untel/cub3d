@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:33:46 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 15:27:10 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/20 17:56:20 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void
 int
 	ft_init_drawer(t_game *game, t_drawer *drawer, double height)
 {
-	drawer->delta = (height - fabs(game->p.view
+	drawer->delta = (height - abs(game->p.view
 		+ game->p.view2)) - game->win.height;
 	if (game->p.view + game->p.view2 > 0)
 		drawer->delta -= game->p.view + game->p.view2;
@@ -56,7 +56,6 @@ int
 void
 	ft_draw_column(t_game *g, int column, t_ray *ray, t_drawer *drawer)
 {
-	double		py;
 	t_ipos		d;
 	t_ipos		dt;
 	int			de;
@@ -76,17 +75,18 @@ void
 		drawer->posy += drawer->step_posy;
 		d.y++;
 	}
-	ft_draw_floor(g, drawer, &d);
+	ft_draw_floor(g, &d);
 }
 
-int
+void
 	ft_draw_frame(t_game *game)
 {
 	int			c;
 	t_ray		r;
 	t_drawer	d;
 
-	(c = 0) || ft_draw_minimap(game);
+	c = 0;
+	ft_draw_minimap(game);
 	while (c < game->win.width)
 	{
 		game->p.plane = (t_dpos) { .x = game->p.dir.x * game->win.cos[c]
@@ -95,9 +95,9 @@ int
 		init_ray(game, &r);
 		ft_compute_ray(game, &r);
 		if (r.vert)
-			d.tex = game->p.pos.y < r.pos.y ? &game->env.SO : &game->env.NO;
+			d.tex = game->p.pos.y < r.pos.y ? &game->env.so : &game->env.no;
 		else
-			d.tex = game->p.pos.x < r.pos.x ? &game->env.EA : &game->env.WE;
+			d.tex = game->p.pos.x < r.pos.x ? &game->env.ea : &game->env.we;
 		ft_draw_column(game, c, &r, &d);
 		ft_update_minimap(game, &r);
 		ft_draw_objects(game, c, &r, &d);
