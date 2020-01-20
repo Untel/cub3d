@@ -7,9 +7,6 @@ For linux:
   libssl-dev
   libbsd-dev`
 
-xx Position double player -> erreur mais lance le jeu
-xx Pas de joueur -> buserror
-xx Espaces entre WE et path -> erreur inutile
-xx Crash si Res trop grande
-xx Map mal fermee
-xx Screenshot si trop de var dont -save comme 2e
+`make ARGS=0.cub run`
+
+![cub3d](https://raw.githubusercontent.com/untel/cub3d/master/pics/demo.png)
