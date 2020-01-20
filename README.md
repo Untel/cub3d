@@ -7,7 +7,9 @@ For linux:
   libssl-dev
   libbsd-dev`
 
-`make ARGS=0.cub run`
+`make ARGS=0.cub run`\
+
+Final work is on branch `prod`
 
 ![cub3d](https://raw.githubusercontent.com/untel/cub3d/master/pics/demo.png)
 
@@ -20,4 +22,4 @@ jump/crouch<br/>
 watch up/down\
 inc/dec speed\
 trigger collision\
-animated sprites\
+animated sprite
