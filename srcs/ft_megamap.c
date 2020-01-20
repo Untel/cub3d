@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/24 18:20:35 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 21:45:23 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/20 18:17:59 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,12 @@ void
 	t_dpos pos;
 
 	pos.x = -1;
-	while (++pos.x <= game->map.width && (pos.y = -1))
+	while (++pos.x < game->map.width && (pos.y = -1))
 		while (++pos.y <= game->map.height)
 			if (game->map.grid[(int)pos.y][(int)pos.x] == WALL)
-				ft_draw_megamap_square(game, pos, &(game->env.no), 0);
+				ft_draw_megamap_square(game, pos, NULL, 0xddaacc00);
 			else if ((int)game->map.grid[(int)pos.y][(int)pos.x] == OBJECT)
-				ft_draw_megamap_square(game, pos, NULL, 0x8fffff00);
+				ft_draw_megamap_square(game, pos, NULL, 0x05a3ff00);
 			else
 				ft_draw_megamap_square(game, pos, NULL, 0xad000000);
 	pos.x = game->p.pos.x - .5;
@@ -82,8 +82,8 @@ void
 int
 	ft_generate_megamap(t_game *game)
 {
-	if (ft_generate_image(game, &(game->map.mega), (game->map.width + 1)
-		* MEGAMAP_SQUARE_SIZE, (game->map.height + 1)
+	if (ft_generate_image(game, &(game->map.mega), (game->map.width)
+		* MEGAMAP_SQUARE_SIZE, (game->map.height)
 		* MEGAMAP_SQUARE_SIZE) == ERROR)
 		return (ERROR);
 	return (SUCCESS);

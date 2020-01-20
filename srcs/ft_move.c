@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:21:30 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/20 16:46:27 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/20 18:07:06 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ int
 	next_y = game->p.pos.y + (dir.y * game->p.ms);
 	if (next_x < 1.01)
 		next_x = 1.01;
-	else if (next_x > ((double)game->map.width - .01))
-		next_x = (double)game->map.width - .01;
+	else if (next_x > ((double)game->map.width - 1.01))
+		next_x = (double)game->map.width - 1.01;
 	if (next_y < 1.01)
 		next_y = 1.01;
-	else if (next_y > ((double)game->map.height - .01))
-		next_y = (double)game->map.height - .01;
+	else if (next_y > ((double)game->map.height - 1.01))
+		next_y = (double)game->map.height - 1.01;
 	if (can_go(game, (int)game->p.pos.x, (int)(next_y)))
 		game->p.pos.y = next_y;
 	if (can_go(game, (int)(next_x), (int)game->p.pos.y))
