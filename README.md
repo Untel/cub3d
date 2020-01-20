@@ -11,13 +11,13 @@ For linux:
 
 ![cub3d](https://raw.githubusercontent.com/untel/cub3d/master/pics/demo.png)
 
-Bonus dones:
-hud
-win/lose hp on healthbar
-weapon/fire
-crosshair
-jump/crouch
-watch up/down
-inc/dec speed
-trigger collision
-animated sprites
+Bonus dones :  
+hud . 
+win/lose hp on healthbar . 
+weapon/fire . 
+crosshair . 
+jump/crouch . 
+watch up/down . 
+inc/dec speed . 
+trigger collision . 
+animated sprites  
