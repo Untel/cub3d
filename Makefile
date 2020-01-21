@@ -1,12 +1,11 @@
 OS					= 2
-MLXFLAG				= -framework OpenGL -framework Appkit -lmlx
 
 LIBFT_LINK			= -L$(LIBFT_PATH) -lft
-LIBFT_PATH			= libft
-LIBFT_MAKE			= $(MAKE) -C $(LIBFT_PATH)
+LIBFT_PATH			= ./libft
+LIBFT_MAKE			= @$(MAKE) -C $(LIBFT_PATH)
 LIBFT_INCL			= -I $(LIBFT_PATH) -I $(LIBFT_PATH)/headers
 
-LIBS				= -lm $(LIBFT_LINK) $(MLXFLAG)
+LIBS				= -lm  -framework OpenGL -framework Appkit -lmlx $(LIBFT_LINK)
 
 SRCS_DIR			= srcs
 SRCS_FILES			= \
@@ -37,35 +36,41 @@ SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
 INCLUDES			= -I./srcs $(LIBFT_INCL)
 
+CC					= gcc
 CFLAGS				= -Ofast -D OS=$(OS) -Wall -Wextra -Werror $(INCLUDES)
 OBJS				= $(SRCS:.c=.o)
-CC					= gcc
-NAME				= cub3d
+NAME				= cub3D
 
-ARGS				= 1.cub
+ARGS				= 1.cub		
+OBJ_DIR				= objs
 
-libft:
-					$(LIBFT_MAKE)
 
-all:				libft $(OBJS) srcs/cub3d.h
+all:				makelib
+					@$(MAKE) $(NAME)
+
+$(NAME):			$(OBJS) srcs/cub3d.h
 					$(CC) $(OBJS) $(LIBS) -o $(NAME)
 
 bonus:				all
 
 run:				all
-					./$(NAME) $(ARGS)
+					./$(NAME) $(ARGS)		
+
+makelib:			
+					$(LIBFT_MAKE)
 
 norme:
 					norminette $(SRCS)
 
 clean:
 					$(RM) $(OBJS)
+					$(LIBFT_MAKE) clean
 
 fclean:
 					$(RM) $(OBJS)
 					$(RM) $(NAME)
 					$(LIBFT_MAKE) fclean
 
-re:					clean all
+re:					fclean all
 
-.PHONY:				all clean fclean re run
+.PHONY:				all clean fclean re run makelib

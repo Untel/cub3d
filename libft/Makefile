@@ -34,13 +34,13 @@ SRCS			= $(STR) $(CHAR) $(PRINT) $(MEM) $(MATH) $(LIST) $(WCHAR) $(FILES) $(PRIN
 OBJS			= $(SRCS:.c=.o)
 
 CFLAGS			= -Wall -Wextra -Werror -I $(INCLUDES_DIR)
-CC				= clang
+CC				= gcc
 AR				= ar rc
 RM				= rm -f
 NAME			= libft.a
 
-$(NAME):		$(OBJS)
-				$(AR) $(NAME) $(OBJS)
+$(NAME):		$(OBJS) headers/libft.h
+				@$(AR) $(NAME) $(OBJS)
 
 all:			$(NAME)
 
