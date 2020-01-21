@@ -23,5 +23,5 @@ watch up/down (up/down arrows)\
 inc/dec speed (+/- on numpad)\
 mini/mega map (M for mega)\
 trigger collision (TAB while walking)\
-animated sprite (with transparency)
+animated sprite (with transparency)\
 FOG based on distance (O)
