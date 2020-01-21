@@ -64,13 +64,13 @@ norme:
 
 clean:
 					$(RM) $(OBJS)
-					$(LIBFT_MAKE) clean
 
 fclean:
 					$(RM) $(OBJS)
 					$(RM) $(NAME)
 					$(LIBFT_MAKE) fclean
 
-re:					fclean all
+re:					clean all
+fre:				fclean all
 
 .PHONY:				all clean fclean re run makelib
