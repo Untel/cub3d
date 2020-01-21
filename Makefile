@@ -1,18 +1,12 @@
 OS					= 2
 MLXFLAG				= -framework OpenGL -framework Appkit -lmlx
 
-LIBS_DIR			= ./libs
-LIBFTPRINTF_PATH	= $(LIBS_DIR)/ft_printf
-LIBFTPRINTF_MAKE	= $(MAKE) -C $(LIBFTPRINTF_PATH)
-LIBFTPRINTF			= -L$(LIBFTPRINTF_PATH) -lftprintf
-LIBFTPRINTF_INCL	= -I $(LIBFTPRINTF_PATH) -I $(LIBFTPRINTF_PATH)/srcs -I $(LIBFTPRINTF_PATH)/libft
+LIBFT_LINK			= -L$(LIBFT_PATH) -lft
+LIBFT_PATH			= libft
+LIBFT_MAKE			= $(MAKE) -C $(LIBFT_PATH)
+LIBFT_INCL			= -I $(LIBFT_PATH) -I $(LIBFT_PATH)/headers
 
-GNL_PATH			= $(LIBS_DIR)/get_next_line
-GNL_MAKE			= $(MAKE) -C $(GNL_PATH)
-GNL					= -L$(GNL_PATH) -lgnl
-GNL_INCL			= -I $(GNL_PATH)
-
-LIBS				= -lm $(LIBFTPRINTF) $(GNL) $(MLXFLAG)
+LIBS				= -lm $(LIBFT_LINK) $(MLXFLAG)
 
 SRCS_DIR			= srcs
 SRCS_FILES			= \
@@ -41,7 +35,7 @@ SRCS_FILES			= \
 
 SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
-INCLUDES			= -I . -I./headers $(GNL_INCL) $(LIBFTPRINTF_INCL)
+INCLUDES			= -I./srcs $(LIBFT_INCL)
 
 CFLAGS				= -Ofast -D OS=$(OS) -Wall -Wextra -Werror $(INCLUDES)
 OBJS				= $(SRCS:.c=.o)
@@ -50,12 +44,11 @@ NAME				= cub3d
 
 ARGS				= 1.cub
 
-all:				$(OBJS) srcs/cub3d.h
+libft:
+					$(LIBFT_MAKE)
 
-
-					$(LIBFTPRINTF_MAKE)
-					$(GNL_MAKE)
-					$(CC) -I./srcs $(OBJS) $(LIBS) -o $(NAME)
+all:				libft $(OBJS) srcs/cub3d.h
+					$(CC) $(OBJS) $(LIBS) -o $(NAME)
 
 bonus:				all
 
@@ -67,12 +60,12 @@ norme:
 
 clean:
 					$(RM) $(OBJS)
-					$(LIBFTPRINTF_MAKE) clean
+
 fclean:
 					$(RM) $(OBJS)
-					$(RM) $(NAME) $(TEST_OUTPUT)
-					$(LIBFTPRINTF_MAKE) fclean
+					$(RM) $(NAME)
+					$(LIBFT_MAKE) fclean
 
-re:					fclean all
+re:					clean all
 
 .PHONY:				all clean fclean re run
