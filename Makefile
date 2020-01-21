@@ -60,7 +60,8 @@ makelib:
 					$(LIBFT_MAKE)
 
 norme:
-					norminette $(SRCS)
+					$(LIBFT_MAKE) norme
+					norminette $(SRCS) srcs/cub3d.h
 
 clean:
 					$(RM) $(OBJS)
@@ -71,6 +72,7 @@ fclean:
 					$(LIBFT_MAKE) fclean
 
 re:					clean all
+
 fre:				fclean all
 
-.PHONY:				all clean fclean re run makelib
+.PHONY:				all clean fclean re fre norme bonus run makelib
