@@ -40,7 +40,7 @@ RM				= rm -f
 NAME			= libft.a
 
 $(NAME):		$(OBJS) headers/libft.h
-				@$(AR) $(NAME) $(OBJS)
+				$(AR) $(NAME) $(OBJS)
 
 all:			$(NAME)
 
