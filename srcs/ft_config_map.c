@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/12 21:10:15 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 15:22:19 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/20 17:37:50 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,28 +46,25 @@ int
 	ft_fill_map(t_game *game, char *str)
 {
 	static int	line = 0;
-	char		*ptr;
 	int			i;
 
 	if (!*str)
 		return (ft_print_err("Map cannot have blank lines."));
-	i = ft_set_line_config(str, game, line, 0);
+	if ((i = ft_set_line_config(str, game, line, 0)) == ERROR)
+		return (ERROR);
 	if (line == 0)
 		game->map.width = i;
 	else if (game->map.width != i)
 		return (ft_print_err("Map don't have same width on each line."));
-	game->map.height = line;
+	game->map.height = ++line;
 	if (line > MAX_MAP_HEIGHT - 1)
 		return (ft_print_err("Map is too hight"));
-	line++;
 	return (2);
 }
 
 int
 	ft_set_image(t_game *game, t_image *img, char *path)
 {
-	int		i;
-	int		j;
 	char	tmp[BUFFER_SIZE];
 	char	*trimmed;
 
@@ -96,16 +93,16 @@ int
 	if (game->p.pos.y > 0 || game->p.pos.y > 0)
 		return (ft_print_err("Player position has been set more than once."));
 	game->p.pos.y = (double)x + .5;
-	game->p.pos.x = (double)y + .5;
+	game->p.pos.x = (double)y - .5;
 	game->map.grid[y][x] = 0;
 	if (dir == 'S')
-		game->p.angle = M_PI_2;
-	else if (dir == 'N')
-		game->p.angle = M_PI + M_PI_2;
-	else if (dir == 'W')
-		game->p.angle = M_PI;
-	else
 		game->p.angle = 0;
+	else if (dir == 'N')
+		game->p.angle = M_PI;
+	else if (dir == 'W')
+		game->p.angle = M_PI + M_PI_2;
+	else
+		game->p.angle = M_PI_2;
 	update_orientation(game->p.angle, &(game->p.dir));
 	return (SUCCESS);
 }

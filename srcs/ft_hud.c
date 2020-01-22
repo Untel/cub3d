@@ -6,13 +6,13 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:47:19 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 18:24:44 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 19:32:16 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int
+void
 	ft_draw_health(t_game *game, t_ipos pos)
 {
 	t_ipos			draw;
@@ -38,7 +38,7 @@ int
 		pos.y + (HEALTHBAR_HEIGHT / 2 - 11), 0x0, txt);
 }
 
-int
+void
 	ft_healthbar(t_game *game)
 {
 	t_ipos	pos;
@@ -61,7 +61,7 @@ int
 	ft_draw_health(game, pos);
 }
 
-int
+void
 	ft_weapon(t_game *game)
 {
 	t_ipos	start_draw;
@@ -77,8 +77,8 @@ int
 	draw_tex_step = (t_dpos) { .x = (1 / (double)(start_draw.x - draw.x)),
 		.y = (1 / (double)(start_draw.y - draw.y)) };
 	draw_tex = (t_dpos) { 0, 0 };
-	while ((draw_tex.y = 0) || draw.x < start_draw.x
-		&& ++draw.x < game->win.width)
+	while ((draw_tex.y = 0) || (draw.x < start_draw.x
+		&& ++draw.x < game->win.width))
 	{
 		draw.y = game->win.height - pad + (pad / 5);
 		while (++draw.y < (start_draw.y) && draw.y < game->win.height)
@@ -91,7 +91,8 @@ int
 	}
 }
 
-int	ft_draw_crosshair(t_game *game)
+void
+	ft_draw_crosshair(t_game *game)
 {
 	t_ipos	pos;
 	int		i;
@@ -107,7 +108,7 @@ int	ft_draw_crosshair(t_game *game)
 		ft_draw_renderer(game, pos, CH_COLOR);
 }
 
-int
+void
 	ft_hud(t_game *game)
 {
 	if (game->hud)

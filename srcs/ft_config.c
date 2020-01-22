@@ -6,11 +6,39 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/20 17:56:57 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int
+	ft_read_config_file(int gnl_ret, int ret, int fd, t_game *game)
+{
+	char *line;
+
+	if (gnl_ret > 0 && ret == 2 && (ret = SUCCESS))
+	{
+		while (ret && (gnl_ret = get_next_line(fd, &line)))
+		{
+			ret = ft_fill_map(game, line) == 2;
+			free(line);
+		}
+		if (gnl_ret == 0)
+		{
+			ret = ft_fill_map(game, line) == 2;
+			free(line);
+		}
+	}
+	else if (gnl_ret == 0 || ret != 2)
+		return (ft_print_err("No map. Define a map at the end of .cub file."));
+	if (gnl_ret == ERROR)
+		return (ft_print_defined_err("Cannot read config file"));
+	if (ret == SUCCESS)
+		ret = ft_set_sprite(game, &(game->weapon),
+			"0 215 127 ./pics/weapon.xpm");
+	return (ret == SUCCESS ? SUCCESS : ERROR);
+}
 
 int
 	ft_configure(t_game *game, char *filename)
@@ -37,34 +65,7 @@ int
 	return (ft_read_config_file(gnl_ret, ret, fd, game));
 }
 
-int
-	ft_read_config_file(int gnl_ret, int ret, int fd, t_game *game)
-{
-	char *line;
-
-	if (gnl_ret > 0 && ret == 2 && (ret = SUCCESS))
-	{
-		while (ret && (gnl_ret = get_next_line(fd, &line)))
-		{
-			ret = ft_fill_map(game, line) == 2;
-			free(line);
-		}
-		if (gnl_ret == 0)
-		{
-			ret = ft_fill_map(game, line) == 2;
-			free(line);
-		}
-	}
-	else if (gnl_ret == 0 || ret != 2)
-		return (ft_print_err("No map. Define a map at the end of .cub file."));
-	if (gnl_ret == ERROR)
-		return (ft_print_defined_err("Cannot read config file"));
-	if (ret == SUCCESS)
-		ret = ft_set_sprite(game, &(game->weapon), "215 127 ./pics/weapon.xpm");
-	return (ret == SUCCESS ? SUCCESS : ERROR);
-}
-
-int
+void
 	init_config(t_game *game)
 {
 	game->p.ms = 0.12;
@@ -108,6 +109,7 @@ int
 			(game->win.height / (2. * (double)i - game->win.height));
 		i++;
 	}
+	return (SUCCESS);
 }
 
 int
@@ -132,7 +134,7 @@ int
 		if ((ret = -1) && game->p.pos.x == 0)
 			return (ft_print_err("Player position is missing in the map."));
 		while (++ret < game->map.width)
-			if (game->map.grid[game->map.height][ret] != 1)
+			if (game->map.grid[game->map.height - 1][ret] != 1)
 				return (ft_print_err("There is an hole in your map"));
 	}
 	else

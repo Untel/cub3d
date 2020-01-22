@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/19 15:28:50 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 16:25:17 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/20 17:20:45 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 void
 	update_orientation(double angle, t_dpos *dir)
 {
-	dir->x = cos(angle);
-	dir->y = sin(angle);
+	dir->x = sin(angle);
+	dir->y = cos(angle);
 }
 
 void

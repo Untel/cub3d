@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 08:55:41 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 15:23:27 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 21:34:01 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,9 @@ int
 	nb = ft_atoi(*str + i);
 	while (ft_isdigit((*str)[i]))
 		i++;
+	if (ignorable)
+		while ((*str)[i] == ignorable)
+			i++;
 	*str += i;
 	return (nb);
 }

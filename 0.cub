@@ -1,0 +1,11 @@
+R 990 700
+NO ./pics/wall_woodplanks.xpm
+SO ./pics/wall_bark.xpm
+WE ./pics/wall_rock.xpm
+EA ./pics/wall_tile.xpm
+S ./pics/sprite_tree.xpm
+F 86,119,16
+C 135,217,230
+1 1 1
+1 N 1
+1 1 1

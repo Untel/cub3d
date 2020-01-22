@@ -6,17 +6,28 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 16:57:28 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 12:31:48 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 22:02:05 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
 int
+	ft_read_events2(t_game *game)
+{
+	if (game->event[JUMP] == 1 && !game->p.jumping)
+		game->p.jumping = 1;
+	game->p.crouched = game->event[CROUCH];
+	game->map.show_mega = game->event[TOGGLE_MAP];
+	game->collision = !game->event[TOGGLE_COLLISION];
+	return (SUCCESS);
+}
+
+int
 	ft_read_events(t_game *game)
 {
 	if (game->event[FORWARD] == 1)
-		move_forward(game);
+		move(game, game->p.dir);
 	if (game->event[BACKWARD] == 1)
 		move_backward(game);
 	if (game->event[STR_LEFT] == 1)
@@ -40,17 +51,6 @@ int
 	else
 		game->weapon.index = (t_ipos) { 0, 0 };
 	return (ft_read_events2(game));
-}
-
-int
-	ft_read_events2(t_game *game)
-{
-	if (game->event[JUMP] == 1 && !game->p.jumping)
-		game->p.jumping = 1;
-	game->p.crouched = game->event[CROUCH];
-	game->map.show_mega = game->event[TOGGLE_MAP];
-	game->collision = !game->event[TOGGLE_COLLISION];
-	return (SUCCESS);
 }
 
 void

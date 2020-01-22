@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/11 21:18:59 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 18:31:55 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/20 16:46:22 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,8 @@ void
 	ft_trigger_hp_losing(t_game *game)
 {
 	if (game->map.grid[(int)game->p.pos.y]
-		[(int)game->p.pos.x] == OBJECT)
+		[(int)game->p.pos.x] == OBJECT
+		&& game->hud)
 	{
 		game->p.hp -= 10;
 		if (game->p.hp <= 0)
@@ -48,7 +49,7 @@ void
 	}
 }
 
-void
+int
 	ft_game_loop(t_game *game)
 {
 	char		txt[BUFFER_SIZE];
@@ -72,5 +73,6 @@ void
 		mlx_string_put(game->mlx, game->win.ref, 10,
 			game->win.height - 20, 0xffffff, txt);
 	}
-	ft_increment_sprite_index(&(game->env.S));
+	ft_increment_sprite_index(&(game->env.s));
+	return (1);
 }

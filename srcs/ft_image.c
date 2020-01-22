@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/21 14:53:47 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/12 14:22:19 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/20 17:16:02 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void
 	ft_draw_sprite(t_game *game, t_sprite *spr, t_dpos draw_tex, double rate)
 {
-	unsigned int	color;
 	t_ipos			draw_tex_pos;
 
 	if (spr->frame_size.x > 0)

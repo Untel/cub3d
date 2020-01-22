@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/30 20:13:21 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 16:24:19 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/19 19:29:15 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int
 	return (SUCCESS);
 }
 
-int
+void
 	ft_write_image(t_game *game, int fd)
 {
 	int size;
@@ -72,7 +72,6 @@ int
 		write(fd, &game->win.renderer.data[
 			(game->win.height - i) * game->win.renderer.s_line],
 			game->win.renderer.s_line);
-	return (SUCCESS);
 }
 
 int
@@ -81,7 +80,10 @@ int
 	int	fd;
 
 	if ((fd = ft_filename()) == -1)
-		return (ft_print_defined_err("Cannot create snapshot"));
+	{
+		ft_print_defined_err("Cannot create snapshot");
+		return (EXIT_FAILURE);
+	}
 	ft_draw_frame(game);
 	ft_write_image(game, fd);
 	close(fd);

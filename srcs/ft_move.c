@@ -6,11 +6,21 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 18:21:30 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 18:25:05 by adda-sil         ###   ########.fr       */
+/*   Updated: 2020/01/20 18:07:06 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int
+	can_go(t_game *game, int x, int y)
+{
+	if (game->map.grid[y][x] == WALL && game->collision)
+		return (0);
+	if (game->map.grid[y][x] == OBJECT && game->env.s.collision)
+		return (0);
+	return (1);
+}
 
 int
 	move(t_game *game, t_dpos dir)
@@ -22,17 +32,15 @@ int
 	next_y = game->p.pos.y + (dir.y * game->p.ms);
 	if (next_x < 1.01)
 		next_x = 1.01;
-	else if (next_x > ((double)game->map.width - .01))
-		next_x = (double)game->map.width - .01;
+	else if (next_x > ((double)game->map.width - 1.01))
+		next_x = (double)game->map.width - 1.01;
 	if (next_y < 1.01)
 		next_y = 1.01;
-	else if (next_y > ((double)game->map.height - .01))
-		next_y = (double)game->map.height - .01;
-	if (!game->collision ||
-		game->map.grid[(int)(next_y)][(int)game->p.pos.x] != WALL)
+	else if (next_y > ((double)game->map.height - 1.01))
+		next_y = (double)game->map.height - 1.01;
+	if (can_go(game, (int)game->p.pos.x, (int)(next_y)))
 		game->p.pos.y = next_y;
-	if (!game->collision ||
-		game->map.grid[(int)game->p.pos.y][(int)(next_x)] != WALL)
+	if (can_go(game, (int)(next_x), (int)game->p.pos.y))
 		game->p.pos.x = next_x;
 	return (SUCCESS);
 }
@@ -54,12 +62,6 @@ int
 
 	update_orientation(game->p.angle - M_PI_2, &dir);
 	return (move(game, dir));
-}
-
-int
-	move_forward(t_game *game)
-{
-	return (move(game, game->p.dir));
 }
 
 int
