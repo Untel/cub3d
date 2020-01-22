@@ -7,11 +7,11 @@ For linux:
   libssl-dev
   libbsd-dev`
 
-`make ARGS=0.cub run`\
+`make ARGS=0.cub run`
 
 ![cub3d](https://raw.githubusercontent.com/untel/cub3d/master/pics/demo.png)
 
-Bonus dones :<br/>
+Bonus done:<br/>
 hud (H)<br/>
 win/lose hp on healthbar (walk through sprites)<br/>
 weapon/fire (F)<br/>
