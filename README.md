@@ -9,8 +9,6 @@ For linux:
 
 `make ARGS=0.cub run`\
 
-Final work is on branch `prod`
-
 ![cub3d](https://raw.githubusercontent.com/untel/cub3d/master/pics/demo.png)
 
 Bonus dones :<br/>
@@ -22,6 +20,7 @@ jump/crouch (space/CTRL)<br/>
 watch up/down (up/down arrows)\
 inc/dec speed (+/- on numpad)\
 mini/mega map (M for mega)\
-trigger collision (TAB while walking)\
+trigger wall collision (TAB while walking)\
+sprite collision (1 or 0 front of sprite's path)\
 animated sprite (with transparency)\
-FOG based on distance (O)
+FOG based on distance (O)\
