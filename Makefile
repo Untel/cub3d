@@ -1,11 +1,22 @@
-OS					= 2
+UNAME_S				:= $(shell uname -s)
+OS					= 0
+
+ifeq ($(UNAME_S), Linux)
+	OS = 1
+	LGL := -lGL -lm
+	LGL_INC := /usr/include/GL
+	MLXFLAG := -lpthread -lXext -lX11
+else ifeq ($(UNAME_S), Darwin)
+	OS = 2
+	MLXFLAG := -framework OpenGL -framework Appkit -lmlx
+endif
 
 LIBFT_LINK			= -L$(LIBFT_PATH) -lft
 LIBFT_PATH			= ./libft
 LIBFT_MAKE			= @$(MAKE) -C $(LIBFT_PATH)
 LIBFT_INCL			= -I $(LIBFT_PATH) -I $(LIBFT_PATH)/headers
 
-LIBS				= -lm  -framework OpenGL -framework Appkit -lmlx $(LIBFT_LINK)
+LIBS				= -lm $(MLXFLAG) $(LIBFT_LINK)
 
 SRCS_DIR			= srcs
 SRCS_FILES			= \
