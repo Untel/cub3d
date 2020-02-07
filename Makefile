@@ -5,7 +5,7 @@ ifeq ($(UNAME_S), Linux)
 	OS = 1
 	LGL := -lGL -lm
 	LGL_INC := /usr/include/GL
-	MLXFLAG := -lpthread -lXext -lX11
+	MLXFLAG := -lXext -lX11
 else ifeq ($(UNAME_S), Darwin)
 	OS = 2
 	MLXFLAG := -framework OpenGL -framework Appkit -lmlx
