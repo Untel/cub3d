@@ -8,15 +8,20 @@ ifeq ($(UNAME_S), Linux)
 	MLXFLAG := -lXext -lX11
 else ifeq ($(UNAME_S), Darwin)
 	OS = 2
-	MLXFLAG := -framework OpenGL -framework Appkit -lmlx
+	MLXFLAG := -framework OpenGL -framework Appkit
 endif
 
-LIBFT_LINK			= -L$(LIBFT_PATH) -lft
 LIBFT_PATH			= ./libft
+LIBFT_LINK			= -L$(LIBFT_PATH) -lft
 LIBFT_MAKE			= @$(MAKE) -C $(LIBFT_PATH)
 LIBFT_INCL			= -I $(LIBFT_PATH) -I $(LIBFT_PATH)/headers
 
-LIBS				= -lm $(MLXFLAG) $(LIBFT_LINK)
+MLX_PATH			= ./mlx
+MLX_LINK			= -L$(MLX_PATH) -lmlx
+MLX_MAKE			= @$(MAKE) -C $(MLX_PATH)
+MLX_INCL			= -I $(MLX_PATH)
+
+LIBS				= -lm $(LIBFT_LINK) $(MLX_LINK) $(MLXFLAG)
 
 SRCS_DIR			= srcs
 SRCS_FILES			= \
@@ -45,7 +50,7 @@ SRCS_FILES			= \
 
 SRCS				= $(addprefix $(SRCS_DIR)/, $(SRCS_FILES))
 
-INCLUDES			= -I./srcs $(LIBFT_INCL)
+INCLUDES			= -I./srcs $(LIBFT_INCL) $(MLX_INCL)
 
 CC					= gcc
 CFLAGS				= -Ofast -D OS=$(OS) -Wall -Wextra -Werror $(INCLUDES)
@@ -69,6 +74,7 @@ run:				all
 
 makelib:			
 					$(LIBFT_MAKE)
+					$(MLX_MAKE)
 
 norme:
 					$(LIBFT_MAKE) norme
