@@ -7,6 +7,8 @@ For linux:
   libssl-dev
   libbsd-dev`
 
+`Nvm, Linux wont work anymore`
+
 `make ARGS=0.cub run`
 
 ![cub3d](https://raw.githubusercontent.com/untel/cub3d/master/pics/demo.png)
