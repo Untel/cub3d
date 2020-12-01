@@ -6,8 +6,7 @@ For linux:
   libxext-dev
   libssl-dev
   libbsd-dev`
-
-`Nvm, Linux wont work anymore`
+Linux won't work anymore
 
 `make ARGS=0.cub run`
 
