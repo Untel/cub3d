@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/12/01 03:47:19 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/19 19:32:16 by adda-sil         ###   ########.fr       */
+/*   Updated: 2022/12/29 13:55:09 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,7 @@ void
 	ft_draw_crosshair(t_game *game)
 {
 	t_ipos	pos;
-	int		i;
 
-	i = -1;
 	pos.x = game->win.width / 2 - CH_RADIAN;
 	pos.y = game->win.height / 2;
 	while (pos.x++ < game->win.width / 2 + CH_RADIAN)

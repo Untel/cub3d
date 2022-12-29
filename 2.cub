@@ -1,9 +1,9 @@
-R 1500 1200
+R 1920 1080
 NO ./pics/grass.xpm        
 SO ./pics/metal.xpm
 WE ./pics/stone.xpm
 EA ./pics/wood.xpm
-S ./pics/pillar.xpm
+S 0 64 64 ./pics/fire_64.xpm
 F 200,200,50
 C 225,30,0
 

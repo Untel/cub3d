@@ -57,7 +57,7 @@ CFLAGS				= -Ofast -D OS=$(OS) -Wall -Wextra -Werror $(INCLUDES)
 OBJS				= $(SRCS:.c=.o)
 NAME				= cub3D
 
-ARGS				= 1.cub		
+ARGS				= default.cub		
 OBJ_DIR				= objs
 
 

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/15 04:10:39 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/20 17:56:57 by adda-sil         ###   ########.fr       */
+/*   Updated: 2022/12/29 14:06:05 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ int
 	char	*line;
 	char	opts[8];
 
+	bzero(opts, 8);
 	gnl_ret = SUCCESS;
 	ret = SUCCESS;
 	if ((fd = open(filename, O_RDONLY)) == ERROR)

@@ -6,7 +6,7 @@
 /*   By: adda-sil <adda-sil@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/17 21:33:46 by adda-sil          #+#    #+#             */
-/*   Updated: 2020/01/20 17:56:20 by adda-sil         ###   ########.fr       */
+/*   Updated: 2022/12/29 13:55:48 by adda-sil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,10 +58,9 @@ void
 {
 	t_ipos		d;
 	t_ipos		dt;
-	int			de;
 
 	d = (t_ipos) { .x = column, .y = 0 };
-	de = ft_init_drawer(g, drawer,
+	ft_init_drawer(g, drawer,
 		(g->win.height / ray->draw_dist / g->win.cos[column]));
 	ft_draw_sky(g, drawer, &d);
 	while (d.y < drawer->end)
